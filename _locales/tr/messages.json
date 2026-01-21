@@ -1,0 +1,543 @@
+{
+   "account": {
+      "description": "Hesap ayarları sekme başlığı.",
+      "message": "Hesap"
+   },
+   "activateOnCurrentPage": {
+      "description": "Mevcut sayfada uzantıyı etkinleştirme butonu metni.",
+      "message": "Mevcut Sayfada Etkinleştir"
+   },
+   "activating": {
+      "description": "Etkinleştirme devam ederken gösterilen buton metni.",
+      "message": "Etkinleştiriliyor..."
+   },
+   "activationFailed": {
+      "description": "Etkinleştirme başarısız olduğunda gösterilen buton metni.",
+      "message": "Etkinleştirme Başarısız"
+   },
+   "api": {
+      "description": "API ayarları sekme başlığı.",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "API anahtarı girişi etiketi.",
+      "message": "API Anahtarı"
+   },
+   "apiUrl": {
+      "description": "API URL girişi etiketi (Yerel LLM için).",
+      "message": "API URL"
+   },
+   "askAnything": {
+      "description": "Sohbet girişinde varsayılan placeholder metni.",
+      "message": "İş akışınız hakkında bana her şeyi sorabilirsiniz..."
+   },
+   "attachImage": {
+      "description": "Sohbete görsel ekleme butonu ve tooltip metni.",
+      "message": "Görsel Ekle"
+   },
+   "authenticationError": {
+      "description": "Kimlik doğrulama sorunları için hata mesajı.",
+      "message": "Kimlik doğrulama hatası: Lütfen API anahtarınızın geçerli olduğunu ve süresinin dolmadığını kontrol edin."
+   },
+   "autoActivateHosted": {
+      "description": "Barındırılan iş akışları için otomatik etkinleştirme notu.",
+      "message": "n8nChat, n8n barındırılan iş akışları için otomatik olarak etkinleşir"
+   },
+   "browsingNodes": {
+      "description": "AI düğümleri tararken durum mesajı.",
+      "message": "Düğümler taranıyor"
+   },
+   "chat": {
+      "description": "Sohbet ayarları sekme başlığı.",
+      "message": "Sohbet"
+   },
+   "claimN8nCloudTrial": {
+      "description": "n8n Cloud deneme sürümü için buton metni.",
+      "message": "n8n Cloud Barındırma 14 Günlük Ücretsiz Deneme Sürümünü Al"
+   },
+   "configureActivate": {
+      "description": "Etkinleştirme ve yapılandırma başlık metni.",
+      "message": "Etkinleştir ve Yapılandır"
+   },
+   "contextWindowExceeded": {
+      "description": "Bağlam penceresi limiti için hata mesajı.",
+      "message": "Bağlam penceresi limiti aşıldı: Konuşma, modelin işleyebileceğinden çok uzun. Lütfen yeni bir sohbet başlatın veya giriş uzunluğunu azaltın."
+   },
+   "createSocialMediaWorkflow": {
+      "description": "Sosyal medya iş akışı için placeholder önerisi.",
+      "message": "Sosyal medyamı otomatikleştirmeme yardımcı olacak bir iş akışı oluştur."
+   },
+   "createStickyNotes": {
+      "description": "Yapışkan notlar için placeholder önerisi.",
+      "message": "Bu iş akışını açıklayan yapışkan notlar oluştur."
+   },
+   "creatingNodes": {
+      "description": "AI düğüm oluştururken durum mesajı.",
+      "message": "Düğümler oluşturuluyor"
+   },
+   "customSystemInstructions": {
+      "description": "Özel sistem talimatları ayarı etiketi.",
+      "message": "Özel Sistem Talimatları"
+   },
+   "customSystemInstructionsDesc": {
+      "description": "Özel sistem talimatları ayarı açıklaması.",
+      "message": "Her sohbette başlangıç sistem istemine dahil edilmesini istediğiniz talimatları girin"
+   },
+   "dragToReposition": {
+      "description": "Sürükleme tutamacı için tooltip.",
+      "message": "Sohbeti yeniden konumlandırmak için sürükleyin (sıfırlamak için çift tıklayın)"
+   },
+   "dragToRepositionChat": {
+      "description": "Sürükleme tutamacı için tooltip.",
+      "message": "Sohbeti yeniden konumlandırmak için sürükleyin (sıfırlamak için çift tıklayın)"
+   },
+   "enterApiKey": {
+      "description": "API anahtarı girişi için placeholder.",
+      "message": "API anahtarı girin"
+   },
+   "enterApiKeyFirst": {
+      "description": "API anahtarı girilmediğinde placeholder metni.",
+      "message": "Önce API anahtarı girin"
+   },
+   "enterApiUrl": {
+      "description": "API URL girişi için placeholder (Yerel LLM için).",
+      "message": "API URL girin (örn: http://localhost:1234/v1)"
+   },
+   "enterCustomInstructionsPlaceholder": {
+      "description": "Özel sistem talimatları girişi için placeholder metni.",
+      "message": "Özel talimatlarınızı buraya girin"
+   },
+   "errorLoadingSettings": {
+      "description": "Ayarları yükleme hatası mesajı.",
+      "message": "Hata: Ayarlar yüklenemedi."
+   },
+   "examiningConnections": {
+      "description": "AI düğüm bağlantılarını incelerken durum mesajı.",
+      "message": "Düğüm bağlantıları inceleniyor"
+   },
+   "explainWorkflow": {
+      "description": "İş akışı açıklaması için placeholder önerisi.",
+      "message": "Bu iş akışını bana adım adım açıkla."
+   },
+   "extensionDescription": {
+      "description": "Uzantının açıklaması.",
+      "message": "AI kullanarak düğümler ve iş akışları oluşturan bir n8n yardımcısı."
+   },
+   "extensionName": {
+      "description": "Uzantının adı.",
+      "message": "n8nChat"
+   },
+   "getAnthropicKey": {
+      "description": "Anthropic API anahtarı almak için link metni.",
+      "message": "Anthropic Anahtarı Al"
+   },
+   "getGoogleKey": {
+      "description": "Google API anahtarı almak için link metni.",
+      "message": "Gemini API Anahtarı Al"
+   },
+   "getLocalLlm": {
+      "description": "Yerel LLM yapılandırması etiketi.",
+      "message": "Yerel LLM Yapılandır"
+   },
+   "getLocalLlmDesc": {
+      "description": "Yerel LLM yapılandırması açıklaması.",
+      "message": "Yerel bir LLM sunucusuna bağlanın (Ollama, LM Studio, vb.)"
+   },
+   "getOpenAiApiKey": {
+      "description": "OpenAI API anahtarı almak için link metni.",
+      "message": "OpenAI API Anahtarı Al"
+   },
+   "goBack": {
+      "description": "Geri gitme butonu metni.",
+      "message": "Geri Dön"
+   },
+   "googleSearch": {
+      "description": "Google Arama toggle etiketi.",
+      "message": "Google Arama"
+   },
+   "googleSearchDesc": {
+      "description": "Google Arama toggle açıklaması.",
+      "message": "Etkinleştirildiğinde, n8nChat güncel ve ilgili bilgilere ihtiyaç duyduğunda web'de arama yapmaya karar verebilir"
+   },
+   "high": {
+      "description": "Yüksek akıl yürütme seviyesi seçeneği.",
+      "message": "Yüksek"
+   },
+   "includeWorkflowContext": {
+      "description": "Sohbette iş akışı bağlamını dahil etme etiketi.",
+      "message": "İş Akışı Bağlamını Dahil Et"
+   },
+   "includeWorkflowContextDesc": {
+      "description": "İş akışı bağlamını dahil etme açıklaması.",
+      "message": "Sohbetin başında mevcut iş akışı verilerinizi gönderir"
+   },
+   "insufficientCredits": {
+      "description": "Yetersiz kredi için hata mesajı.",
+      "message": "Yetersiz kredi: Hesabınızda bu isteği yapmak için yeterli kredi bulunmuyor."
+   },
+   "invalidApiKey": {
+      "description": "Geçersiz API anahtarı için hata mesajı.",
+      "message": "Geçersiz API anahtarı: Sağlanan API anahtarı yanlış veya hatalı biçimde."
+   },
+   "invalidApiUrl": {
+      "description": "Geçersiz API URL için hata mesajı.",
+      "message": "Geçersiz API URL: Lütfen geçerli bir URL girin (örn: http://localhost:1234/v1)"
+   },
+   "loading": {
+      "description": "Modeller yüklenirken gösterilen metin.",
+      "message": "Yükleniyor..."
+   },
+   "localLlm": {
+      "description": "Yerel LLM sağlayıcı etiketi.",
+      "message": "Yerel LLM"
+   },
+   "localLlmDesc": {
+      "description": "Yerel LLM sağlayıcı açıklaması.",
+      "message": "Bilgisayarınızda çalışan yerel bir LLM sunucusu kullanın"
+   },
+   "low": {
+      "description": "Düşük akıl yürütme seviyesi seçeneği.",
+      "message": "Düşük"
+   },
+   "maxTokens": {
+      "description": "Maksimum Token kaydırıcısı etiketi.",
+      "message": "Maksimum Token"
+   },
+   "maxTokensTooltip": {
+      "description": "Maksimum Token ayarı tooltip'i.",
+      "message": "Düşünme ve yanıtlar için ayrılacak token sayısı. Düşük değerler maliyetleri kontrol etmeye ve hız limitlerine takılmaktan kaçınmaya yardımcı olabilir."
+   },
+   "medium": {
+      "description": "Orta akıl yürütme seviyesi seçeneği.",
+      "message": "Orta"
+   },
+   "messageFadeDelay": {
+      "description": "Mesaj fade gecikmesi girişi etiketi.",
+      "message": "Mesaj Fade Gecikmesi"
+   },
+   "messageFadeDelayDesc": {
+      "description": "Mesaj fade gecikmesi girişi açıklaması.",
+      "message": "Yeni mesajların görünümden kaybolmadan önce geçen süre. Efekti kaldırmak için 0'a ayarlayın."
+   },
+   "model": {
+      "description": "Model seçimi etiketi.",
+      "message": "Model"
+   },
+   "modelSubtitleGemini20Flash": {
+      "message": "Önceki nesil"
+   },
+   "modelSubtitleGemini25Flash": {
+      "message": "En iyi fiyat/performans dengesi"
+   },
+   "modelSubtitleGemini25FlashLite": {
+      "message": "Hızlı ve uygun fiyatlı"
+   },
+   "modelSubtitleGemini25Pro": {
+      "description": "Sağlayıcı seçiminde Gemini 2.5 Pro modeli için alt başlık.",
+      "message": "En güçlü düşünme modeli"
+   },
+   "modelSubtitleGpt41": {
+      "description": "Sağlayıcı seçiminde gpt-4.1 modeli için alt başlık.",
+      "message": "Bayrak gemisi GPT modeli"
+   },
+   "modelSubtitleGpt5": {
+      "description": "Sağlayıcı seçiminde gpt-5 modeli için alt başlık.",
+      "message": "Kodlama için en iyi model"
+   },
+   "modelSubtitleGpt5Mini": {
+      "description": "Sağlayıcı seçiminde gpt-5-mini modeli için alt başlık.",
+      "message": "GPT-5'in daha hızlı, daha uygun maliyetli versiyonu"
+   },
+   "modelSubtitleGpt5Nano": {
+      "description": "Sağlayıcı seçiminde gpt-5-nano modeli için alt başlık.",
+      "message": "GPT-5'in en hızlı, en uygun maliyetli versiyonu"
+   },
+   "modelSubtitleO3": {
+      "description": "Sağlayıcı seçiminde o3 modeli için alt başlık.",
+      "message": "En güçlü akıl yürütme modeli"
+   },
+   "modelSubtitleO4Mini": {
+      "description": "Sağlayıcı seçiminde o4-mini modeli için alt başlık.",
+      "message": "Daha hızlı, daha uygun fiyatlı akıl yürütme modeli"
+   },
+   "modelSubtitleClaude35Sonnet": {
+      "description": "Claude 3.5 Sonnet modeli için alt başlık.",
+      "message": "Dengeli performans ve hız"
+   },
+   "modelSubtitleClaude35Opus": {
+      "description": "Claude 3.5 Opus modeli için alt başlık.",
+      "message": "En güçlü Claude modeli"
+   },
+   "modelSubtitleClaude35Haiku": {
+      "description": "Claude 3.5 Haiku modeli için alt başlık.",
+      "message": "En hızlı ve en uygun fiyatlı"
+   },
+   "n8nChatActivated": {
+      "description": "Uzantı etkinleştirildiğinde gösterilen mesaj.",
+      "message": "n8nChat etkinleştirildi"
+   },
+   "n8nHostedLink": {
+      "description": "n8n barındırılan iş akışları için link metni.",
+      "message": "n8n barındırılan"
+   },
+   "newChat": {
+      "description": "Yeni sohbet başlatma butonu ve tooltip metni.",
+      "message": "Yeni Sohbet"
+   },
+   "noApiKeyWarning": {
+      "description": "API anahtarı ayarlanmadığında uyarı mesajı.",
+      "message": "n8nChat kullanmak için bir API anahtarı gereklidir (Yerel LLM için gerekli değildir)"
+   },
+   "noApiUrlWarning": {
+      "description": "Yerel LLM için API URL ayarlanmadığında uyarı mesajı.",
+      "message": "Yerel LLM kullanmak için bir API URL gereklidir"
+   },
+   "noModelsFound": {
+      "description": "Model bulunamadığında mesaj.",
+      "message": "Model bulunamadı"
+   },
+   "nodeCreation": {
+      "description": "Düğüm oluşturma toggle etiketi.",
+      "message": "Düğüm Oluşturma"
+   },
+   "nodeCreationDesc": {
+      "description": "Düğüm oluşturma açıklaması.",
+      "message": "Sohbetin iş akışına düğüm eklemesine izin verir"
+   },
+   "nodeEditing": {
+      "description": "Düğüm düzenleme toggle etiketi.",
+      "message": "Düğüm Düzenleme"
+   },
+   "nodeEditingDesc": {
+      "description": "Düğüm düzenleme açıklaması.",
+      "message": "Sohbetin iş akışınızdaki düğümlerin parametrelerini düzenlemesine izin verir"
+   },
+   "nodeLibraryAccess": {
+      "description": "Düğüm kütüphanesi erişimi toggle etiketi.",
+      "message": "Düğüm Kütüphanesi Erişimi"
+   },
+   "nodeLibraryAccessDesc": {
+      "description": "Düğüm kütüphanesi erişimi açıklaması.",
+      "message": "Sohbetin yüklü düğümler listenize göz atmasına izin verir"
+   },
+   "nodeRemoval": {
+      "description": "Düğüm kaldırma toggle etiketi.",
+      "message": "Düğüm Kaldırma"
+   },
+   "nodeRemovalDesc": {
+      "description": "Düğüm kaldırma açıklaması.",
+      "message": "Sohbetin iş akışınızdan düğümleri kaldırmasına izin verir"
+   },
+   "notWorkflowPage": {
+      "description": "Mevcut sayfa bir iş akışı sayfası olmadığında gösterilen buton metni.",
+      "message": "İş Akışı Sayfası Değil"
+   },
+   "notWorking": {
+      "description": "Sorun giderme sorunu için metin.",
+      "message": "Çalışmıyor mu?"
+   },
+   "openAiApiError": {
+      "description": "OpenAI API'ye özel hata mesajının bir parçası.",
+      "message": "OpenAI API Hatası"
+   },
+   "anthropicApiError": {
+      "description": "Anthropic API'ye özel hata mesajının bir parçası.",
+      "message": "Anthropic API Hatası"
+   },
+   "localLlmApiError": {
+      "description": "Yerel LLM API'ye özel hata mesajının bir parçası.",
+      "message": "Yerel LLM API Hatası"
+   },
+   "optimizeThis": {
+      "description": "Optimizasyon sorgusu için placeholder önerisi.",
+      "message": "Bunu optimize etmenin bir yolu var mı?"
+   },
+   "optimizeWorkflow": {
+      "description": "İş akışı optimizasyonu için placeholder önerisi.",
+      "message": "Bu iş akışını nasıl optimize edersiniz?"
+   },
+   "processing": {
+      "description": "AI işlerken genel durum mesajı.",
+      "message": "İşleniyor"
+   },
+   "provider": {
+      "description": "API sağlayıcı seçimi etiketi.",
+      "message": "Sağlayıcı"
+   },
+   "providerSubtitleRecommended": {
+      "description": "Önerilen sağlayıcı için alt başlık.",
+      "message": "Önerilen"
+   },
+   "rateLimitExceeded": {
+      "description": "Hız limiti sorunları için hata mesajı.",
+      "message": "Hız limiti aşıldı: API hız limitlerine takıldınız. Lütfen kısa bir süre bekledikten sonra tekrar deneyin."
+   },
+   "reasoningLevel": {
+      "description": "Akıl yürütme seviyesi seçimi etiketi.",
+      "message": "Akıl Yürütme Seviyesi"
+   },
+   "reasoningLevelTooltip": {
+      "description": "Akıl yürütme seviyesi tooltip'i.",
+      "message": "Düşük, hız ve ekonomik token kullanımını tercih ederken, yüksek daha fazla token üretimi ve daha yavaş yanıtlar pahasına daha eksiksiz akıl yürütmeyi tercih eder."
+   },
+   "removingNodes": {
+      "description": "AI düğümleri kaldırırken durum mesajı.",
+      "message": "Düğümler kaldırılıyor"
+   },
+   "restoreDefaults": {
+      "description": "Varsayılan ayarları geri yükleme butonu metni.",
+      "message": "Varsayılanları Geri Yükle"
+   },
+   "reviewingNodeConfig": {
+      "description": "AI düğüm yapılandırmasını incelerken durum mesajı.",
+      "message": "Düğüm yapılandırması inceleniyor"
+   },
+   "reviewingWorkflow": {
+      "description": "AI iş akışını incelerken durum mesajı.",
+      "message": "İş akışınız inceleniyor"
+   },
+   "saveUIPosition": {
+      "description": "UI konumunu kaydetme etiketi.",
+      "message": "UI Konumunu Kaydet"
+   },
+   "saveUIPositionDesc": {
+      "description": "UI konumunu kaydetme açıklaması.",
+      "message": "Yeniden yüklemeler arasında sohbet UI konumunu korur"
+   },
+   "searchingWeb": {
+      "description": "AI web araması yaparken durum mesajı.",
+      "message": "Web aranıyor"
+   },
+   "selectModel": {
+      "description": "Model seçimi için placeholder metni.",
+      "message": "Bir model seçin"
+   },
+   "selectProvider": {
+      "description": "Sağlayıcı seçimi için placeholder metni.",
+      "message": "Sağlayıcı Seçin"
+   },
+   "selfHostingActivate": {
+      "description": "Kendi sunucusunda barındıran kullanıcılar için etkinleştirme talimatı.",
+      "message": "Kendi sunucunuzda mı barındırıyorsunuz? İş akışınıza gidin, ardından aşağıdaki butona basarak uzantıyı etkinleştirin:"
+   },
+   "settings": {
+      "description": "Ayarlar bölümü başlığı.",
+      "message": "Ayarlar"
+   },
+   "setupTutorial": {
+      "description": "Kurulum öğreticisi için link metni.",
+      "message": "Kurulum öğreticisini izle"
+   },
+   "support": {
+      "description": "Destek ve SSS sekmesi başlığı.",
+      "message": "Destek"
+   },
+   "supportFaqA1": {
+      "description": "Linklerle SSS cevabı 1.",
+      "message": "Seçtiğiniz sağlayıcı/modele bağlı olarak, dakika başına token hız limitlerine (TPM) takılıyor olabilirsiniz. OpenAI, en az &#36;50 kredi harcayana kadar çok düşük hız limitlerine sahiptir. Anthropic daha yüksek temel limitlere sahiptir. Hız limitlerinizi şu adreslerden kontrol edebilirsiniz: \u003Ca href=\"https://platform.openai.com/settings/organization/limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://platform.openai.com/settings/organization/limits\u003C/a>, \u003Ca href=\"https://console.anthropic.com/settings/limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://console.anthropic.com/settings/limits\u003C/a> veya \u003Ca href=\"https://ai.google.dev/gemini-api/docs/rate-limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://ai.google.dev/gemini-api/docs/rate-limits\u003C/a>\u003Cbr/>\u003Cbr/>Daha yüksek limitlere sahip farklı bir modele geçmeyi deneyebilir, daha yüksek temel limitlere sahip Gemini veya Anthropic kullanabilir veya tek bir istekte bazen 10.000 - 30.000 token kullanabilen 'Düğüm Kütüphanesi Erişimi' aracı gibi çok fazla token kullanan bazı n8nChat araçlarını devre dışı bırakabilirsiniz."
+   },
+   "supportFaqA2": {
+      "description": "SSS cevabı 2.",
+      "message": "n8nChat ayarlar menüsündeki 'Sohbet' sekmesine gidin ve ihtiyacınız olmayan araçları devre dışı bırakın. 'Düğüm Kütüphanesi Erişimi' gibi bazı araçlar tek bir istekte 10.000 - 30.000 token kullanabilir."
+   },
+   "supportFaqA3": {
+      "description": "SSS cevabı 3.",
+      "message": "Sayfayı yenilediğinizden emin olun; n8nChat'i yeni yüklediyseniz, sayfaya kendisini yükleme şansı olmamış olabilir. Sayfayı yenileyin ve tekrar etkinleştirmeyi deneyin. Ayrıca, yüklediğiniz reklam engelleyici uzantıların n8nChat erişimini engelleyip engellemediğini kontrol edin. Bazı reklam engelleyiciler n8nChat'in sayfaya enjekte edilmesini engeller. Ayrıca, tarayıcınızdaki Gizlilik ve Güvenlik ayarlarınızı kontrol edin. 'Güvenli Tarama' ayarınız 'Gelişmiş koruma' olarak ayarlanmışsa, bu n8nChat uzantısının düzgün çalışmasını engelleyebilir; bunun yerine 'Standart koruma'yı deneyin."
+   },
+   "supportFaqA4": {
+      "description": "SSS cevabı 4.",
+      "message": "n8nChat artık tamamen ücretsiz ve açık kaynaklıdır. Tüm özellikler herhangi bir abonelik veya ödeme gerektirmeden tüm kullanıcılar için kullanılabilir."
+   },
+   "supportFaqA5": {
+      "description": "SSS cevabı 5.",
+      "message": "n8nChat birden fazla AI sağlayıcısını destekler: Google (Gemini), OpenAI, Anthropic (Claude) ve Yerel LLM sunucuları. Ayarlarda tercih ettiğiniz sağlayıcıyı ve API anahtarlarını yapılandırabilirsiniz. Yerel LLM desteği, herhangi bir API anahtarı olmadan kendi bilgisayarınızda çalışan modelleri (Ollama, LM Studio, vb.) kullanmanıza olanak tanır."
+   },
+   "supportFaqA6": {
+      "description": "Linklerle SSS cevabı 6.",
+      "message": "Discord üzerinden n8nChat topluluğuna katılabilirsiniz: \u003Ca href=\"https://discord.gg/kz56JZqgtN\" target=\"_blank\" rel=\"noopener noreferrer\">https://discord.gg/kz56JZqgtN\u003C/a> veya doğrudan benimle iletişime geçmeyi tercih ederseniz, \u003Ca href=\"mailto:info@willscreative.com\">info@willscreative.com\u003C/a> adresine bir e-posta gönderebilirsiniz"
+   },
+   "supportFaqQ1": {
+      "description": "SSS sorusu 1.",
+      "message": "Mesajımı gönderdim ama düşünüyor gibi görünüyor ve/veya bana yanıt vermiyor, sorun nedir?"
+   },
+   "supportFaqQ2": {
+      "description": "SSS sorusu 2.",
+      "message": "Token kullanımını nasıl azaltabilirim?"
+   },
+   "supportFaqQ3": {
+      "description": "SSS sorusu 3.",
+      "message": "n8n iş akışı sayfamdayım ve n8nChat'i etkinleştiriyorum, ancak sohbet kutusu UI'ı hiç görünmüyor, sorun nedir?"
+   },
+   "supportFaqQ4": {
+      "description": "SSS sorusu 4.",
+      "message": "n8nChat için ödeme yapmam gerekiyor mu?"
+   },
+   "supportFaqQ5": {
+      "description": "SSS sorusu 5.",
+      "message": "n8nChat hangi AI sağlayıcılarını destekliyor?"
+   },
+   "supportFaqQ6": {
+      "description": "SSS sorusu 6.",
+      "message": "Özellik önerilerim var ve/veya ek yardıma ihtiyacım var, nereden destek alabilirim?"
+   },
+   "supportFaqTitle": {
+      "description": "Destek sekmesi SSS listesi başlığı.",
+      "message": "Sıkça Sorulan Sorular"
+   },
+   "temperature": {
+      "description": "Sıcaklık kaydırıcısı etiketi.",
+      "message": "Sıcaklık"
+   },
+   "temperatureTooltip": {
+      "description": "Sıcaklık ayarı tooltip'i.",
+      "message": "Yanıtların ne kadar vahşi veya güvenli olacağını ayarlar. Düşük ayarlar şeyleri öngörülebilir ve konuya bağlı tutarken, yüksek ayarlar daha hayal gücü yüksek ve serbest akışlı hale getirir."
+   },
+   "thinking": {
+      "description": "AI düşünürken durum mesajı.",
+      "message": "Düşünüyor"
+   },
+   "tools": {
+      "description": "Araçlar ayarları bölüm başlığı.",
+      "message": "Araçlar"
+   },
+   "topP": {
+      "description": "Top P kaydırıcısı etiketi.",
+      "message": "Top P"
+   },
+   "topPTooltip": {
+      "description": "Top P ayarı tooltip'i.",
+      "message": "Yanıtların ne kadar çeşitli olabileceğini belirler. Düşük ayarlar en bariz seçeneklere bağlı kalırken, yüksek ayarlar daha beklenmedik seçenekler karıştırır."
+   },
+   "unexpectedError": {
+      "description": "Genel hata mesajı.",
+      "message": "Beklenmeyen bir hata oluştu"
+   },
+   "updatingParameters": {
+      "description": "AI düğüm parametrelerini güncellerken durum mesajı.",
+      "message": "Düğüm parametreleri güncelleniyor"
+   },
+   "useAiAgentNode": {
+      "description": "AI Agent düğümü kullanımı için placeholder önerisi.",
+      "message": "AI Agent düğümünü nasıl kullanırım?"
+   },
+   "warningExpensiveModel": {
+      "description": "Pahalı modeller için uyarı mesajı.",
+      "message": "Uyarı: Bu model pahalıdır"
+   },
+   "workflowAccess": {
+      "description": "İş akışı erişimi toggle etiketi.",
+      "message": "İş Akışı Erişimi"
+   },
+   "workflowAccessDesc": {
+      "description": "İş akışı erişimi açıklaması.",
+      "message": "Sohbetin mevcut iş akışınızdan veri kontrol etmesine izin verir"
+   },
+   "workflowNotWorking": {
+      "description": "İş akışı sorun giderme için placeholder önerisi.",
+      "message": "İş akışım neden çalışmıyor?"
+   },
+   "workflowRequiredError": {
+      "description": "Açık iş akışı olmadığı için iş akışı etkinleştirme başarısız olduğunda hata mesajı.",
+      "message": "Lütfen açık bir iş akışınız olduğundan emin olun ve tekrar denemek için sayfayı yenileyin."
+   }
+}

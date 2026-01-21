@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="extensionName">n8nChat</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="popup-container">
+    <!-- Header -->
+    <div class="header">
+      <div class="logo-icon">💬</div>
+      <h1 class="header-title">
+        <span class="n8n-text">n8n</span><span class="chat-text">Chat</span>
+      </h1>
+      <p class="header-subtitle" data-i18n="configureActivate"></p>
+    </div>
+
+    <!-- Activation Card -->
+    <div class="card activation-card">
+      <p class="activation-text">
+        Self-hosting? Navigate to your workflow, then activate the extension by pressing the button below:
+      </p>
+      <button id="activate-btn" class="activate-button">Activate on Current Page</button>
+      <p class="auto-activate-text">
+        n8nChat activates automatically for n8n hosted workflows
+        <a href="https://n8n.io" target="_blank" class="n8n-link">
+          n8n hosted
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2H10V10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+      </p>
+    </div>
+
+    <!-- Settings Header -->
+    <h2 class="settings-title">Settings</h2>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-button active" data-tab="api">API</button>
+      <button class="tab-button" data-tab="chat">Chat</button>
+    </div>
+
+    <!-- API Tab -->
+    <div class="tab-content" id="api-tab">
+      <div class="card">
+        <!-- Save Button -->
+        <button id="save-api-btn" class="save-button" style="width: 100%; margin-bottom: 16px; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">
+          <span data-i18n="saveSettings">Kaydet</span>
+        </button>
+        <!-- Provider and Model Row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label>Provider</label>
+            <select id="provider-select" class="form-select">
+              <option value="google">Google</option>
+              <option value="openai">OpenAI</option>
+              <option value="anthropic">Anthropic</option>
+              <option value="deepseek">DeepSeek</option>
+              <option value="openrouter">OpenRouter</option>
+              <option value="groq">Groq</option>
+              <option value="huggingface">Hugging Face</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Model</label>
+            <div class="model-select-wrapper">
+              <select id="model-select" class="form-select">
+                <option value="">Enter API key first</option>
+              </select>
+              <input 
+                type="text" 
+                id="model-custom-input" 
+                class="model-custom-input" 
+                placeholder="Or enter custom model name..."
+                style="display: none;"
+              >
+              <button 
+                type="button" 
+                id="model-toggle-btn" 
+                class="model-toggle-btn"
+                title="Switch between preset and custom model"
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 1L9 5H5L7 1Z" fill="currentColor"/>
+                  <path d="M7 13L5 9H9L7 13Z" fill="currentColor"/>
+                  <path d="M1 7L5 5V9L1 7Z" fill="currentColor"/>
+                  <path d="M13 7L9 9V5L13 7Z" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- API Key -->
+        <div class="form-group" id="api-key-group">
+          <label id="api-key-label">Gemini API Key</label>
+          <input type="password" id="api-key-input" class="form-input" placeholder="Enter API key">
+          <a href="#" id="api-key-link" target="_blank" class="api-key-link">
+            Get Gemini API Key
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 2H10V10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- API URL (for Local LLM) -->
+        <div class="form-group" id="api-url-group" style="display: none;">
+          <label>API URL</label>
+          <input type="text" id="api-url-input" class="form-input" placeholder="http://localhost:1234/v1">
+        </div>
+
+        <!-- Google Search Toggle (only for Google provider) -->
+        <div class="form-group" id="google-search-group">
+          <div class="toggle-row">
+            <div>
+              <label>Google Search</label>
+              <p class="toggle-description">If enabled, n8nChat can decide to search the web if it needs relevant, up-to-date information.</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="google-search-toggle">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Thinking Mode (for reasoning models) -->
+        <div class="toggle-item" id="thinking-mode-group" style="display: none;">
+          <div class="toggle-content">
+            <label>Thinking Mode</label>
+            <p class="toggle-description">Show reasoning process for models that support it (e.g., DeepSeek Reasoner, o1 models)</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="thinking-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <div id="api-message" class="message"></div>
+      </div>
+    </div>
+
+    <!-- Chat Tab -->
+    <div class="tab-content" id="chat-tab" style="display: none;">
+      <div class="card">
+        <!-- Save Button -->
+        <button id="save-chat-btn" class="save-button" style="width: 100%; margin-bottom: 16px; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">
+          <span data-i18n="saveSettings">Kaydet</span>
+        </button>
+      </div>
+
+      <!-- Custom System Instructions -->
+      <div class="card">
+        <h3 class="section-title">Custom System Instructions</h3>
+        <p class="section-description">Enter instructions you want to be included with the initial system prompt in every chat.</p>
+        <textarea 
+          id="custom-instructions-input" 
+          class="custom-instructions-textarea" 
+          placeholder="Enter custom system instructions (optional)"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="card">
+        <h3 class="section-title">Settings</h3>
+        
+        <!-- Include Workflow Context -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Include Workflow Context</label>
+            <p class="toggle-description">Sends your current workflow data at the start of a chat</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="include-workflow-context-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Save UI Position -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Save UI Position</label>
+            <p class="toggle-description">Preserves chat UI position between reloads</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="save-ui-position-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Message Fade Delay -->
+        <div class="form-group">
+          <label>Message Fade Delay</label>
+          <p class="toggle-description">The amount of time before new messages fade out of view. Set to 0 to remove the effect.</p>
+          <input type="number" id="message-fade-delay-input" min="0" max="60" value="0" class="form-input" style="margin-top: 8px;">
+        </div>
+      </div>
+
+      <!-- Tools Section -->
+      <div class="card">
+        <h3 class="section-title">Tools</h3>
+        
+        <!-- Workflow Access -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Workflow Access</label>
+            <p class="toggle-description">Allows chat to check data from your current workflow</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="workflow-access-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Node Library Access -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Node Library Access</label>
+            <p class="toggle-description">Allows chat to browse your list of installed nodes</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="node-library-access-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Node Creation -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Node Creation</label>
+            <p class="toggle-description">Allows chat to add nodes to the workflow</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="node-creation-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Node Editing -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Node Editing</label>
+            <p class="toggle-description">Allows chat to edit parameters of nodes in your workflow</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="node-editing-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Node Removal -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Node Removal</label>
+            <p class="toggle-description">Allows chat to remove nodes from your workflow</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="node-removal-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Affiliate Recommendations -->
+        <div class="toggle-item">
+          <div class="toggle-content">
+            <label>Affiliate Recommendations</label>
+            <p class="toggle-description">Allows chat to include affiliate links in external service recommendations</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="affiliate-recommendations-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+                <!-- Node Cloning -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Node Cloning</label>
+                    <p class="toggle-description">Allows chat to duplicate nodes with all settings and connections</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="node-cloning-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Connection Management -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Advanced Connection Management</label>
+                    <p class="toggle-description">Allows chat to remove, update, and manage node connections</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="connection-management-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Bulk Operations -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Bulk Operations</label>
+                    <p class="toggle-description">⚠️ Allows batch updates to multiple nodes at once (use with caution)</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="bulk-operations-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Auto Layout -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Auto Layout</label>
+                    <p class="toggle-description">Automatically arrange and organize workflow nodes</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="auto-layout-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Workflow Validation -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Workflow Validation</label>
+                    <p class="toggle-description">Check workflow for errors, warnings, and suggest fixes</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="workflow-validation-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Workflow Execution -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Workflow Execution</label>
+                    <p class="toggle-description">⚡ Allows chat to run and test workflows</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="workflow-execution-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Advanced Import/Export -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Advanced Import/Export</label>
+                    <p class="toggle-description">Import, merge, and compare workflows with JSON</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="advanced-import-export-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Execution History & Analytics -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Execution History & Analytics</label>
+                    <p class="toggle-description">View execution history, node data, and performance analysis</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="execution-history-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Workflow Templates -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Workflow Templates</label>
+                    <p class="toggle-description">Browse and create workflows from templates</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="workflow-templates-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Workflow Optimization -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Workflow Optimization</label>
+                    <p class="toggle-description">Analyze and optimize workflow performance</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="workflow-optimization-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Workflow Versioning -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Workflow Versioning & Rollback</label>
+                    <p class="toggle-description">Create snapshots, version control, and restore previous states</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="workflow-versioning-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Advanced Debugging -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Advanced Debugging Tools</label>
+                    <p class="toggle-description">Debug with breakpoints, trace execution, and profile performance</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="advanced-debugging-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Testing Framework -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Testing Framework</label>
+                    <p class="toggle-description">Generate and run automated test suites for workflows</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="testing-framework-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- CI/CD Integration -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>CI/CD Integration</label>
+                    <p class="toggle-description">Generate CI/CD configs for GitHub Actions, GitLab CI, Jenkins</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="cicd-integration-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Custom Node Development -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Custom Node Development</label>
+                    <p class="toggle-description">Generate custom node templates with tests and documentation</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="custom-node-development-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+        
+                <!-- Documentation Generation -->
+                <div class="toggle-item">
+                  <div class="toggle-content">
+                    <label>Documentation Generation</label>
+                    <p class="toggle-description">Auto-generate workflow docs in Markdown, HTML, or JSON</p>
+                  </div>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="documentation-generation-toggle">
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+
+      </div>
+
+      <!-- Debug Mode Section -->
+      <div class="card" style="border: 2px solid var(--primary); background: rgba(0, 255, 71, 0.05);">
+        <h3 class="section-title" style="color: var(--primary); display: flex; align-items: center; gap: 8px;">
+          <span>🐛</span>
+          <span>Debug Mode</span>
+          <span style="font-size: 11px; font-weight: normal; background: var(--primary); color: black; padding: 2px 8px; border-radius: 4px;">ADVANCED</span>
+        </h3>
+        
+        <!-- Debug Mode Toggle -->
+        <div class="toggle-item" style="margin-bottom: 16px;">
+          <div class="toggle-content">
+            <label style="font-weight: 600;">Enable Real-Time Debug API</label>
+            <p class="toggle-description">Track all AI operations in real-time: user inputs, function calls, responses, and errors</p>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="debug-mode-toggle">
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+
+        <!-- Debug Options (visible when debug is enabled) -->
+        <div id="debug-options" style="display: none; padding: 16px; background: rgba(0, 0, 0, 0.3); border-radius: 8px; margin-top: 12px;">
+          
+          <!-- Server URL -->
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label style="font-size: 12px; color: var(--primary);">Debug Server URL</label>
+            <input 
+              type="text" 
+              id="debug-server-url-input" 
+              class="form-input" 
+              placeholder="http://localhost:3333"
+              value="http://localhost:3333"
+              style="margin-top: 4px; font-family: monospace; font-size: 12px;"
+            >
+          </div>
+
+          <!-- Auto-connect -->
+          <div class="toggle-item" style="margin-bottom: 12px;">
+            <div class="toggle-content">
+              <label style="font-size: 13px;">Auto-Connect on Startup</label>
+              <p class="toggle-description" style="font-size: 11px;">Automatically connect to debug server when extension loads</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="debug-auto-connect-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Console Logging -->
+          <div class="toggle-item" style="margin-bottom: 12px;">
+            <div class="toggle-content">
+              <label style="font-size: 13px;">Console Logging</label>
+              <p class="toggle-description" style="font-size: 11px;">Show debug logs in browser console (F12)</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="debug-console-logging-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- PII Masking -->
+          <div class="toggle-item" style="margin-bottom: 12px;">
+            <div class="toggle-content">
+              <label style="font-size: 13px;">PII Masking</label>
+              <p class="toggle-description" style="font-size: 11px;">Automatically mask sensitive data (API keys, emails, etc.)</p>
+            </div>
+            <label class="toggle-switch">
+              <input type="checkbox" id="debug-pii-masking-toggle" checked>
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+
+          <!-- Quick Actions -->
+          <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+            <p style="font-size: 11px; color: #888; margin-bottom: 8px;">Quick Actions:</p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button id="open-dashboard-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: var(--primary); color: black; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;">
+                🌐 Open Dashboard
+              </button>
+              <button id="clear-debug-logs-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: #ff4444; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;">
+                🗑️ Clear Logs
+              </button>
+            </div>
+            <button id="test-debug-connection-btn" class="quick-action-btn" style="width: 100%; margin-top: 8px; padding: 6px 12px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 11px; cursor: pointer;">
+              🔌 Test Connection
+            </button>
+          </div>
+
+          <!-- Connection Status -->
+          <div id="debug-connection-status" style="margin-top: 12px; padding: 8px 12px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; font-size: 11px; font-family: monospace;">
+            <span style="color: #888;">🔴 Disconnected</span>
+          </div>
+
+        </div>
+
+        <!-- Debug Info -->
+        <div style="margin-top: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 6px; font-size: 11px; line-height: 1.6;">
+          <p style="margin: 0; color: #888;">
+            <strong style="color: var(--primary);">ℹ️ About Debug Mode:</strong><br>
+            Real-time monitoring system for tracking all AI operations.<br><br>
+            <strong>Features:</strong><br>
+            • Live dashboard (WebSocket)<br>
+            • Colored console logs<br>
+            • Session tracking & statistics<br>
+            • Export/Clear/Pause controls<br>
+            • PII masking for security<br><br>
+            <strong>Server:</strong> Run <code style="background: rgba(0, 0, 0, 0.4); padding: 2px 4px; border-radius: 2px;">npm start</code> in debug-server folder
+          </p>
+        </div>
+      </div>
+
+      <div id="chat-message" class="message"></div>
+    </div>
+
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

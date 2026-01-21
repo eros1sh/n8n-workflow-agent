@@ -1,0 +1,70 @@
+{
+  "manifest_version": 3,
+  "name": "n8n Chat",
+  "version": "1.4.2",
+  "description": "Cursor for n8n - create, edit, debug, and optimize n8n workflows using a simple chat.",
+  "author": "eros.sh",
+  "default_locale": "tr",
+  "icons": {
+    "16": "assets/icon16.png",
+    "32": "assets/icon32.png",
+    "48": "assets/icon48.png",
+    "64": "assets/icon64.png",
+    "128": "assets/icon128.png"
+  },
+  "action": {
+    "default_icon": {
+      "16": "assets/icon16.png",
+      "32": "assets/icon32.png",
+      "48": "assets/icon48.png",
+      "64": "assets/icon64.png",
+      "128": "assets/icon128.png"
+    },
+    "default_popup": "popup/popup.html",
+    "default_title": "n8n Chat"
+  },
+  "background": {
+    "service_worker": "background/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/content.js"],
+      "all_frames": false,
+      "run_at": "document_idle"
+    }
+  ],
+  "permissions": [
+    "storage",
+    "scripting",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://n8nchat.com/*",
+    "https://api.openai.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.deepseek.com/*",
+    "https://openrouter.ai/*",
+    "https://api.groq.com/*",
+    "https://api.cohere.ai/*",
+    "https://router.huggingface.co/*",
+    "https://generativelanguage.googleapis.com/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "content/injected.js",
+        "content/content.js",
+        "lib/*.js"
+      ],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
