@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="extensionName">n8nChat</title>
+  <title data-i18n="extensionName"></title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
@@ -12,21 +12,17 @@
     <div class="header">
       <div class="logo-icon">💬</div>
       <h1 class="header-title">
-        <span class="n8n-text">n8n</span><span class="chat-text">Chat</span>
+        <span class="n8n-text">n8n</span><span class="chat-text" data-i18n="chat"></span>
       </h1>
       <p class="header-subtitle" data-i18n="configureActivate"></p>
     </div>
 
     <!-- Activation Card -->
     <div class="card activation-card">
-      <p class="activation-text">
-        Self-hosting? Navigate to your workflow, then activate the extension by pressing the button below:
-      </p>
-      <button id="activate-btn" class="activate-button">Activate on Current Page</button>
-      <p class="auto-activate-text">
-        n8nChat activates automatically for n8n hosted workflows
-        <a href="https://n8n.io" target="_blank" class="n8n-link">
-          n8n hosted
+      <p class="activation-text" data-i18n="selfHostingActivate"></p>
+      <button id="activate-btn" class="activate-button" data-i18n="activateOnCurrentPage"></button>
+      <p class="auto-activate-text" data-i18n="autoActivateHosted">
+        <a href="https://n8n.io" target="_blank" class="n8n-link" data-i18n="n8nHostedLink">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M2 2H10V10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
@@ -35,12 +31,12 @@
     </div>
 
     <!-- Settings Header -->
-    <h2 class="settings-title">Settings</h2>
+    <h2 class="settings-title" data-i18n="settings">Settings</h2>
 
     <!-- Tabs -->
     <div class="tabs">
-      <button class="tab-button active" data-tab="api">API</button>
-      <button class="tab-button" data-tab="chat">Chat</button>
+      <button class="tab-button active" data-tab="api" data-i18n="api"></button>
+      <button class="tab-button" data-tab="chat" data-i18n="chat"></button>
     </div>
 
     <!-- API Tab -->
@@ -48,12 +44,12 @@
       <div class="card">
         <!-- Save Button -->
         <button id="save-api-btn" class="save-button" style="width: 100%; margin-bottom: 16px; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">
-          <span data-i18n="saveSettings">Kaydet</span>
+          <span data-i18n="saveSettings"></span>
         </button>
         <!-- Provider and Model Row -->
         <div class="form-row">
           <div class="form-group">
-            <label>Provider</label>
+            <label data-i18n="provider"></label>
             <select id="provider-select" class="form-select">
               <option value="google">Google</option>
               <option value="openai">OpenAI</option>
@@ -65,23 +61,23 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Model</label>
+            <label data-i18n="model">Model</label>
             <div class="model-select-wrapper">
               <select id="model-select" class="form-select">
-                <option value="">Enter API key first</option>
+                <option value="" data-i18n="enterApiKeyFirst"></option>
               </select>
               <input 
                 type="text" 
                 id="model-custom-input" 
                 class="model-custom-input" 
-                placeholder="Or enter custom model name..."
+                data-i18n-placeholder="orEnterCustomModelName"
                 style="display: none;"
               >
               <button 
                 type="button" 
                 id="model-toggle-btn" 
                 class="model-toggle-btn"
-                title="Switch between preset and custom model"
+                data-i18n-title="switchBetweenPresetAndCustom"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M7 1L9 5H5L7 1Z" fill="currentColor"/>
@@ -96,10 +92,9 @@
 
         <!-- API Key -->
         <div class="form-group" id="api-key-group">
-          <label id="api-key-label">Gemini API Key</label>
-          <input type="password" id="api-key-input" class="form-input" placeholder="Enter API key">
-          <a href="#" id="api-key-link" target="_blank" class="api-key-link">
-            Get Gemini API Key
+          <label id="api-key-label" data-i18n="apiKey"></label>
+          <input type="password" id="api-key-input" class="form-input" data-i18n-placeholder="enterApiKey">
+          <a href="#" id="api-key-link" target="_blank" class="api-key-link" data-i18n="getGoogleKey">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M2 2H10V10M10 2L2 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -108,16 +103,16 @@
 
         <!-- API URL (for Local LLM) -->
         <div class="form-group" id="api-url-group" style="display: none;">
-          <label>API URL</label>
-          <input type="text" id="api-url-input" class="form-input" placeholder="http://localhost:1234/v1">
+          <label data-i18n="apiUrl"></label>
+          <input type="text" id="api-url-input" class="form-input" data-i18n-placeholder="enterApiUrl">
         </div>
 
         <!-- Google Search Toggle (only for Google provider) -->
         <div class="form-group" id="google-search-group">
           <div class="toggle-row">
             <div>
-              <label>Google Search</label>
-              <p class="toggle-description">If enabled, n8nChat can decide to search the web if it needs relevant, up-to-date information.</p>
+              <label data-i18n="googleSearch"></label>
+              <p class="toggle-description" data-i18n="googleSearchDesc"></p>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="google-search-toggle">
@@ -129,8 +124,8 @@
         <!-- Thinking Mode (for reasoning models) -->
         <div class="toggle-item" id="thinking-mode-group" style="display: none;">
           <div class="toggle-content">
-            <label>Thinking Mode</label>
-            <p class="toggle-description">Show reasoning process for models that support it (e.g., DeepSeek Reasoner, o1 models)</p>
+            <label data-i18n="thinkingMode"></label>
+            <p class="toggle-description" data-i18n="thinkingModeDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="thinking-mode-toggle">
@@ -147,31 +142,31 @@
       <div class="card">
         <!-- Save Button -->
         <button id="save-chat-btn" class="save-button" style="width: 100%; margin-bottom: 16px; padding: 10px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: 500;">
-          <span data-i18n="saveSettings">Kaydet</span>
+          <span data-i18n="saveSettings"></span>
         </button>
       </div>
 
       <!-- Custom System Instructions -->
       <div class="card">
-        <h3 class="section-title">Custom System Instructions</h3>
-        <p class="section-description">Enter instructions you want to be included with the initial system prompt in every chat.</p>
+        <h3 class="section-title" data-i18n="customSystemInstructions"></h3>
+        <p class="section-description" data-i18n="customSystemInstructionsDesc"></p>
         <textarea 
           id="custom-instructions-input" 
           class="custom-instructions-textarea" 
-          placeholder="Enter custom system instructions (optional)"
+          data-i18n-placeholder="enterCustomInstructionsPlaceholder"
           rows="4"
         ></textarea>
       </div>
 
       <!-- Settings Section -->
       <div class="card">
-        <h3 class="section-title">Settings</h3>
+        <h3 class="section-title" data-i18n="settings"></h3>
         
         <!-- Include Workflow Context -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Include Workflow Context</label>
-            <p class="toggle-description">Sends your current workflow data at the start of a chat</p>
+            <label data-i18n="includeWorkflowContext"></label>
+            <p class="toggle-description" data-i18n="includeWorkflowContextDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="include-workflow-context-toggle">
@@ -182,8 +177,8 @@
         <!-- Save UI Position -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Save UI Position</label>
-            <p class="toggle-description">Preserves chat UI position between reloads</p>
+            <label data-i18n="saveUIPosition"></label>
+            <p class="toggle-description" data-i18n="saveUIPositionDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="save-ui-position-toggle">
@@ -193,21 +188,21 @@
 
         <!-- Message Fade Delay -->
         <div class="form-group">
-          <label>Message Fade Delay</label>
-          <p class="toggle-description">The amount of time before new messages fade out of view. Set to 0 to remove the effect.</p>
+          <label data-i18n="messageFadeDelay"></label>
+          <p class="toggle-description" data-i18n="messageFadeDelayDesc"></p>
           <input type="number" id="message-fade-delay-input" min="0" max="60" value="0" class="form-input" style="margin-top: 8px;">
         </div>
       </div>
 
       <!-- Tools Section -->
       <div class="card">
-        <h3 class="section-title">Tools</h3>
+        <h3 class="section-title" data-i18n="tools"></h3>
         
         <!-- Workflow Access -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Workflow Access</label>
-            <p class="toggle-description">Allows chat to check data from your current workflow</p>
+            <label data-i18n="workflowAccess"></label>
+            <p class="toggle-description" data-i18n="workflowAccessDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="workflow-access-toggle">
@@ -218,8 +213,8 @@
         <!-- Node Library Access -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Node Library Access</label>
-            <p class="toggle-description">Allows chat to browse your list of installed nodes</p>
+            <label data-i18n="nodeLibraryAccess"></label>
+            <p class="toggle-description" data-i18n="nodeLibraryAccessDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="node-library-access-toggle">
@@ -230,8 +225,8 @@
         <!-- Node Creation -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Node Creation</label>
-            <p class="toggle-description">Allows chat to add nodes to the workflow</p>
+            <label data-i18n="nodeCreation"></label>
+            <p class="toggle-description" data-i18n="nodeCreationDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="node-creation-toggle">
@@ -242,8 +237,8 @@
         <!-- Node Editing -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Node Editing</label>
-            <p class="toggle-description">Allows chat to edit parameters of nodes in your workflow</p>
+            <label data-i18n="nodeEditing"></label>
+            <p class="toggle-description" data-i18n="nodeEditingDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="node-editing-toggle">
@@ -254,8 +249,8 @@
         <!-- Node Removal -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Node Removal</label>
-            <p class="toggle-description">Allows chat to remove nodes from your workflow</p>
+            <label data-i18n="nodeRemoval"></label>
+            <p class="toggle-description" data-i18n="nodeRemovalDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="node-removal-toggle">
@@ -266,8 +261,8 @@
         <!-- Affiliate Recommendations -->
         <div class="toggle-item">
           <div class="toggle-content">
-            <label>Affiliate Recommendations</label>
-            <p class="toggle-description">Allows chat to include affiliate links in external service recommendations</p>
+            <label data-i18n="affiliateRecommendations"></label>
+            <p class="toggle-description" data-i18n="affiliateRecommendationsDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="affiliate-recommendations-toggle">
@@ -278,8 +273,8 @@
                 <!-- Node Cloning -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Node Cloning</label>
-                    <p class="toggle-description">Allows chat to duplicate nodes with all settings and connections</p>
+                    <label data-i18n="nodeCloning"></label>
+                    <p class="toggle-description" data-i18n="nodeCloningDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="node-cloning-toggle">
@@ -290,8 +285,8 @@
                 <!-- Connection Management -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Advanced Connection Management</label>
-                    <p class="toggle-description">Allows chat to remove, update, and manage node connections</p>
+                    <label data-i18n="advancedConnectionManagement">Advanced Connection Management</label>
+                    <p class="toggle-description" data-i18n="advancedConnectionManagementDesc">Allows chat to remove, update, and manage node connections</p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="connection-management-toggle">
@@ -302,8 +297,8 @@
                 <!-- Bulk Operations -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Bulk Operations</label>
-                    <p class="toggle-description">⚠️ Allows batch updates to multiple nodes at once (use with caution)</p>
+                    <label data-i18n="bulkOperations"></label>
+                    <p class="toggle-description" data-i18n="bulkOperationsDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="bulk-operations-toggle">
@@ -314,8 +309,8 @@
                 <!-- Auto Layout -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Auto Layout</label>
-                    <p class="toggle-description">Automatically arrange and organize workflow nodes</p>
+                    <label data-i18n="autoLayout"></label>
+                    <p class="toggle-description" data-i18n="autoLayoutDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="auto-layout-toggle">
@@ -326,8 +321,8 @@
                 <!-- Workflow Validation -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Workflow Validation</label>
-                    <p class="toggle-description">Check workflow for errors, warnings, and suggest fixes</p>
+                    <label data-i18n="workflowValidation"></label>
+                    <p class="toggle-description" data-i18n="workflowValidationDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="workflow-validation-toggle">
@@ -338,8 +333,8 @@
                 <!-- Workflow Execution -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Workflow Execution</label>
-                    <p class="toggle-description">⚡ Allows chat to run and test workflows</p>
+                    <label data-i18n="workflowExecution"></label>
+                    <p class="toggle-description" data-i18n="workflowExecutionDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="workflow-execution-toggle">
@@ -350,8 +345,8 @@
                 <!-- Advanced Import/Export -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Advanced Import/Export</label>
-                    <p class="toggle-description">Import, merge, and compare workflows with JSON</p>
+                    <label data-i18n="advancedImportExport"></label>
+                    <p class="toggle-description" data-i18n="advancedImportExportDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="advanced-import-export-toggle">
@@ -362,8 +357,8 @@
                 <!-- Execution History & Analytics -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Execution History & Analytics</label>
-                    <p class="toggle-description">View execution history, node data, and performance analysis</p>
+                    <label data-i18n="executionHistory"></label>
+                    <p class="toggle-description" data-i18n="executionHistoryDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="execution-history-toggle">
@@ -374,8 +369,8 @@
                 <!-- Workflow Templates -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Workflow Templates</label>
-                    <p class="toggle-description">Browse and create workflows from templates</p>
+                    <label data-i18n="workflowTemplates"></label>
+                    <p class="toggle-description" data-i18n="workflowTemplatesDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="workflow-templates-toggle">
@@ -386,8 +381,8 @@
                 <!-- Workflow Optimization -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Workflow Optimization</label>
-                    <p class="toggle-description">Analyze and optimize workflow performance</p>
+                    <label data-i18n="workflowOptimization"></label>
+                    <p class="toggle-description" data-i18n="workflowOptimizationDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="workflow-optimization-toggle">
@@ -398,8 +393,8 @@
                 <!-- Workflow Versioning -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Workflow Versioning & Rollback</label>
-                    <p class="toggle-description">Create snapshots, version control, and restore previous states</p>
+                    <label data-i18n="workflowVersioning"></label>
+                    <p class="toggle-description" data-i18n="workflowVersioningDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="workflow-versioning-toggle">
@@ -410,8 +405,8 @@
                 <!-- Advanced Debugging -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Advanced Debugging Tools</label>
-                    <p class="toggle-description">Debug with breakpoints, trace execution, and profile performance</p>
+                    <label data-i18n="advancedDebugging"></label>
+                    <p class="toggle-description" data-i18n="advancedDebuggingDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="advanced-debugging-toggle">
@@ -422,8 +417,8 @@
                 <!-- Testing Framework -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Testing Framework</label>
-                    <p class="toggle-description">Generate and run automated test suites for workflows</p>
+                    <label data-i18n="testingFramework"></label>
+                    <p class="toggle-description" data-i18n="testingFrameworkDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="testing-framework-toggle">
@@ -434,8 +429,8 @@
                 <!-- CI/CD Integration -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>CI/CD Integration</label>
-                    <p class="toggle-description">Generate CI/CD configs for GitHub Actions, GitLab CI, Jenkins</p>
+                    <label data-i18n="cicdIntegration"></label>
+                    <p class="toggle-description" data-i18n="cicdIntegrationDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="cicd-integration-toggle">
@@ -446,8 +441,8 @@
                 <!-- Custom Node Development -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Custom Node Development</label>
-                    <p class="toggle-description">Generate custom node templates with tests and documentation</p>
+                    <label data-i18n="customNodeDevelopment"></label>
+                    <p class="toggle-description" data-i18n="customNodeDevelopmentDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="custom-node-development-toggle">
@@ -458,8 +453,8 @@
                 <!-- Documentation Generation -->
                 <div class="toggle-item">
                   <div class="toggle-content">
-                    <label>Documentation Generation</label>
-                    <p class="toggle-description">Auto-generate workflow docs in Markdown, HTML, or JSON</p>
+                    <label data-i18n="documentationGeneration"></label>
+                    <p class="toggle-description" data-i18n="documentationGenerationDesc"></p>
                   </div>
                   <label class="toggle-switch">
                     <input type="checkbox" id="documentation-generation-toggle">
@@ -473,15 +468,15 @@
       <div class="card" style="border: 2px solid var(--primary); background: rgba(0, 255, 71, 0.05);">
         <h3 class="section-title" style="color: var(--primary); display: flex; align-items: center; gap: 8px;">
           <span>🐛</span>
-          <span>Debug Mode</span>
-          <span style="font-size: 11px; font-weight: normal; background: var(--primary); color: black; padding: 2px 8px; border-radius: 4px;">ADVANCED</span>
+          <span data-i18n="debugMode"></span>
+          <span style="font-size: 11px; font-weight: normal; background: var(--primary); color: black; padding: 2px 8px; border-radius: 4px;" data-i18n="debugModeAdvanced"></span>
         </h3>
         
         <!-- Debug Mode Toggle -->
         <div class="toggle-item" style="margin-bottom: 16px;">
           <div class="toggle-content">
-            <label style="font-weight: 600;">Enable Real-Time Debug API</label>
-            <p class="toggle-description">Track all AI operations in real-time: user inputs, function calls, responses, and errors</p>
+            <label style="font-weight: 600;" data-i18n="enableRealTimeDebugApi"></label>
+            <p class="toggle-description" data-i18n="enableRealTimeDebugApiDesc"></p>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="debug-mode-toggle">
@@ -494,12 +489,11 @@
           
           <!-- Server URL -->
           <div class="form-group" style="margin-bottom: 12px;">
-            <label style="font-size: 12px; color: var(--primary);">Debug Server URL</label>
+            <label style="font-size: 12px; color: var(--primary);" data-i18n="debugServerUrl">Debug Server URL</label>
             <input 
               type="text" 
               id="debug-server-url-input" 
               class="form-input" 
-              placeholder="http://localhost:3333"
               value="http://localhost:3333"
               style="margin-top: 4px; font-family: monospace; font-size: 12px;"
             >
@@ -508,8 +502,8 @@
           <!-- Auto-connect -->
           <div class="toggle-item" style="margin-bottom: 12px;">
             <div class="toggle-content">
-              <label style="font-size: 13px;">Auto-Connect on Startup</label>
-              <p class="toggle-description" style="font-size: 11px;">Automatically connect to debug server when extension loads</p>
+              <label style="font-size: 13px;" data-i18n="autoConnectOnStartup"></label>
+              <p class="toggle-description" style="font-size: 11px;" data-i18n="autoConnectOnStartupDesc"></p>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="debug-auto-connect-toggle" checked>
@@ -520,8 +514,8 @@
           <!-- Console Logging -->
           <div class="toggle-item" style="margin-bottom: 12px;">
             <div class="toggle-content">
-              <label style="font-size: 13px;">Console Logging</label>
-              <p class="toggle-description" style="font-size: 11px;">Show debug logs in browser console (F12)</p>
+              <label style="font-size: 13px;" data-i18n="consoleLogging"></label>
+              <p class="toggle-description" style="font-size: 11px;" data-i18n="consoleLoggingDesc"></p>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="debug-console-logging-toggle" checked>
@@ -532,8 +526,8 @@
           <!-- PII Masking -->
           <div class="toggle-item" style="margin-bottom: 12px;">
             <div class="toggle-content">
-              <label style="font-size: 13px;">PII Masking</label>
-              <p class="toggle-description" style="font-size: 11px;">Automatically mask sensitive data (API keys, emails, etc.)</p>
+              <label style="font-size: 13px;" data-i18n="piiMasking"></label>
+              <p class="toggle-description" style="font-size: 11px;" data-i18n="piiMaskingDesc"></p>
             </div>
             <label class="toggle-switch">
               <input type="checkbox" id="debug-pii-masking-toggle" checked>
@@ -543,23 +537,17 @@
 
           <!-- Quick Actions -->
           <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-            <p style="font-size: 11px; color: #888; margin-bottom: 8px;">Quick Actions:</p>
+            <p style="font-size: 11px; color: #888; margin-bottom: 8px;" data-i18n="quickActions"></p>
             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button id="open-dashboard-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: var(--primary); color: black; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;">
-                🌐 Open Dashboard
-              </button>
-              <button id="clear-debug-logs-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: #ff4444; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;">
-                🗑️ Clear Logs
-              </button>
+              <button id="open-dashboard-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: var(--primary); color: black; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;" data-i18n="openDashboard"></button>
+              <button id="clear-debug-logs-btn" class="quick-action-btn" style="flex: 1; min-width: 120px; padding: 6px 12px; background: #ff4444; color: white; border: none; border-radius: 4px; font-size: 11px; cursor: pointer; font-weight: 500;" data-i18n="clearLogs"></button>
             </div>
-            <button id="test-debug-connection-btn" class="quick-action-btn" style="width: 100%; margin-top: 8px; padding: 6px 12px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 11px; cursor: pointer;">
-              🔌 Test Connection
-            </button>
+            <button id="test-debug-connection-btn" class="quick-action-btn" style="width: 100%; margin-top: 8px; padding: 6px 12px; background: #333; color: white; border: 1px solid #555; border-radius: 4px; font-size: 11px; cursor: pointer;" data-i18n="testConnection"></button>
           </div>
 
           <!-- Connection Status -->
           <div id="debug-connection-status" style="margin-top: 12px; padding: 8px 12px; background: rgba(0, 0, 0, 0.3); border-radius: 4px; font-size: 11px; font-family: monospace;">
-            <span style="color: #888;">🔴 Disconnected</span>
+            <span style="color: #888;" data-i18n="disconnected"></span>
           </div>
 
         </div>
@@ -567,15 +555,11 @@
         <!-- Debug Info -->
         <div style="margin-top: 12px; padding: 12px; background: rgba(0, 0, 0, 0.2); border-radius: 6px; font-size: 11px; line-height: 1.6;">
           <p style="margin: 0; color: #888;">
-            <strong style="color: var(--primary);">ℹ️ About Debug Mode:</strong><br>
-            Real-time monitoring system for tracking all AI operations.<br><br>
-            <strong>Features:</strong><br>
-            • Live dashboard (WebSocket)<br>
-            • Colored console logs<br>
-            • Session tracking & statistics<br>
-            • Export/Clear/Pause controls<br>
-            • PII masking for security<br><br>
-            <strong>Server:</strong> Run <code style="background: rgba(0, 0, 0, 0.4); padding: 2px 4px; border-radius: 2px;">npm start</code> in debug-server folder
+            <strong style="color: var(--primary);" data-i18n="aboutDebugMode"></strong><br>
+            <span data-i18n="aboutDebugModeDesc"></span><br><br>
+            <strong data-i18n="debugFeatures"></strong><br>
+            <span data-i18n="debugFeaturesList" data-i18n-html="true"></span><br><br>
+            <strong data-i18n="debugServer"></strong> <span data-i18n="debugServerDesc" data-i18n-html="true"></span>
           </p>
         </div>
       </div>

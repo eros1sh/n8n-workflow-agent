@@ -496,6 +496,14 @@
       "description": "AI düşünürken durum mesajı.",
       "message": "Düşünüyor"
    },
+   "thinkingMode": {
+      "description": "Thinking Mode toggle etiketi.",
+      "message": "Thinking Mode"
+   },
+   "thinkingModeDesc": {
+      "description": "Thinking Mode toggle açıklaması.",
+      "message": "Show reasoning process for models that support it (e.g., DeepSeek Reasoner, o1 models)"
+   },
    "tools": {
       "description": "Araçlar ayarları bölüm başlığı.",
       "message": "Araçlar"
@@ -539,5 +547,321 @@
    "workflowRequiredError": {
       "description": "Açık iş akışı olmadığı için iş akışı etkinleştirme başarısız olduğunda hata mesajı.",
       "message": "Lütfen açık bir iş akışınız olduğundan emin olun ve tekrar denemek için sayfayı yenileyin."
+   },
+   "apiKeyEmpty": {
+      "description": "API anahtarı boş olduğunda hata mesajı.",
+      "message": "API key boş"
+   },
+   "apiKeyValid": {
+      "description": "API anahtarı geçerli olduğunda başarı mesajı.",
+      "message": "API key geçerli ✓"
+   },
+   "apiKeyInvalid": {
+      "description": "API anahtarı geçersiz olduğunda hata mesajı.",
+      "message": "API key geçersiz"
+   },
+   "apiKeyCheckError": {
+      "description": "API anahtarı kontrol edilirken hata oluştuğunda mesaj.",
+      "message": "API key kontrol edilirken hata oluştu"
+   },
+   "connectionError": {
+      "description": "Bağlantı sorunları için hata mesajı.",
+      "message": "Bağlantı hatası"
+   },
+   "localLlmNoApiKey": {
+      "description": "Local LLM için API anahtarı gerekmediği mesajı.",
+      "message": "Local LLM - API key gerekmez"
+   },
+   "unknownProvider": {
+      "description": "Bilinmeyen provider için hata mesajı.",
+      "message": "Bilinmeyen provider"
+   },
+   "settingsSaved": {
+      "description": "Ayarlar kaydedildiğinde başarı mesajı.",
+      "message": "Ayarlar kaydedildi ✓"
+   },
+   "saving": {
+      "description": "Kaydedilirken gösterilen buton metni.",
+      "message": "Kaydediliyor..."
+   },
+   "saved": {
+      "description": "Ayarlar kaydedildiğinde başarı mesajı.",
+      "message": "Kaydedildi ✓"
+   },
+   "error": {
+      "description": "Genel hata buton metni.",
+      "message": "Hata!"
+   },
+   "saveError": {
+      "description": "Kaydetme hataları için hata mesajı.",
+      "message": "Kaydetme hatası"
+   },
+   "clearDebugLogsConfirm": {
+      "description": "Debug logları temizleme onay mesajı.",
+      "message": "Tüm debug logları temizlenecek. Emin misiniz?"
+   },
+   "debugLogsCleared": {
+      "description": "Debug logları temizlendiğinde başarı mesajı.",
+      "message": "✅ Debug logları temizlendi!"
+   },
+   "contentScriptNotFound": {
+      "description": "Content script bulunamadığında hata mesajı.",
+      "message": "❌ Hata: Content script bulunamadı. Sayfayı yenileyin."
+   },
+   "send": {
+      "description": "Sohbette gönder butonu metni.",
+      "message": "Gönder"
+   },
+   "clearMessages": {
+      "description": "Mesajları temizle butonu tooltip'i.",
+      "message": "Mesajları Temizle"
+   },
+   "clearMessagesConfirm": {
+      "description": "Tüm mesajları silme onay mesajı.",
+      "message": "Tüm mesajları silmek istediğinize emin misiniz?"
+   },
+   "close": {
+      "description": "Kapat butonu tooltip'i.",
+      "message": "Kapat"
+   },
+   "notAnN8nPage": {
+      "description": "Mevcut sayfa n8n sayfası olmadığında gösterilen buton metni.",
+      "message": "n8n Sayfası Değil"
+   },
+   "affiliateRecommendations": {
+      "description": "Affiliate önerileri toggle etiketi.",
+      "message": "Affiliate Önerileri"
+   },
+   "affiliateRecommendationsDesc": {
+      "description": "Affiliate önerileri açıklaması.",
+      "message": "Sohbetin harici servis önerilerinde affiliate linkler eklemesine izin verir"
+   },
+   "nodeCloning": {
+      "description": "Düğüm klonlama toggle etiketi.",
+      "message": "Düğüm Klonlama"
+   },
+   "nodeCloningDesc": {
+      "description": "Düğüm klonlama açıklaması.",
+      "message": "Sohbetin tüm ayarlar ve bağlantılarla düğümleri çoğaltmasına izin verir"
+   },
+   "advancedConnectionManagement": {
+      "description": "Gelişmiş bağlantı yönetimi toggle etiketi.",
+      "message": "Gelişmiş Bağlantı Yönetimi"
+   },
+   "advancedConnectionManagementDesc": {
+      "description": "Gelişmiş bağlantı yönetimi açıklaması.",
+      "message": "Sohbetin düğüm bağlantılarını kaldırmasına, güncellemesine ve yönetmesine izin verir"
+   },
+   "bulkOperations": {
+      "description": "Toplu işlemler toggle etiketi.",
+      "message": "Toplu İşlemler"
+   },
+   "bulkOperationsDesc": {
+      "description": "Toplu işlemler açıklaması.",
+      "message": "⚠️ Birden fazla düğümü aynı anda toplu güncellemeye izin verir (dikkatli kullanın)"
+   },
+   "autoLayout": {
+      "description": "Otomatik düzen toggle etiketi.",
+      "message": "Otomatik Düzen"
+   },
+   "autoLayoutDesc": {
+      "description": "Otomatik düzen açıklaması.",
+      "message": "İş akışı düğümlerini otomatik olarak düzenler ve organize eder"
+   },
+   "workflowValidation": {
+      "description": "İş akışı doğrulama toggle etiketi.",
+      "message": "İş Akışı Doğrulama"
+   },
+   "workflowValidationDesc": {
+      "description": "İş akışı doğrulama açıklaması.",
+      "message": "İş akışını hatalar, uyarılar için kontrol eder ve düzeltmeler önerir"
+   },
+   "workflowExecution": {
+      "description": "İş akışı çalıştırma toggle etiketi.",
+      "message": "İş Akışı Çalıştırma"
+   },
+   "workflowExecutionDesc": {
+      "description": "İş akışı çalıştırma açıklaması.",
+      "message": "⚡ Sohbetin iş akışlarını çalıştırmasına ve test etmesine izin verir"
+   },
+   "advancedImportExport": {
+      "description": "Gelişmiş içe/dışa aktarma toggle etiketi.",
+      "message": "Gelişmiş İçe/Dışa Aktarma"
+   },
+   "advancedImportExportDesc": {
+      "description": "Gelişmiş içe/dışa aktarma açıklaması.",
+      "message": "JSON ile iş akışlarını içe aktarır, birleştirir ve karşılaştırır"
+   },
+   "executionHistory": {
+      "description": "Çalıştırma geçmişi toggle etiketi.",
+      "message": "Çalıştırma Geçmişi ve Analitik"
+   },
+   "executionHistoryDesc": {
+      "description": "Çalıştırma geçmişi açıklaması.",
+      "message": "Çalıştırma geçmişini, düğüm verilerini ve performans analizini görüntüler"
+   },
+   "workflowTemplates": {
+      "description": "İş akışı şablonları toggle etiketi.",
+      "message": "İş Akışı Şablonları"
+   },
+   "workflowTemplatesDesc": {
+      "description": "İş akışı şablonları açıklaması.",
+      "message": "Şablonlardan iş akışlarını görüntüler ve oluşturur"
+   },
+   "workflowOptimization": {
+      "description": "İş akışı optimizasyonu toggle etiketi.",
+      "message": "İş Akışı Optimizasyonu"
+   },
+   "workflowOptimizationDesc": {
+      "description": "İş akışı optimizasyonu açıklaması.",
+      "message": "İş akışı performansını analiz eder ve optimize eder"
+   },
+   "workflowVersioning": {
+      "description": "İş akışı sürümleme toggle etiketi.",
+      "message": "İş Akışı Sürümleme ve Geri Alma"
+   },
+   "workflowVersioningDesc": {
+      "description": "İş akışı sürümleme açıklaması.",
+      "message": "Anlık görüntüler oluşturur, sürüm kontrolü yapar ve önceki durumları geri yükler"
+   },
+   "advancedDebugging": {
+      "description": "Gelişmiş hata ayıklama toggle etiketi.",
+      "message": "Gelişmiş Hata Ayıklama Araçları"
+   },
+   "advancedDebuggingDesc": {
+      "description": "Gelişmiş hata ayıklama açıklaması.",
+      "message": "Kesme noktalarıyla hata ayıklar, çalıştırmayı izler ve performansı profiller"
+   },
+   "testingFramework": {
+      "description": "Test çerçevesi toggle etiketi.",
+      "message": "Test Çerçevesi"
+   },
+   "testingFrameworkDesc": {
+      "description": "Test çerçevesi açıklaması.",
+      "message": "İş akışları için otomatik test paketleri oluşturur ve çalıştırır"
+   },
+   "cicdIntegration": {
+      "description": "CI/CD entegrasyonu toggle etiketi.",
+      "message": "CI/CD Entegrasyonu"
+   },
+   "cicdIntegrationDesc": {
+      "description": "CI/CD entegrasyonu açıklaması.",
+      "message": "GitHub Actions, GitLab CI, Jenkins için CI/CD yapılandırmaları oluşturur"
+   },
+   "customNodeDevelopment": {
+      "description": "Özel düğüm geliştirme toggle etiketi.",
+      "message": "Özel Düğüm Geliştirme"
+   },
+   "customNodeDevelopmentDesc": {
+      "description": "Özel düğüm geliştirme açıklaması.",
+      "message": "Testler ve dokümantasyonla özel düğüm şablonları oluşturur"
+   },
+   "documentationGeneration": {
+      "description": "Dokümantasyon oluşturma toggle etiketi.",
+      "message": "Dokümantasyon Oluşturma"
+   },
+   "documentationGenerationDesc": {
+      "description": "Dokümantasyon oluşturma açıklaması.",
+      "message": "Markdown, HTML veya JSON formatında iş akışı dokümantasyonunu otomatik oluşturur"
+   },
+   "debugMode": {
+      "description": "Debug Mode başlığı.",
+      "message": "Debug Mode"
+   },
+   "debugModeAdvanced": {
+      "description": "Debug Mode ADVANCED etiketi.",
+      "message": "ADVANCED"
+   },
+   "enableRealTimeDebugApi": {
+      "description": "Gerçek zamanlı debug API toggle etiketi.",
+      "message": "Gerçek Zamanlı Debug API'yi Etkinleştir"
+   },
+   "enableRealTimeDebugApiDesc": {
+      "description": "Gerçek zamanlı debug API açıklaması.",
+      "message": "Tüm AI işlemlerini gerçek zamanlı olarak izler: kullanıcı girdileri, fonksiyon çağrıları, yanıtlar ve hatalar"
+   },
+   "debugServerUrl": {
+      "description": "Debug sunucu URL etiketi.",
+      "message": "Debug Server URL"
+   },
+   "autoConnectOnStartup": {
+      "description": "Başlangıçta otomatik bağlan toggle etiketi.",
+      "message": "Başlangıçta Otomatik Bağlan"
+   },
+   "autoConnectOnStartupDesc": {
+      "description": "Başlangıçta otomatik bağlan açıklaması.",
+      "message": "Uzantı yüklendiğinde debug sunucusuna otomatik olarak bağlanır"
+   },
+   "consoleLogging": {
+      "description": "Konsol günlüğü toggle etiketi.",
+      "message": "Konsol Günlüğü"
+   },
+   "consoleLoggingDesc": {
+      "description": "Konsol günlüğü açıklaması.",
+      "message": "Tarayıcı konsolunda debug loglarını gösterir (F12)"
+   },
+   "piiMasking": {
+      "description": "PII maskeleme toggle etiketi.",
+      "message": "PII Maskeleme"
+   },
+   "piiMaskingDesc": {
+      "description": "PII maskeleme açıklaması.",
+      "message": "Hassas verileri otomatik olarak maskeler (API anahtarları, e-postalar, vb.)"
+   },
+   "quickActions": {
+      "description": "Hızlı işlemler başlığı.",
+      "message": "Hızlı İşlemler:"
+   },
+   "openDashboard": {
+      "description": "Dashboard aç butonu.",
+      "message": "🌐 Dashboard'u Aç"
+   },
+   "clearLogs": {
+      "description": "Logları temizle butonu.",
+      "message": "🗑️ Logları Temizle"
+   },
+   "testConnection": {
+      "description": "Bağlantıyı test et butonu.",
+      "message": "🔌 Bağlantıyı Test Et"
+   },
+   "disconnected": {
+      "description": "Bağlantı kesildi durumu.",
+      "message": "🔴 Bağlantı Kesildi"
+   },
+   "aboutDebugMode": {
+      "description": "Debug Mode hakkında başlığı.",
+      "message": "ℹ️ Debug Mode Hakkında:"
+   },
+   "aboutDebugModeDesc": {
+      "description": "Debug Mode açıklaması.",
+      "message": "Tüm AI işlemlerini izlemek için gerçek zamanlı izleme sistemi."
+   },
+   "debugFeatures": {
+      "description": "Debug özellikleri başlığı.",
+      "message": "Özellikler:"
+   },
+   "debugFeaturesList": {
+      "description": "Debug özellikleri listesi.",
+      "message": "• Canlı dashboard (WebSocket)<br>• Renkli konsol logları<br>• Oturum takibi ve istatistikler<br>• Dışa Aktar/Temizle/Duraklat kontrolleri<br>• Güvenlik için PII maskeleme"
+   },
+   "debugServer": {
+      "description": "Debug sunucu bilgisi.",
+      "message": "Sunucu:"
+   },
+   "debugServerDesc": {
+      "description": "Debug sunucu açıklaması.",
+      "message": "Debug sunucu klasöründe <code>npm start</code> çalıştırın"
+   },
+   "switchBetweenPresetAndCustom": {
+      "description": "Preset ve custom model arasında geçiş tooltip'i.",
+      "message": "Preset ve custom model arasında geçiş yap"
+   },
+   "orEnterCustomModelName": {
+      "description": "Custom model adı placeholder'ı.",
+      "message": "Veya özel model adı girin..."
+   },
+   "saveSettings": {
+      "description": "Ayarları kaydet butonu metni.",
+      "message": "Ayarları Kaydet"
    }
 }

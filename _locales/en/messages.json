@@ -1,0 +1,863 @@
+{
+   "account": {
+      "description": "Account settings tab title.",
+      "message": "Account"
+   },
+   "activateOnCurrentPage": {
+      "description": "Button text to activate extension on current page.",
+      "message": "Activate on Current Page"
+   },
+   "activating": {
+      "description": "Button text shown while activation is in progress.",
+      "message": "Activating..."
+   },
+   "activationFailed": {
+      "description": "Button text shown when activation fails.",
+      "message": "Activation Failed"
+   },
+   "api": {
+      "description": "API settings tab title.",
+      "message": "API"
+   },
+   "apiKey": {
+      "description": "API key input label.",
+      "message": "API Key"
+   },
+   "apiKeyCheckError": {
+      "description": "Error message when API key validation fails.",
+      "message": "Error occurred while checking API key"
+   },
+   "apiKeyEmpty": {
+      "description": "Error message when API key is empty.",
+      "message": "API key is empty"
+   },
+   "apiKeyInvalid": {
+      "description": "Error message when API key is invalid.",
+      "message": "Invalid API key"
+   },
+   "apiKeyValid": {
+      "description": "Success message when API key is valid.",
+      "message": "API key is valid ✓"
+   },
+   "apiUrl": {
+      "description": "API URL input label (for Local LLM).",
+      "message": "API URL"
+   },
+   "askAnything": {
+      "description": "Default placeholder text in chat input.",
+      "message": "Ask me anything about your workflow..."
+   },
+   "attachImage": {
+      "description": "Button and tooltip text for attaching images to chat.",
+      "message": "Attach Image"
+   },
+   "authenticationError": {
+      "description": "Error message for authentication issues.",
+      "message": "Authentication error: Please check that your API key is valid and has not expired."
+   },
+   "autoActivateHosted": {
+      "description": "Note about automatic activation for hosted workflows.",
+      "message": "n8nChat activates automatically for n8n hosted workflows"
+   },
+   "browsingNodes": {
+      "description": "Status message when AI is browsing nodes.",
+      "message": "Browsing nodes"
+   },
+   "chat": {
+      "description": "Chat settings tab title.",
+      "message": "Chat"
+   },
+   "claimN8nCloudTrial": {
+      "description": "Button text for n8n Cloud trial.",
+      "message": "Claim n8n Cloud Hosting 14-Day Free Trial"
+   },
+   "clearDebugLogsConfirm": {
+      "description": "Confirmation message for clearing debug logs.",
+      "message": "All debug logs will be cleared. Are you sure?"
+   },
+   "clearMessages": {
+      "description": "Button tooltip for clearing messages.",
+      "message": "Clear Messages"
+   },
+   "clearMessagesConfirm": {
+      "description": "Confirmation message for clearing all messages.",
+      "message": "Are you sure you want to delete all messages?"
+   },
+   "close": {
+      "description": "Close button tooltip.",
+      "message": "Close"
+   },
+   "configureActivate": {
+      "description": "Header text for activation and configuration.",
+      "message": "Activate and Configure"
+   },
+   "connectionError": {
+      "description": "Error message for connection issues.",
+      "message": "Connection error"
+   },
+   "contentScriptNotFound": {
+      "description": "Error message when content script is not found.",
+      "message": "❌ Error: Content script not found. Please refresh the page."
+   },
+   "contextWindowExceeded": {
+      "description": "Error message for context window limit.",
+      "message": "Context window limit exceeded: The conversation is longer than the model can process. Please start a new chat or reduce input length."
+   },
+   "createSocialMediaWorkflow": {
+      "description": "Placeholder suggestion for social media workflow.",
+      "message": "Create a workflow that will help me automate my social media."
+   },
+   "createStickyNotes": {
+      "description": "Placeholder suggestion for sticky notes.",
+      "message": "Create sticky notes explaining this workflow."
+   },
+   "creatingNodes": {
+      "description": "Status message when AI is creating nodes.",
+      "message": "Creating nodes"
+   },
+   "customSystemInstructions": {
+      "description": "Custom system instructions setting label.",
+      "message": "Custom System Instructions"
+   },
+   "customSystemInstructionsDesc": {
+      "description": "Custom system instructions setting description.",
+      "message": "Enter instructions you want to be included with the initial system prompt in every chat"
+   },
+   "debugLogsCleared": {
+      "description": "Success message when debug logs are cleared.",
+      "message": "✅ Debug logs cleared!"
+   },
+   "dragToReposition": {
+      "description": "Tooltip for drag handle.",
+      "message": "Drag to reposition chat (double-click to reset)"
+   },
+   "dragToRepositionChat": {
+      "description": "Tooltip for drag handle.",
+      "message": "Drag to reposition chat (double-click to reset)"
+   },
+   "enterApiKey": {
+      "description": "Placeholder for API key input.",
+      "message": "Enter API key"
+   },
+   "enterApiKeyFirst": {
+      "description": "Placeholder text when API key is not entered.",
+      "message": "Enter API key first"
+   },
+   "enterApiUrl": {
+      "description": "Placeholder for API URL input (for Local LLM).",
+      "message": "Enter API URL (e.g., http://localhost:1234/v1)"
+   },
+   "enterCustomInstructionsPlaceholder": {
+      "description": "Placeholder text for custom system instructions input.",
+      "message": "Enter your custom instructions here"
+   },
+   "error": {
+      "description": "Generic error button text.",
+      "message": "Error!"
+   },
+   "errorLoadingSettings": {
+      "description": "Error message for settings loading failure.",
+      "message": "Error: Settings could not be loaded."
+   },
+   "examiningConnections": {
+      "description": "Status message when AI is examining node connections.",
+      "message": "Examining node connections"
+   },
+   "explainWorkflow": {
+      "description": "Placeholder suggestion for workflow explanation.",
+      "message": "Explain this workflow to me step by step."
+   },
+   "extensionDescription": {
+      "description": "Extension description.",
+      "message": "An n8n assistant that creates nodes and workflows using AI."
+   },
+   "extensionName": {
+      "description": "Extension name.",
+      "message": "n8nChat"
+   },
+   "getAnthropicKey": {
+      "description": "Link text to get Anthropic API key.",
+      "message": "Get Anthropic Key"
+   },
+   "getGoogleKey": {
+      "description": "Link text to get Google API key.",
+      "message": "Get Gemini API Key"
+   },
+   "getLocalLlm": {
+      "description": "Local LLM configuration label.",
+      "message": "Configure Local LLM"
+   },
+   "getLocalLlmDesc": {
+      "description": "Local LLM configuration description.",
+      "message": "Connect to a local LLM server (Ollama, LM Studio, etc.)"
+   },
+   "getOpenAiApiKey": {
+      "description": "Link text to get OpenAI API key.",
+      "message": "Get OpenAI API Key"
+   },
+   "goBack": {
+      "description": "Go back button text.",
+      "message": "Go Back"
+   },
+   "googleSearch": {
+      "description": "Google Search toggle label.",
+      "message": "Google Search"
+   },
+   "googleSearchDesc": {
+      "description": "Google Search toggle description.",
+      "message": "If enabled, n8nChat can decide to search the web if it needs relevant, up-to-date information"
+   },
+   "high": {
+      "description": "High reasoning level option.",
+      "message": "High"
+   },
+   "includeWorkflowContext": {
+      "description": "Label for including workflow context in chat.",
+      "message": "Include Workflow Context"
+   },
+   "includeWorkflowContextDesc": {
+      "description": "Description for including workflow context.",
+      "message": "Sends your current workflow data at the start of a chat"
+   },
+   "insufficientCredits": {
+      "description": "Error message for insufficient credits.",
+      "message": "Insufficient credits: Your account does not have enough credits to make this request."
+   },
+   "invalidApiKey": {
+      "description": "Error message for invalid API key.",
+      "message": "Invalid API key: The provided API key is incorrect or malformed."
+   },
+   "invalidApiUrl": {
+      "description": "Error message for invalid API URL.",
+      "message": "Invalid API URL: Please enter a valid URL (e.g., http://localhost:1234/v1)"
+   },
+   "loading": {
+      "description": "Text shown while models are loading.",
+      "message": "Loading..."
+   },
+   "localLlm": {
+      "description": "Local LLM provider label.",
+      "message": "Local LLM"
+   },
+   "localLlmDesc": {
+      "description": "Local LLM provider description.",
+      "message": "Use a local LLM server running on your computer"
+   },
+   "localLlmNoApiKey": {
+      "description": "Message for Local LLM that doesn't require API key.",
+      "message": "Local LLM - API key not required"
+   },
+   "low": {
+      "description": "Low reasoning level option.",
+      "message": "Low"
+   },
+   "maxTokens": {
+      "description": "Max Tokens slider label.",
+      "message": "Max Tokens"
+   },
+   "maxTokensTooltip": {
+      "description": "Max Tokens setting tooltip.",
+      "message": "Number of tokens to reserve for thinking and responses. Lower values can help control costs and avoid hitting rate limits."
+   },
+   "medium": {
+      "description": "Medium reasoning level option.",
+      "message": "Medium"
+   },
+   "messageFadeDelay": {
+      "description": "Message fade delay input label.",
+      "message": "Message Fade Delay"
+   },
+   "messageFadeDelayDesc": {
+      "description": "Message fade delay input description.",
+      "message": "The amount of time before new messages fade out of view. Set to 0 to remove the effect."
+   },
+   "model": {
+      "description": "Model selection label.",
+      "message": "Model"
+   },
+   "modelSubtitleGemini20Flash": {
+      "message": "Previous generation"
+   },
+   "modelSubtitleGemini25Flash": {
+      "message": "Best price/performance balance"
+   },
+   "modelSubtitleGemini25FlashLite": {
+      "message": "Fast and affordable"
+   },
+   "modelSubtitleGemini25Pro": {
+      "description": "Subtitle for Gemini 2.5 Pro model in provider selection.",
+      "message": "Most powerful reasoning model"
+   },
+   "modelSubtitleGpt41": {
+      "description": "Subtitle for gpt-4.1 model in provider selection.",
+      "message": "Flagship GPT model"
+   },
+   "modelSubtitleGpt5": {
+      "description": "Subtitle for gpt-5 model in provider selection.",
+      "message": "Best model for coding"
+   },
+   "modelSubtitleGpt5Mini": {
+      "description": "Subtitle for gpt-5-mini model in provider selection.",
+      "message": "Faster, more cost-effective version of GPT-5"
+   },
+   "modelSubtitleGpt5Nano": {
+      "description": "Subtitle for gpt-5-nano model in provider selection.",
+      "message": "Fastest, most cost-effective version of GPT-5"
+   },
+   "modelSubtitleO3": {
+      "description": "Subtitle for o3 model in provider selection.",
+      "message": "Most powerful reasoning model"
+   },
+   "modelSubtitleO4Mini": {
+      "description": "Subtitle for o4-mini model in provider selection.",
+      "message": "Faster, more cost-effective reasoning model"
+   },
+   "modelSubtitleClaude35Sonnet": {
+      "description": "Subtitle for Claude 3.5 Sonnet model.",
+      "message": "Balanced performance and speed"
+   },
+   "modelSubtitleClaude35Opus": {
+      "description": "Subtitle for Claude 3.5 Opus model.",
+      "message": "Most powerful Claude model"
+   },
+   "modelSubtitleClaude35Haiku": {
+      "description": "Subtitle for Claude 3.5 Haiku model.",
+      "message": "Fastest and most affordable"
+   },
+   "n8nChatActivated": {
+      "description": "Message shown when extension is activated.",
+      "message": "n8nChat activated"
+   },
+   "n8nHostedLink": {
+      "description": "Link text for n8n hosted workflows.",
+      "message": "n8n hosted"
+   },
+   "newChat": {
+      "description": "Button and tooltip text for starting new chat.",
+      "message": "New Chat"
+   },
+   "noApiKeyWarning": {
+      "description": "Warning message when API key is not set.",
+      "message": "An API key is required to use n8nChat (not required for Local LLM)"
+   },
+   "noApiUrlWarning": {
+      "description": "Warning message when API URL is not set for Local LLM.",
+      "message": "An API URL is required to use Local LLM"
+   },
+   "noModelsFound": {
+      "description": "Message when no models are found.",
+      "message": "No models found"
+   },
+   "nodeCreation": {
+      "description": "Node creation toggle label.",
+      "message": "Node Creation"
+   },
+   "nodeCreationDesc": {
+      "description": "Node creation description.",
+      "message": "Allows chat to add nodes to the workflow"
+   },
+   "nodeEditing": {
+      "description": "Node editing toggle label.",
+      "message": "Node Editing"
+   },
+   "nodeEditingDesc": {
+      "description": "Node editing description.",
+      "message": "Allows chat to edit parameters of nodes in your workflow"
+   },
+   "nodeLibraryAccess": {
+      "description": "Node library access toggle label.",
+      "message": "Node Library Access"
+   },
+   "nodeLibraryAccessDesc": {
+      "description": "Node library access description.",
+      "message": "Allows chat to browse your list of installed nodes"
+   },
+   "nodeRemoval": {
+      "description": "Node removal toggle label.",
+      "message": "Node Removal"
+   },
+   "nodeRemovalDesc": {
+      "description": "Node removal description.",
+      "message": "Allows chat to remove nodes from your workflow"
+   },
+   "notAnN8nPage": {
+      "description": "Button text shown when current page is not a workflow page.",
+      "message": "Not an n8n page"
+   },
+   "notWorking": {
+      "description": "Text for troubleshooting issue.",
+      "message": "Not working?"
+   },
+   "openAiApiError": {
+      "description": "Part of error message specific to OpenAI API.",
+      "message": "OpenAI API Error"
+   },
+   "anthropicApiError": {
+      "description": "Part of error message specific to Anthropic API.",
+      "message": "Anthropic API Error"
+   },
+   "localLlmApiError": {
+      "description": "Part of error message specific to Local LLM API.",
+      "message": "Local LLM API Error"
+   },
+   "optimizeThis": {
+      "description": "Placeholder suggestion for optimization query.",
+      "message": "Is there a way to optimize this?"
+   },
+   "optimizeWorkflow": {
+      "description": "Placeholder suggestion for workflow optimization.",
+      "message": "How would you optimize this workflow?"
+   },
+   "processing": {
+      "description": "General status message when AI is processing.",
+      "message": "Processing"
+   },
+   "provider": {
+      "description": "API provider selection label.",
+      "message": "Provider"
+   },
+   "providerSubtitleRecommended": {
+      "description": "Subtitle for recommended provider.",
+      "message": "Recommended"
+   },
+   "rateLimitExceeded": {
+      "description": "Error message for rate limit issues.",
+      "message": "Rate limit exceeded: You have hit API rate limits. Please wait a moment and try again."
+   },
+   "reasoningLevel": {
+      "description": "Reasoning level selection label.",
+      "message": "Reasoning Level"
+   },
+   "reasoningLevelTooltip": {
+      "description": "Reasoning level tooltip.",
+      "message": "Low favors speed and economical token usage, while high favors more complete reasoning at the cost of more token generation and slower responses."
+   },
+   "removingNodes": {
+      "description": "Status message when AI is removing nodes.",
+      "message": "Removing nodes"
+   },
+   "restoreDefaults": {
+      "description": "Button text for restoring default settings.",
+      "message": "Restore Defaults"
+   },
+   "reviewingNodeConfig": {
+      "description": "Status message when AI is reviewing node configuration.",
+      "message": "Reviewing node configuration"
+   },
+   "reviewingWorkflow": {
+      "description": "Status message when AI is reviewing workflow.",
+      "message": "Reviewing your workflow"
+   },
+   "saveError": {
+      "description": "Error message for save failures.",
+      "message": "Save error"
+   },
+   "saveSettings": {
+      "description": "Save button text.",
+      "message": "Save"
+   },
+   "saved": {
+      "description": "Success message when settings are saved.",
+      "message": "Saved ✓"
+   },
+   "saving": {
+      "description": "Button text shown while saving.",
+      "message": "Saving..."
+   },
+   "saveUIPosition": {
+      "description": "Label for saving UI position.",
+      "message": "Save UI Position"
+   },
+   "saveUIPositionDesc": {
+      "description": "Description for saving UI position.",
+      "message": "Preserves chat UI position between reloads"
+   },
+   "searchingWeb": {
+      "description": "Status message when AI is searching the web.",
+      "message": "Searching web"
+   },
+   "selectModel": {
+      "description": "Placeholder text for model selection.",
+      "message": "Select a model"
+   },
+   "selectProvider": {
+      "description": "Placeholder text for provider selection.",
+      "message": "Select Provider"
+   },
+   "selfHostingActivate": {
+      "description": "Activation instruction for self-hosting users.",
+      "message": "Self-hosting? Navigate to your workflow, then activate the extension by pressing the button below:"
+   },
+   "send": {
+      "description": "Send button text in chat.",
+      "message": "Send"
+   },
+   "settings": {
+      "description": "Settings section title.",
+      "message": "Settings"
+   },
+   "settingsSaved": {
+      "description": "Success message when settings are saved.",
+      "message": "Settings saved ✓"
+   },
+   "setupTutorial": {
+      "description": "Link text for setup tutorial.",
+      "message": "Watch setup tutorial"
+   },
+   "support": {
+      "description": "Support and FAQ tab title.",
+      "message": "Support"
+   },
+   "supportFaqA1": {
+      "description": "FAQ answer 1 with links.",
+      "message": "Depending on your chosen provider/model, you may be hitting token rate limits per minute (TPM). OpenAI has very low rate limits until you spend at least $50 in credits. Anthropic has higher base limits. You can check your rate limits at: <a href=\"https://platform.openai.com/settings/organization/limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://platform.openai.com/settings/organization/limits</a>, <a href=\"https://console.anthropic.com/settings/limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://console.anthropic.com/settings/limits</a> or <a href=\"https://ai.google.dev/gemini-api/docs/rate-limits\" target=\"_blank\" rel=\"noopener noreferrer\">https://ai.google.dev/gemini-api/docs/rate-limits</a><br/><br/>You can try switching to a different model with higher limits, use Gemini or Anthropic which have higher base limits, or disable some n8nChat tools that use a lot of tokens like the 'Node Library Access' tool which can sometimes use 10,000 - 30,000 tokens in a single request."
+   },
+   "supportFaqA2": {
+      "description": "FAQ answer 2.",
+      "message": "Go to the 'Chat' tab in the n8nChat settings menu and disable tools you don't need. Some tools like 'Node Library Access' can use 10,000 - 30,000 tokens in a single request."
+   },
+   "supportFaqA3": {
+      "description": "FAQ answer 3.",
+      "message": "Make sure you refresh the page; if you just installed n8nChat, the page may not have had a chance to load it. Refresh the page and try activating again. Also, check if any ad blocker extensions you have installed are blocking n8nChat access. Some ad blockers prevent n8nChat from being injected into the page. Also, check your Privacy and Security settings in your browser. If your 'Safe Browsing' setting is set to 'Enhanced protection', this can prevent the n8nChat extension from working properly; try 'Standard protection' instead."
+   },
+   "supportFaqA4": {
+      "description": "FAQ answer 4.",
+      "message": "n8nChat is now completely free and open source. All features are available to all users without any subscription or payment required."
+   },
+   "supportFaqA5": {
+      "description": "FAQ answer 5.",
+      "message": "n8nChat supports multiple AI providers: Google (Gemini), OpenAI, Anthropic (Claude), and Local LLM servers. You can configure your preferred provider and API keys in the settings. Local LLM support allows you to use models running on your own computer (Ollama, LM Studio, etc.) without any API keys."
+   },
+   "supportFaqA6": {
+      "description": "FAQ answer 6 with links.",
+      "message": "You can join the n8nChat community on Discord: <a href=\"https://discord.gg/kz56JZqgtN\" target=\"_blank\" rel=\"noopener noreferrer\">https://discord.gg/kz56JZqgtN</a> or if you prefer to contact me directly, you can send an email to <a href=\"mailto:info@willscreative.com\">info@willscreative.com</a>"
+   },
+   "supportFaqQ1": {
+      "description": "FAQ question 1.",
+      "message": "I sent my message but it seems to be thinking and/or not responding to me, what's the issue?"
+   },
+   "supportFaqQ2": {
+      "description": "FAQ question 2.",
+      "message": "How can I reduce token usage?"
+   },
+   "supportFaqQ3": {
+      "description": "FAQ question 3.",
+      "message": "I'm on an n8n workflow page and I'm activating n8nChat, but the chat box UI never appears, what's the issue?"
+   },
+   "supportFaqQ4": {
+      "description": "FAQ question 4.",
+      "message": "Do I need to pay for n8nChat?"
+   },
+   "supportFaqQ5": {
+      "description": "FAQ question 5.",
+      "message": "Which AI providers does n8nChat support?"
+   },
+   "supportFaqQ6": {
+      "description": "FAQ question 6.",
+      "message": "I have feature suggestions and/or need additional help, where can I get support?"
+   },
+   "supportFaqTitle": {
+      "description": "Support tab FAQ list title.",
+      "message": "Frequently Asked Questions"
+   },
+   "temperature": {
+      "description": "Temperature slider label.",
+      "message": "Temperature"
+   },
+   "temperatureTooltip": {
+      "description": "Temperature setting tooltip.",
+      "message": "Adjusts how wild or safe responses will be. Low settings keep things predictable and on-topic while high settings make things more imaginative and free-flowing."
+   },
+   "thinking": {
+      "description": "Status message when AI is thinking.",
+      "message": "Thinking"
+   },
+   "thinkingMode": {
+      "description": "Thinking Mode toggle label.",
+      "message": "Thinking Mode"
+   },
+   "thinkingModeDesc": {
+      "description": "Thinking Mode toggle description.",
+      "message": "Show reasoning process for models that support it (e.g., DeepSeek Reasoner, o1 models)"
+   },
+   "tools": {
+      "description": "Tools settings section title.",
+      "message": "Tools"
+   },
+   "topP": {
+      "description": "Top P slider label.",
+      "message": "Top P"
+   },
+   "topPTooltip": {
+      "description": "Top P setting tooltip.",
+      "message": "Determines how diverse responses can be. Low settings stick to the most obvious options while high settings mix in more unexpected choices."
+   },
+   "unexpectedError": {
+      "description": "Generic error message.",
+      "message": "An unexpected error occurred"
+   },
+   "unknownProvider": {
+      "description": "Error message for unknown provider.",
+      "message": "Unknown provider"
+   },
+   "updatingParameters": {
+      "description": "Status message when AI is updating node parameters.",
+      "message": "Updating node parameters"
+   },
+   "useAiAgentNode": {
+      "description": "Placeholder suggestion for AI Agent node usage.",
+      "message": "How do I use the AI Agent node?"
+   },
+   "warningExpensiveModel": {
+      "description": "Warning message for expensive models.",
+      "message": "Warning: This model is expensive"
+   },
+   "workflowAccess": {
+      "description": "Workflow access toggle label.",
+      "message": "Workflow Access"
+   },
+   "workflowAccessDesc": {
+      "description": "Workflow access description.",
+      "message": "Allows chat to check data from your current workflow"
+   },
+   "workflowNotWorking": {
+      "description": "Placeholder suggestion for workflow troubleshooting.",
+      "message": "Why isn't my workflow working?"
+   },
+   "workflowRequiredError": {
+      "description": "Error message when workflow activation fails because no workflow is open.",
+      "message": "Please make sure you have an open workflow and refresh the page to try again."
+   },
+   "affiliateRecommendations": {
+      "description": "Affiliate recommendations toggle label.",
+      "message": "Affiliate Recommendations"
+   },
+   "affiliateRecommendationsDesc": {
+      "description": "Affiliate recommendations description.",
+      "message": "Allows chat to include affiliate links in external service recommendations"
+   },
+   "nodeCloning": {
+      "description": "Node cloning toggle label.",
+      "message": "Node Cloning"
+   },
+   "nodeCloningDesc": {
+      "description": "Node cloning description.",
+      "message": "Allows chat to duplicate nodes with all settings and connections"
+   },
+   "advancedConnectionManagement": {
+      "description": "Advanced connection management toggle label.",
+      "message": "Advanced Connection Management"
+   },
+   "advancedConnectionManagementDesc": {
+      "description": "Advanced connection management description.",
+      "message": "Allows chat to remove, update, and manage node connections"
+   },
+   "bulkOperations": {
+      "description": "Bulk operations toggle label.",
+      "message": "Bulk Operations"
+   },
+   "bulkOperationsDesc": {
+      "description": "Bulk operations description.",
+      "message": "⚠️ Allows batch updates to multiple nodes at once (use with caution)"
+   },
+   "autoLayout": {
+      "description": "Auto layout toggle label.",
+      "message": "Auto Layout"
+   },
+   "autoLayoutDesc": {
+      "description": "Auto layout description.",
+      "message": "Automatically arrange and organize workflow nodes"
+   },
+   "workflowValidation": {
+      "description": "Workflow validation toggle label.",
+      "message": "Workflow Validation"
+   },
+   "workflowValidationDesc": {
+      "description": "Workflow validation description.",
+      "message": "Check workflow for errors, warnings, and suggest fixes"
+   },
+   "workflowExecution": {
+      "description": "Workflow execution toggle label.",
+      "message": "Workflow Execution"
+   },
+   "workflowExecutionDesc": {
+      "description": "Workflow execution description.",
+      "message": "⚡ Allows chat to run and test workflows"
+   },
+   "advancedImportExport": {
+      "description": "Advanced import/export toggle label.",
+      "message": "Advanced Import/Export"
+   },
+   "advancedImportExportDesc": {
+      "description": "Advanced import/export description.",
+      "message": "Import, merge, and compare workflows with JSON"
+   },
+   "executionHistory": {
+      "description": "Execution history toggle label.",
+      "message": "Execution History & Analytics"
+   },
+   "executionHistoryDesc": {
+      "description": "Execution history description.",
+      "message": "View execution history, node data, and performance analysis"
+   },
+   "workflowTemplates": {
+      "description": "Workflow templates toggle label.",
+      "message": "Workflow Templates"
+   },
+   "workflowTemplatesDesc": {
+      "description": "Workflow templates description.",
+      "message": "Browse and create workflows from templates"
+   },
+   "workflowOptimization": {
+      "description": "Workflow optimization toggle label.",
+      "message": "Workflow Optimization"
+   },
+   "workflowOptimizationDesc": {
+      "description": "Workflow optimization description.",
+      "message": "Analyze and optimize workflow performance"
+   },
+   "workflowVersioning": {
+      "description": "Workflow versioning toggle label.",
+      "message": "Workflow Versioning & Rollback"
+   },
+   "workflowVersioningDesc": {
+      "description": "Workflow versioning description.",
+      "message": "Create snapshots, version control, and restore previous states"
+   },
+   "advancedDebugging": {
+      "description": "Advanced debugging toggle label.",
+      "message": "Advanced Debugging Tools"
+   },
+   "advancedDebuggingDesc": {
+      "description": "Advanced debugging description.",
+      "message": "Debug with breakpoints, trace execution, and profile performance"
+   },
+   "testingFramework": {
+      "description": "Testing framework toggle label.",
+      "message": "Testing Framework"
+   },
+   "testingFrameworkDesc": {
+      "description": "Testing framework description.",
+      "message": "Generate and run automated test suites for workflows"
+   },
+   "cicdIntegration": {
+      "description": "CI/CD integration toggle label.",
+      "message": "CI/CD Integration"
+   },
+   "cicdIntegrationDesc": {
+      "description": "CI/CD integration description.",
+      "message": "Generate CI/CD configs for GitHub Actions, GitLab CI, Jenkins"
+   },
+   "customNodeDevelopment": {
+      "description": "Custom node development toggle label.",
+      "message": "Custom Node Development"
+   },
+   "customNodeDevelopmentDesc": {
+      "description": "Custom node development description.",
+      "message": "Generate custom node templates with tests and documentation"
+   },
+   "documentationGeneration": {
+      "description": "Documentation generation toggle label.",
+      "message": "Documentation Generation"
+   },
+   "documentationGenerationDesc": {
+      "description": "Documentation generation description.",
+      "message": "Auto-generate workflow docs in Markdown, HTML, or JSON"
+   },
+   "debugMode": {
+      "description": "Debug Mode title.",
+      "message": "Debug Mode"
+   },
+   "debugModeAdvanced": {
+      "description": "Debug Mode ADVANCED label.",
+      "message": "ADVANCED"
+   },
+   "enableRealTimeDebugApi": {
+      "description": "Enable real-time debug API toggle label.",
+      "message": "Enable Real-Time Debug API"
+   },
+   "enableRealTimeDebugApiDesc": {
+      "description": "Enable real-time debug API description.",
+      "message": "Track all AI operations in real-time: user inputs, function calls, responses, and errors"
+   },
+   "debugServerUrl": {
+      "description": "Debug server URL label.",
+      "message": "Debug Server URL"
+   },
+   "autoConnectOnStartup": {
+      "description": "Auto-connect on startup toggle label.",
+      "message": "Auto-Connect on Startup"
+   },
+   "autoConnectOnStartupDesc": {
+      "description": "Auto-connect on startup description.",
+      "message": "Automatically connect to debug server when extension loads"
+   },
+   "consoleLogging": {
+      "description": "Console logging toggle label.",
+      "message": "Console Logging"
+   },
+   "consoleLoggingDesc": {
+      "description": "Console logging description.",
+      "message": "Show debug logs in browser console (F12)"
+   },
+   "piiMasking": {
+      "description": "PII masking toggle label.",
+      "message": "PII Masking"
+   },
+   "piiMaskingDesc": {
+      "description": "PII masking description.",
+      "message": "Automatically mask sensitive data (API keys, emails, etc.)"
+   },
+   "quickActions": {
+      "description": "Quick actions title.",
+      "message": "Quick Actions:"
+   },
+   "openDashboard": {
+      "description": "Open dashboard button.",
+      "message": "🌐 Open Dashboard"
+   },
+   "clearLogs": {
+      "description": "Clear logs button.",
+      "message": "🗑️ Clear Logs"
+   },
+   "testConnection": {
+      "description": "Test connection button.",
+      "message": "🔌 Test Connection"
+   },
+   "disconnected": {
+      "description": "Disconnected status.",
+      "message": "🔴 Disconnected"
+   },
+   "aboutDebugMode": {
+      "description": "About Debug Mode title.",
+      "message": "ℹ️ About Debug Mode:"
+   },
+   "aboutDebugModeDesc": {
+      "description": "About Debug Mode description.",
+      "message": "Real-time monitoring system for tracking all AI operations."
+   },
+   "debugFeatures": {
+      "description": "Debug features title.",
+      "message": "Features:"
+   },
+   "debugFeaturesList": {
+      "description": "Debug features list.",
+      "message": "• Live dashboard (WebSocket)<br>• Colored console logs<br>• Session tracking & statistics<br>• Export/Clear/Pause controls<br>• PII masking for security"
+   },
+   "debugServer": {
+      "description": "Debug server info.",
+      "message": "Server:"
+   },
+   "debugServerDesc": {
+      "description": "Debug server description.",
+      "message": "Run <code>npm start</code> in debug-server folder"
+   },
+   "switchBetweenPresetAndCustom": {
+      "description": "Tooltip for switching between preset and custom model.",
+      "message": "Switch between preset and custom model"
+   },
+   "orEnterCustomModelName": {
+      "description": "Placeholder for custom model name.",
+      "message": "Or enter custom model name..."
+   }
+}

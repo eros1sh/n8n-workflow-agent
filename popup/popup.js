@@ -537,14 +537,21 @@ async function updateProviderUI(provider) {
   // Update API key label and link
   if (providerConfig.requiresKey) {
     const providerName = providerConfig.name
-    apiKeyLabel.textContent = `${providerName} API Key`
+    // API key label is handled by data-i18n in HTML, no need to set here
     
     const link = API_KEY_LINKS[provider]
     if (link) {
       apiKeyLink.href = link
       // Update link text while preserving SVG icon
       const svg = apiKeyLink.querySelector("svg")
-      apiKeyLink.innerHTML = `${t("getGoogleKey")} ${providerName === "Google (Gemini)" ? "" : providerName}`
+      // Get provider-specific key text
+      let keyText = t("getGoogleKey")
+      if (provider === "openai") {
+        keyText = t("getOpenAiApiKey")
+      } else if (provider === "anthropic") {
+        keyText = t("getAnthropicKey")
+      }
+      apiKeyLink.innerHTML = keyText || t("getGoogleKey")
       if (svg) {
         apiKeyLink.appendChild(svg)
       } else {
@@ -817,7 +824,7 @@ function initProviderSelect() {
           showAlert("api-message", result.message, "error")
         }
       } catch (error) {
-        showAlert("api-message", `API key kontrol edilirken hata oluştu: ${error.message}`, "error")
+        showAlert("api-message", `${t("apiKeyCheckError")}: ${error.message}`, "error")
       } finally {
         apiKeyInput.disabled = false
         apiKeyInput.style.opacity = "1"
@@ -870,7 +877,7 @@ function initCustomInstructions() {
 // Test API key validity
 async function testApiKey(provider, apiKey, model) {
   if (!apiKey || !apiKey.trim()) {
-    return { valid: false, message: "API key boş" }
+    return { valid: false, message: t("apiKeyEmpty") }
   }
 
   try {
@@ -882,10 +889,10 @@ async function testApiKey(provider, apiKey, model) {
           { method: "GET" }
         )
         if (response.ok) {
-          return { valid: true, message: "API key geçerli ✓" }
+          return { valid: true, message: t("apiKeyValid") }
         } else {
-          const error = await response.json().catch(() => ({ error: { message: "Geçersiz API key" } }))
-          return { valid: false, message: error.error?.message || "API key geçersiz" }
+          const error = await response.json().catch(() => ({ error: { message: t("apiKeyInvalid") } }))
+          return { valid: false, message: error.error?.message || t("apiKeyInvalid") }
         }
       }
 
@@ -994,10 +1001,10 @@ async function testApiKey(provider, apiKey, model) {
           },
         })
         if (response.ok) {
-          return { valid: true, message: "API key geçerli ✓" }
+          return { valid: true, message: t("apiKeyValid") }
         } else {
-          const error = await response.json().catch(() => ({ error: { message: "Geçersiz API key" } }))
-          return { valid: false, message: error.error?.message || "API key geçersiz" }
+          const error = await response.json().catch(() => ({ error: { message: t("apiKeyInvalid") } }))
+          return { valid: false, message: error.error?.message || t("apiKeyInvalid") }
         }
       }
 
@@ -1022,14 +1029,14 @@ async function testApiKey(provider, apiKey, model) {
 
       case "local": {
         // Local LLM doesn't need API key validation
-        return { valid: true, message: "Local LLM - API key gerekmez" }
+        return { valid: true, message: t("localLlmNoApiKey") }
       }
 
       default:
-        return { valid: false, message: "Bilinmeyen provider" }
+        return { valid: false, message: t("unknownProvider") }
     }
   } catch (error) {
-    return { valid: false, message: `Bağlantı hatası: ${error.message}` }
+    return { valid: false, message: `${t("connectionError")}: ${error.message}` }
   }
 }
 
@@ -1074,7 +1081,7 @@ function initApiKeyInput() {
           showAlert("api-message", result.message, "error")
         }
       } catch (error) {
-        showAlert("api-message", `API key kontrol edilirken hata oluştu: ${error.message}`, "error")
+        showAlert("api-message", `${t("apiKeyCheckError")}: ${error.message}`, "error")
       } finally {
         e.target.disabled = false
         e.target.style.opacity = "1"
@@ -1452,15 +1459,15 @@ function initDebugModeToggle() {
   // Clear Debug Logs button
   if (clearDebugLogsBtn) {
     clearDebugLogsBtn.addEventListener("click", async () => {
-      if (confirm("Tüm debug logları temizlenecek. Emin misiniz?")) {
+      if (confirm(t("clearDebugLogsConfirm"))) {
         try {
           const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
           if (tab && tab.id) {
             await chrome.tabs.sendMessage(tab.id, { name: "clearDebugLogs" })
-            alert("✅ Debug logları temizlendi!")
+            alert(t("debugLogsCleared"))
           }
         } catch (e) {
-          alert("❌ Hata: Content script bulunamadı. Sayfayı yenileyin.")
+          alert(t("contentScriptNotFound"))
         }
       }
     })
@@ -1674,7 +1681,7 @@ async function saveAllAPISettings() {
   }
   
   await saveSettings(settings)
-  showAlert("api-message", "Ayarlar kaydedildi ✓", "success")
+  showAlert("api-message", t("settingsSaved"), "success")
 }
 
 // Save all Chat settings
@@ -1735,7 +1742,7 @@ async function saveAllChatSettings() {
   settings.debugPiiMasking = document.getElementById("debug-pii-masking-toggle").checked
   
   await saveSettings(settings)
-  showAlert("chat-message", "Ayarlar kaydedildi ✓", "success")
+  showAlert("chat-message", t("settingsSaved"), "success")
 }
 
 // Save API settings button - will be initialized in DOMContentLoaded
@@ -1743,23 +1750,45 @@ function initSaveApiButton() {
   const btn = document.getElementById("save-api-btn")
   if (!btn) return
   
+  const btnSpan = btn.querySelector('span[data-i18n="saveSettings"]')
+  
   btn.addEventListener("click", async () => {
     btn.disabled = true
-    btn.textContent = "Kaydediliyor..."
+    if (btnSpan) {
+      btnSpan.textContent = t("saving")
+    } else {
+      btn.textContent = t("saving")
+    }
     
     try {
       await saveAllAPISettings()
-      btn.textContent = "Kaydedildi ✓"
+      if (btnSpan) {
+        btnSpan.textContent = t("saved")
+      } else {
+        btn.textContent = t("saved")
+      }
       setTimeout(() => {
-        btn.textContent = chrome.i18n.getMessage("saveSettings") || "Kaydet"
+        if (btnSpan) {
+          btnSpan.textContent = t("saveSettings")
+        } else {
+          btn.textContent = t("saveSettings")
+        }
         btn.disabled = false
       }, 2000)
     } catch (error) {
       console.error("[n8nChat] Error saving API settings:", error)
-      btn.textContent = "Hata!"
-      showAlert("api-message", `Kaydetme hatası: ${error.message}`, "error")
+      if (btnSpan) {
+        btnSpan.textContent = t("error")
+      } else {
+        btn.textContent = t("error")
+      }
+      showAlert("api-message", `${t("saveError")}: ${error.message}`, "error")
       setTimeout(() => {
-        btn.textContent = chrome.i18n.getMessage("saveSettings") || "Kaydet"
+        if (btnSpan) {
+          btnSpan.textContent = t("saveSettings")
+        } else {
+          btn.textContent = t("saveSettings")
+        }
         btn.disabled = false
       }, 2000)
     }
@@ -1771,23 +1800,45 @@ function initSaveChatButton() {
   const btn = document.getElementById("save-chat-btn")
   if (!btn) return
   
+  const btnSpan = btn.querySelector('span[data-i18n="saveSettings"]')
+  
   btn.addEventListener("click", async () => {
     btn.disabled = true
-    btn.textContent = "Kaydediliyor..."
+    if (btnSpan) {
+      btnSpan.textContent = t("saving")
+    } else {
+      btn.textContent = t("saving")
+    }
     
     try {
       await saveAllChatSettings()
-      btn.textContent = "Kaydedildi ✓"
+      if (btnSpan) {
+        btnSpan.textContent = t("saved")
+      } else {
+        btn.textContent = t("saved")
+      }
       setTimeout(() => {
-        btn.textContent = chrome.i18n.getMessage("saveSettings") || "Kaydet"
+        if (btnSpan) {
+          btnSpan.textContent = t("saveSettings")
+        } else {
+          btn.textContent = t("saveSettings")
+        }
         btn.disabled = false
       }, 2000)
     } catch (error) {
       console.error("[n8nChat] Error saving Chat settings:", error)
-      btn.textContent = "Hata!"
-      showAlert("chat-message", `Kaydetme hatası: ${error.message}`, "error")
+      if (btnSpan) {
+        btnSpan.textContent = t("error")
+      } else {
+        btn.textContent = t("error")
+      }
+      showAlert("chat-message", `${t("saveError")}: ${error.message}`, "error")
       setTimeout(() => {
-        btn.textContent = chrome.i18n.getMessage("saveSettings") || "Kaydet"
+        if (btnSpan) {
+          btnSpan.textContent = t("saveSettings")
+        } else {
+          btn.textContent = t("saveSettings")
+        }
         btn.disabled = false
       }, 2000)
     }
@@ -1828,11 +1879,11 @@ async function updateActivateButton() {
   const isN8n = await checkCurrentTabIsN8n()
   
   if (isN8n) {
-    btn.textContent = chrome.i18n.getMessage("activateOnCurrentPage") || "Activate on Current Page"
+    btn.textContent = t("activateOnCurrentPage")
     btn.style.background = ""
     btn.disabled = false
   } else {
-    btn.textContent = chrome.i18n.getMessage("notAnN8nPage") || "Not an n8n page"
+    btn.textContent = t("notAnN8nPage")
     btn.style.background = "#ef4444"
     btn.disabled = true
   }
@@ -1888,17 +1939,74 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Apply i18n translations
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const messageName = el.getAttribute('data-i18n')
+    const useHtml = el.hasAttribute('data-i18n-html')
     try {
       const translated = chrome.i18n.getMessage(messageName)
       if (translated) {
-        if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'password')) {
+        if (el.tagName === 'INPUT' && (el.type === 'text' || el.type === 'password' || el.type === 'number')) {
           el.placeholder = translated
+        } else if (el.tagName === 'LABEL' || el.tagName === 'H2' || el.tagName === 'H3') {
+          el.textContent = translated
+        } else if (el.tagName === 'P' || el.tagName === 'SPAN' || el.tagName === 'BUTTON' || el.tagName === 'A' || el.tagName === 'OPTION') {
+          // For buttons with emoji, preserve emoji from translation
+          if (el.tagName === 'BUTTON' && translated.match(/^[🌐🗑️🔌🔴ℹ️]/)) {
+            el.textContent = translated
+          } else if (useHtml) {
+            el.innerHTML = translated
+          } else {
+            el.textContent = translated
+          }
+        } else if (useHtml) {
+          el.innerHTML = translated
         } else {
           el.textContent = translated
         }
       }
     } catch (e) {
       // Ignore i18n errors
+    }
+  })
+
+  // Apply i18n for placeholder attributes
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const messageName = el.getAttribute('data-i18n-placeholder')
+    try {
+      const translated = chrome.i18n.getMessage(messageName)
+      if (translated) {
+        el.placeholder = translated
+      }
+    } catch (e) {
+      // Ignore i18n errors
+    }
+  })
+
+  // Apply i18n for title attributes
+  document.querySelectorAll('[data-i18n-title]').forEach(el => {
+    const messageName = el.getAttribute('data-i18n-title')
+    try {
+      const translated = chrome.i18n.getMessage(messageName)
+      if (translated) {
+        el.title = translated
+      }
+    } catch (e) {
+      // Ignore i18n errors
+    }
+  })
+
+  // Special handling for elements with nested content (like links with SVG)
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    // If element has child SVG, preserve it after translation
+    if (el.querySelector('svg') && (el.tagName === 'A' || el.tagName === 'P')) {
+      const svg = el.querySelector('svg')
+      const messageName = el.getAttribute('data-i18n')
+      const translated = chrome.i18n.getMessage(messageName)
+      if (translated && el.textContent.trim() === '') {
+        // Only update if element is empty (to avoid double translation)
+        el.innerHTML = translated
+        if (svg) {
+          el.appendChild(svg.cloneNode(true))
+        }
+      }
     }
   })
 })

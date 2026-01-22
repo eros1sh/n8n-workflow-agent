@@ -2785,12 +2785,12 @@ async function initializeChatUI() {
           <path d="M8 3V13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
         </svg>
       </button>
-      <button id="n8n-chat-clear" class="n8n-chat-action-btn" title="Mesajları Temizle">
+      <button id="n8n-chat-clear" class="n8n-chat-action-btn" title="${chrome.i18n.getMessage("clearMessages") || "Clear Messages"}">
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M3 4H13M5 4V3C5 2.4 5.4 2 6 2H10C10.6 2 11 2.4 11 3V4M6 7V11M10 7V11M4 4L5 13C5 13.6 5.4 14 6 14H10C10.6 14 11 13.6 11 13L12 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
         </svg>
       </button>
-      <button id="n8n-chat-close" class="n8n-chat-action-btn" title="Kapat">×</button>
+      <button id="n8n-chat-close" class="n8n-chat-action-btn" title="${chrome.i18n.getMessage("close") || "Close"}">×</button>
     </div>
   `
 
@@ -2800,8 +2800,8 @@ async function initializeChatUI() {
   const inputArea = document.createElement("div")
   inputArea.id = "n8n-chat-input-area"
   inputArea.innerHTML = `
-    <input type="text" id="n8n-chat-input" placeholder="İş akışınız hakkında bana her şeyi sorabilirsiniz..." autocomplete="off">
-    <button id="n8n-chat-send">Gönder</button>
+    <input type="text" id="n8n-chat-input" placeholder="${chrome.i18n.getMessage("askAnything") || "Ask me anything about your workflow..."}" autocomplete="off">
+    <button id="n8n-chat-send">${chrome.i18n.getMessage("send") || "Send"}</button>
   `
 
   container.appendChild(header)
@@ -2848,7 +2848,7 @@ async function initializeChatUI() {
   const clearChatBtn = document.getElementById("n8n-chat-clear")
   if (clearChatBtn) {
     clearChatBtn.addEventListener("click", async () => {
-      const confirmed = confirm("Tüm mesajları silmek istediğinize emin misiniz?")
+      const confirmed = confirm(chrome.i18n.getMessage("clearMessagesConfirm") || "Are you sure you want to delete all messages?")
       if (confirmed) {
         // Clear messages UI
         const messagesArea = document.getElementById("n8n-chat-messages")
@@ -4661,7 +4661,7 @@ function showThinking() {
   const thinkingDiv = document.createElement("div")
   thinkingDiv.id = "n8n-chat-thinking"
   thinkingDiv.className = "n8n-chat-message n8n-chat-assistant n8n-chat-thinking"
-  thinkingDiv.textContent = "Düşünüyor"
+  thinkingDiv.textContent = chrome.i18n.getMessage("thinking") || "Thinking"
   
   thinkingWrapper.appendChild(thinkingDiv);
   messagesArea.appendChild(thinkingWrapper);

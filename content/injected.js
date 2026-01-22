@@ -5592,13 +5592,10 @@
   }
 
   // ==========================================================================
-  // CREDENTIAL DETAILS & USAGE EXAMPLES
-  // Auto-generated from credentials.json
-  // Contains: fields, usage examples (={{$credentials.apiKey}}), authenticate config
+  // SECRET PATTERNS FOR MASKING
+  // Used to mask sensitive data in logs and responses
   // ==========================================================================
 
-  const CREDENTIAL_DETAILS = {
-  
   const SECRET_PATTERNS = [
     { name: 'OpenAI API Key', regex: /sk-[a-zA-Z0-9]{20,}/g },
     { name: 'Slack Token', regex: /xox[baprs]-[a-zA-Z0-9-]{10,}/g },
