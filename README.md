@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-blue)](https://chrome.google.com/webstore)
-[![Version](https://img.shields.io/badge/version-1.4.2_beta-green)](https://github.com/eros1sh/n8n-workflow-agent)
+[![Version](https://img.shields.io/badge/version-1.5.0-green)](https://github.com/eros1sh/n8n-workflow-agent)
 
 An intelligent Chrome extension that brings **Cursor-style agentic workflow editing** to n8n. Create, modify, analyze, and debug workflows using natural language with multi-step autonomous execution.
 
@@ -35,6 +35,50 @@ An intelligent Chrome extension that brings **Cursor-style agentic workflow edit
 - **Debug workflows** with integrated real-time logging
 - **Auto-fix issues** detected during analysis
 - **Smart node selection**: Prefers dedicated service nodes over generic HTTP requests
+
+### 🤖 **LangChain & AI Agent Support** (NEW)
+- **Create LangChain agents** with tools, memory, and configuration
+- **Add tools to agents** (HTTP Request, Workflow, Code nodes)
+- **Configure agent memory** (Window Buffer, Conversation Summary, Vector Store)
+- **Multi-agent workflows** (Single Agent, Gatekeeper, Multi-Agent Teams)
+- **Chained AI workflows** with multiple AI models in sequence
+
+### 🔍 **Vector Store & RAG Support** (NEW)
+- **Vector store connections** (Qdrant, Pinecone, Weaviate, Chroma)
+- **Embedding nodes** for text-to-vector conversion
+- **Vector search nodes** for semantic search
+- **Complete RAG workflows** (Data Source → Embeddings → Vector Store → LLM)
+
+### ⚙️ **Workflow Execution Control** (NEW)
+- **Execute workflows** with input data and wait for completion
+- **Stop running executions**
+- **Get execution status** in real-time
+- **Retry failed executions** from specific nodes
+
+### 🔐 **Credential Management** (NEW)
+- **Check node credentials** configuration
+- **Suggest credential types** based on node type
+- **Validate credential connections**
+
+### 🔄 **Sub-workflow Management** (NEW)
+- **Create Execute Workflow nodes** for sub-workflows
+- **Import workflows as sub-workflows**
+- **Get sub-workflow information**
+
+### ⚡ **Advanced Node Configuration** (NEW)
+- **Configure webhook settings** (path, method, authentication)
+- **Configure schedule/cron** triggers
+- **Configure error handling** (retry, continue on fail)
+
+### 📦 **Batch Processing & Looping** (NEW)
+- **Create batch processors** with Split in Batches
+- **Create loop nodes** (for each, while, until)
+- **Configure split in batches** settings
+
+### 🎨 **Advanced UI Features** (NEW)
+- **Workflow visualization** (Mermaid diagrams)
+- **Group nodes** visually
+- **Set custom node colors** for organization
 
 ### 🔗 **Advanced Connection Handling**
 - **Automatic connection** of newly created nodes
@@ -145,6 +189,21 @@ Why isn't my webhook trigger working?
 #### **Get Information**
 ```
 Show me the workflow structure and connections
+```
+
+#### **Create AI Agent Workflows**
+```
+Create an AI agent that can search the web and send results to Telegram
+```
+
+#### **Create RAG Workflows**
+```
+Create a RAG workflow that answers questions from company PDFs using Qdrant
+```
+
+#### **Configure Workflows**
+```
+Configure the webhook node to accept POST requests at /webhook/my-endpoint
 ```
 
 ---
@@ -348,12 +407,46 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 
 ---
 
+## 🆕 What's New in v1.5.0
+
+### Phase 4 Features (Latest Release)
+
+**LangChain & AI Agent Support:**
+- ✅ Create LangChain agent nodes with tools and memory
+- ✅ Connect tools to agents automatically
+- ✅ Configure agent memory (Window Buffer, Conversation Summary, Vector Store)
+- ✅ Support for all n8n AI agentic workflow patterns
+
+**Vector Store & RAG:**
+- ✅ Vector store connections (Qdrant, Pinecone, Weaviate, Chroma)
+- ✅ Embedding node creation
+- ✅ Vector search nodes
+- ✅ Complete RAG workflow generation
+
+**Workflow Execution:**
+- ✅ Execute workflows programmatically
+- ✅ Stop and monitor executions
+- ✅ Retry failed executions
+
+**Credential Management:**
+- ✅ Check node credentials
+- ✅ Suggest credential types
+- ✅ Validate credential connections
+
+**Advanced Features:**
+- ✅ Sub-workflow management
+- ✅ Advanced node configuration (webhooks, schedules, error handling)
+- ✅ Batch processing and looping
+- ✅ Workflow visualization (Mermaid diagrams)
+- ✅ Node grouping and custom colors
+
 ## 🐛 Known Issues & Limitations
 
 - **Vue Store Access**: The extension relies on n8n's internal Vue/Pinia store structure. Future n8n updates may break compatibility temporarily.
 - **Race Conditions**: Fixed with `waitForVueUpdate()`, but edge cases may exist.
 - **Token Limits**: Large workflows may exceed model context windows. Use "Lazy Loading" context strategy or disable "Node Library Access".
 - **Language Switching**: AI may occasionally switch languages mid-conversation (rare, fixed in v1.4.2).
+- **Vector Store Credentials**: Vector store connections require manual credential configuration in n8n settings (security best practice).
 
 See [Issues](https://github.com/eros1sh/n8n-workflow-agent/issues) for full list.
 

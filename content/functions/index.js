@@ -1018,6 +1018,851 @@ export const generateWorkflowDocsFunction = {
 }
 
 /**
+ * PHASE 4: LangChain Agent Node Manipulation
+ */
+export const createLangChainAgentFunction = {
+  name: "create_langchain_agent",
+  description: "Create a LangChain AI agent node with tools, memory, and configuration",
+  parameters: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "Name of the agent node",
+      },
+      agentType: {
+        type: "string",
+        enum: ["tools", "conversational", "plan-and-execute"],
+        description: "Type of agent (default: 'tools')",
+        default: "tools",
+      },
+      model: {
+        type: "string",
+        description: "LLM model to use (e.g., 'gpt-4o', 'claude-3-5-sonnet')",
+      },
+      systemPrompt: {
+        type: "string",
+        description: "System prompt for the agent",
+      },
+      memory: {
+        type: "object",
+        description: "Memory configuration",
+        properties: {
+          type: {
+            type: "string",
+            enum: ["window_buffer", "conversation_summary", "vector_store", "none"],
+            default: "window_buffer",
+          },
+          windowSize: {
+            type: "number",
+            description: "Window size for window_buffer memory (default: 10)",
+            default: 10,
+          },
+        },
+      },
+      tools: {
+        type: "array",
+        description: "List of tool node names to connect to the agent",
+        items: { type: "string" },
+      },
+      position: {
+        type: "object",
+        description: "Position on canvas",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["name", "model"],
+  },
+}
+
+export const addToolToAgentFunction = {
+  name: "add_tool_to_agent",
+  description: "Add a tool (HTTP Request, Workflow, Code, etc.) to an existing LangChain agent",
+  parameters: {
+    type: "object",
+    properties: {
+      agentNodeName: {
+        type: "string",
+        description: "Name of the agent node",
+      },
+      toolNodeName: {
+        type: "string",
+        description: "Name of the tool node to connect",
+      },
+      toolDescription: {
+        type: "string",
+        description: "Description of what the tool does (for agent understanding)",
+      },
+    },
+    required: ["agentNodeName", "toolNodeName"],
+  },
+}
+
+export const configureAgentMemoryFunction = {
+  name: "configure_agent_memory",
+  description: "Configure memory for a LangChain agent node",
+  parameters: {
+    type: "object",
+    properties: {
+      agentNodeName: {
+        type: "string",
+        description: "Name of the agent node",
+      },
+      memoryType: {
+        type: "string",
+        enum: ["window_buffer", "conversation_summary", "vector_store", "none"],
+        description: "Type of memory to use",
+      },
+      config: {
+        type: "object",
+        description: "Memory configuration",
+        properties: {
+          windowSize: { type: "number" },
+          summaryModel: { type: "string" },
+          vectorStore: { type: "string" },
+        },
+      },
+    },
+    required: ["agentNodeName", "memoryType"],
+  },
+}
+
+export const connectAgentToToolFunction = {
+  name: "connect_agent_to_tool",
+  description: "Connect an agent node to a tool node (HTTP Request, Workflow, Code, etc.)",
+  parameters: {
+    type: "object",
+    properties: {
+      agentNodeName: {
+        type: "string",
+        description: "Name of the agent node",
+      },
+      toolNodeName: {
+        type: "string",
+        description: "Name of the tool node",
+      },
+      toolDescription: {
+        type: "string",
+        description: "Description of the tool for the agent",
+      },
+    },
+    required: ["agentNodeName", "toolNodeName"],
+  },
+}
+
+/**
+ * PHASE 4: Vector Store Integration (RAG Support)
+ */
+export const createVectorStoreConnectionFunction = {
+  name: "create_vector_store_connection",
+  description: "Create a connection to a vector store (Qdrant, Pinecone, Weaviate, Chroma) for RAG workflows",
+  parameters: {
+    type: "object",
+    properties: {
+      provider: {
+        type: "string",
+        enum: ["qdrant", "pinecone", "weaviate", "chroma"],
+        description: "Vector store provider",
+      },
+      name: {
+        type: "string",
+        description: "Name for the connection/credential",
+      },
+      config: {
+        type: "object",
+        description: "Connection configuration (URL, API key, etc.)",
+        properties: {
+          url: { type: "string" },
+          apiKey: { type: "string" },
+          collection: { type: "string" },
+        },
+      },
+    },
+    required: ["provider", "name"],
+  },
+}
+
+export const createEmbeddingNodeFunction = {
+  name: "create_embedding_node",
+  description: "Create an embedding node for converting text to vectors",
+  parameters: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "Name of the embedding node",
+      },
+      model: {
+        type: "string",
+        description: "Embedding model (e.g., 'text-embedding-3-small', 'text-embedding-ada-002')",
+      },
+      inputField: {
+        type: "string",
+        description: "Field name containing text to embed (default: 'text')",
+        default: "text",
+      },
+      position: {
+        type: "object",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["name", "model"],
+  },
+}
+
+export const createVectorSearchNodeFunction = {
+  name: "create_vector_search_node",
+  description: "Create a vector search node for semantic search in vector stores",
+  parameters: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "Name of the vector search node",
+      },
+      vectorStore: {
+        type: "string",
+        description: "Vector store connection name",
+      },
+      topK: {
+        type: "number",
+        description: "Number of results to return (default: 5)",
+        default: 5,
+      },
+      queryField: {
+        type: "string",
+        description: "Field name containing search query (default: 'query')",
+        default: "query",
+      },
+      position: {
+        type: "object",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["name", "vectorStore"],
+  },
+}
+
+export const createRAGWorkflowFunction = {
+  name: "create_rag_workflow",
+  description: "Create a complete RAG (Retrieval-Augmented Generation) workflow with data source, embeddings, vector store, and LLM",
+  parameters: {
+    type: "object",
+    properties: {
+      dataSource: {
+        type: "string",
+        enum: ["pdf", "web", "database", "file"],
+        description: "Type of data source",
+      },
+      vectorStore: {
+        type: "string",
+        enum: ["qdrant", "pinecone", "weaviate", "chroma"],
+        description: "Vector store provider",
+      },
+      llm: {
+        type: "string",
+        description: "LLM model for generation (e.g., 'gpt-4o', 'claude-3-5-sonnet')",
+      },
+      embeddingModel: {
+        type: "string",
+        description: "Embedding model (default: 'text-embedding-3-small')",
+        default: "text-embedding-3-small",
+      },
+      workflowName: {
+        type: "string",
+        description: "Name for the workflow",
+      },
+    },
+    required: ["dataSource", "vectorStore", "llm"],
+  },
+}
+
+/**
+ * PHASE 4: Workflow Execution Control
+ */
+export const executeWorkflowFunction = {
+  name: "execute_workflow",
+  description: "Execute a workflow with optional input data and wait for completion",
+  parameters: {
+    type: "object",
+    properties: {
+      workflowId: {
+        type: "string",
+        description: "Workflow ID (uses current workflow if omitted)",
+      },
+      inputData: {
+        type: "object",
+        description: "Input data for the workflow execution",
+      },
+      waitForCompletion: {
+        type: "boolean",
+        description: "Wait for execution to complete (default: false)",
+        default: false,
+      },
+      startNode: {
+        type: "string",
+        description: "Start execution from specific node (optional)",
+      },
+    },
+    required: [],
+  },
+}
+
+export const stopWorkflowExecutionFunction = {
+  name: "stop_workflow_execution",
+  description: "Stop a running workflow execution",
+  parameters: {
+    type: "object",
+    properties: {
+      executionId: {
+        type: "string",
+        description: "Execution ID to stop",
+      },
+    },
+    required: ["executionId"],
+  },
+}
+
+export const getExecutionStatusFunction = {
+  name: "get_execution_status",
+  description: "Get the current status of a workflow execution",
+  parameters: {
+    type: "object",
+    properties: {
+      executionId: {
+        type: "string",
+        description: "Execution ID",
+      },
+    },
+    required: ["executionId"],
+  },
+}
+
+export const retryFailedExecutionFunction = {
+  name: "retry_failed_execution",
+  description: "Retry a failed workflow execution from a specific node",
+  parameters: {
+    type: "object",
+    properties: {
+      executionId: {
+        type: "string",
+        description: "Execution ID to retry",
+      },
+      fromNode: {
+        type: "string",
+        description: "Start retry from specific node (optional)",
+      },
+    },
+    required: ["executionId"],
+  },
+}
+
+/**
+ * PHASE 4: Credential Management
+ */
+export const checkNodeCredentialsFunction = {
+  name: "check_node_credentials",
+  description: "Check if a node has required credentials configured",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the node to check",
+      },
+    },
+    required: ["nodeName"],
+  },
+}
+
+export const suggestCredentialTypeFunction = {
+  name: "suggest_credential_type",
+  description: "Suggest the credential type needed for a node based on its type",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeType: {
+        type: "string",
+        description: "Node type (e.g., 'n8n-nodes-base.telegram')",
+      },
+    },
+    required: ["nodeType"],
+  },
+}
+
+export const validateCredentialConnectionFunction = {
+  name: "validate_credential_connection",
+  description: "Validate if a node's credential connection is working",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the node to validate",
+      },
+    },
+    required: ["nodeName"],
+  },
+}
+
+/**
+ * PHASE 4: Sub-workflow Management
+ */
+export const createSubworkflowNodeFunction = {
+  name: "create_subworkflow_node",
+  description: "Create an Execute Workflow node that calls a sub-workflow",
+  parameters: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "Name of the Execute Workflow node",
+      },
+      workflowId: {
+        type: "string",
+        description: "ID of the workflow to execute",
+      },
+      inputMapping: {
+        type: "object",
+        description: "Mapping of input data to sub-workflow parameters",
+      },
+      position: {
+        type: "object",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["name", "workflowId"],
+  },
+}
+
+export const importSubworkflowFunction = {
+  name: "import_subworkflow",
+  description: "Import a workflow as a sub-workflow (Execute Workflow node)",
+  parameters: {
+    type: "object",
+    properties: {
+      workflowJSON: {
+        type: "string",
+        description: "Workflow JSON to import as sub-workflow",
+      },
+      asSubworkflow: {
+        type: "boolean",
+        description: "Create as Execute Workflow node (default: true)",
+        default: true,
+      },
+      nodeName: {
+        type: "string",
+        description: "Name for the Execute Workflow node",
+      },
+    },
+    required: ["workflowJSON"],
+  },
+}
+
+export const getSubworkflowInfoFunction = {
+  name: "get_subworkflow_info",
+  description: "Get information about a sub-workflow (Execute Workflow node)",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the Execute Workflow node",
+      },
+    },
+    required: ["nodeName"],
+  },
+}
+
+/**
+ * PHASE 4: Advanced Node Configuration
+ */
+export const configureNodeWebhookFunction = {
+  name: "configure_node_webhook",
+  description: "Configure webhook settings for a webhook trigger node",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the webhook node",
+      },
+      path: {
+        type: "string",
+        description: "Webhook path (e.g., '/webhook/my-endpoint')",
+      },
+      method: {
+        type: "string",
+        enum: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+        description: "HTTP method (default: 'POST')",
+        default: "POST",
+      },
+      authentication: {
+        type: "string",
+        enum: ["none", "headerAuth", "basicAuth", "oAuth2"],
+        description: "Authentication type (default: 'none')",
+        default: "none",
+      },
+    },
+    required: ["nodeName", "path"],
+  },
+}
+
+export const configureNodeScheduleFunction = {
+  name: "configure_node_schedule",
+  description: "Configure schedule/cron settings for a schedule trigger node",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the schedule trigger node",
+      },
+      cron: {
+        type: "string",
+        description: "Cron expression (e.g., '0 9 * * 1-5' for weekdays at 9 AM)",
+      },
+      timezone: {
+        type: "string",
+        description: "Timezone (e.g., 'America/New_York', default: UTC)",
+        default: "UTC",
+      },
+    },
+    required: ["nodeName", "cron"],
+  },
+}
+
+export const configureNodeErrorHandlingFunction = {
+  name: "configure_node_error_handling",
+  description: "Configure error handling settings for a node",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the node",
+      },
+      continueOnFail: {
+        type: "boolean",
+        description: "Continue workflow execution if node fails (default: false)",
+        default: false,
+      },
+      retryOnFail: {
+        type: "boolean",
+        description: "Retry node execution on failure (default: false)",
+        default: false,
+      },
+      maxRetries: {
+        type: "number",
+        description: "Maximum number of retries (default: 3)",
+        default: 3,
+      },
+      retryDelay: {
+        type: "number",
+        description: "Delay between retries in seconds (default: 5)",
+        default: 5,
+      },
+    },
+    required: ["nodeName"],
+  },
+}
+
+/**
+ * PHASE 4: Batch Processing & Looping
+ */
+export const createBatchProcessorFunction = {
+  name: "create_batch_processor",
+  description: "Create a batch processing setup with Split in Batches node",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the Split in Batches node",
+      },
+      batchSize: {
+        type: "number",
+        description: "Number of items per batch (default: 10)",
+        default: 10,
+      },
+      position: {
+        type: "object",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["nodeName"],
+  },
+}
+
+export const createLoopNodeFunction = {
+  name: "create_loop_node",
+  description: "Create a loop node (for each item, while, until)",
+  parameters: {
+    type: "object",
+    properties: {
+      name: {
+        type: "string",
+        description: "Name of the loop node",
+      },
+      loopType: {
+        type: "string",
+        enum: ["for_each", "while", "until"],
+        description: "Type of loop (default: 'for_each')",
+        default: "for_each",
+      },
+      condition: {
+        type: "string",
+        description: "Condition expression for while/until loops",
+      },
+      position: {
+        type: "object",
+        properties: {
+          x: { type: "number" },
+          y: { type: "number" },
+        },
+      },
+    },
+    required: ["name", "loopType"],
+  },
+}
+
+export const configureSplitInBatchesFunction = {
+  name: "configure_split_in_batches",
+  description: "Configure Split in Batches node settings",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the Split in Batches node",
+      },
+      batchSize: {
+        type: "number",
+        description: "Number of items per batch",
+      },
+      reset: {
+        type: "boolean",
+        description: "Reset batch counter on each run (default: false)",
+        default: false,
+      },
+    },
+    required: ["nodeName", "batchSize"],
+  },
+}
+
+/**
+ * PHASE 4: Advanced UI Features
+ */
+export const createWorkflowVisualizationFunction = {
+  name: "create_workflow_visualization",
+  description: "Generate a Mermaid diagram visualization of the workflow",
+  parameters: {
+    type: "object",
+    properties: {
+      format: {
+        type: "string",
+        enum: ["mermaid", "svg", "png"],
+        description: "Output format (default: 'mermaid')",
+        default: "mermaid",
+      },
+      includeDetails: {
+        type: "boolean",
+        description: "Include node details in diagram (default: true)",
+        default: true,
+      },
+    },
+    required: [],
+  },
+}
+
+export const groupNodesFunction = {
+  name: "group_nodes",
+  description: "Group multiple nodes together visually",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeNames: {
+        type: "array",
+        description: "Array of node names to group",
+        items: { type: "string" },
+      },
+      groupName: {
+        type: "string",
+        description: "Name for the group",
+      },
+    },
+    required: ["nodeNames", "groupName"],
+  },
+}
+
+export const setNodeColorFunction = {
+  name: "set_node_color",
+  description: "Set custom color for a node (visual organization)",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeName: {
+        type: "string",
+        description: "Name of the node",
+      },
+      color: {
+        type: "string",
+        description: "Color in hex format (e.g., '#FF5733')",
+      },
+    },
+    required: ["nodeName", "color"],
+  },
+}
+
+/**
+ * PHASE 4: AI Agentic Workflow Integration
+ */
+export const createChainedAIWorkflowFunction = {
+  name: "create_chained_ai_workflow",
+  description: "Create a chained AI workflow with multiple AI models in sequence",
+  parameters: {
+    type: "object",
+    properties: {
+      steps: {
+        type: "array",
+        description: "Array of AI processing steps",
+        items: {
+          type: "object",
+          properties: {
+            model: { type: "string" },
+            task: { type: "string" },
+            nodeName: { type: "string" },
+          },
+          required: ["model", "task"],
+        },
+      },
+      workflowName: {
+        type: "string",
+        description: "Name for the workflow",
+      },
+    },
+    required: ["steps"],
+  },
+}
+
+export const createSingleAgentWorkflowFunction = {
+  name: "create_single_agent_workflow",
+  description: "Create a single agent workflow with tools and memory",
+  parameters: {
+    type: "object",
+    properties: {
+      agent: {
+        type: "object",
+        properties: {
+          type: { type: "string", enum: ["tools", "conversational"] },
+          model: { type: "string" },
+          memory: { type: "string", enum: ["window_buffer", "conversation_summary", "none"] },
+          tools: { type: "array", items: { type: "string" } },
+        },
+        required: ["model"],
+      },
+      trigger: {
+        type: "string",
+        enum: ["webhook", "schedule", "telegram", "manual"],
+        description: "Workflow trigger type",
+      },
+      workflowName: {
+        type: "string",
+        description: "Name for the workflow",
+      },
+    },
+    required: ["agent", "trigger"],
+  },
+}
+
+export const createGatekeeperWorkflowFunction = {
+  name: "create_gatekeeper_workflow",
+  description: "Create a multi-agent workflow with gatekeeper and specialist agents",
+  parameters: {
+    type: "object",
+    properties: {
+      gatekeeper: {
+        type: "object",
+        properties: {
+          model: { type: "string" },
+          routingLogic: { type: "string" },
+        },
+        required: ["model"],
+      },
+      specialists: {
+        type: "array",
+        description: "Array of specialist agents",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            model: { type: "string" },
+            tools: { type: "array", items: { type: "string" } },
+            expertise: { type: "string" },
+          },
+          required: ["name", "model"],
+        },
+      },
+      workflowName: {
+        type: "string",
+        description: "Name for the workflow",
+      },
+    },
+    required: ["gatekeeper", "specialists"],
+  },
+}
+
+export const createMultiAgentTeamFunction = {
+  name: "create_multi_agent_team",
+  description: "Create a multi-agent team workflow with distributed decision-making",
+  parameters: {
+    type: "object",
+    properties: {
+      agents: {
+        type: "array",
+        description: "Array of agents in the team",
+        items: {
+          type: "object",
+          properties: {
+            name: { type: "string" },
+            role: { type: "string" },
+            model: { type: "string" },
+            tools: { type: "array", items: { type: "string" } },
+          },
+          required: ["name", "role"],
+        },
+      },
+      communication: {
+        type: "string",
+        enum: ["mesh", "hierarchical", "hybrid"],
+        description: "Communication pattern (default: 'mesh')",
+        default: "mesh",
+      },
+      workflowName: {
+        type: "string",
+        description: "Name for the workflow",
+      },
+    },
+    required: ["agents"],
+  },
+}
+
+/**
  * Tüm function tanımlamaları
  */
 export const allFunctions = [
@@ -1061,6 +1906,55 @@ export const allFunctions = [
   generateCICDConfigFunction,
   generateCustomNodeFunction,
   generateWorkflowDocsFunction,
+  
+  // PHASE 4: LangChain & AI Agent Support
+  createLangChainAgentFunction,
+  addToolToAgentFunction,
+  configureAgentMemoryFunction,
+  connectAgentToToolFunction,
+  
+  // PHASE 4: Vector Store & RAG Support
+  createVectorStoreConnectionFunction,
+  createEmbeddingNodeFunction,
+  createVectorSearchNodeFunction,
+  createRAGWorkflowFunction,
+  
+  // PHASE 4: Workflow Execution Control
+  executeWorkflowFunction,
+  stopWorkflowExecutionFunction,
+  getExecutionStatusFunction,
+  retryFailedExecutionFunction,
+  
+  // PHASE 4: Credential Management
+  checkNodeCredentialsFunction,
+  suggestCredentialTypeFunction,
+  validateCredentialConnectionFunction,
+  
+  // PHASE 4: Sub-workflow Management
+  createSubworkflowNodeFunction,
+  importSubworkflowFunction,
+  getSubworkflowInfoFunction,
+  
+  // PHASE 4: Advanced Node Configuration
+  configureNodeWebhookFunction,
+  configureNodeScheduleFunction,
+  configureNodeErrorHandlingFunction,
+  
+  // PHASE 4: Batch Processing & Looping
+  createBatchProcessorFunction,
+  createLoopNodeFunction,
+  configureSplitInBatchesFunction,
+  
+  // PHASE 4: Advanced UI Features
+  createWorkflowVisualizationFunction,
+  groupNodesFunction,
+  setNodeColorFunction,
+  
+  // PHASE 4: AI Agentic Workflow Integration
+  createChainedAIWorkflowFunction,
+  createSingleAgentWorkflowFunction,
+  createGatekeeperWorkflowFunction,
+  createMultiAgentTeamFunction,
 ]
 
 /**
@@ -1186,6 +2080,91 @@ export function getFunctionsForAI(settings) {
   // PHASE 3: Documentation Generation
   if (settings.documentationGeneration !== false) {
     enabledFunctions.push(generateWorkflowDocsFunction)
+  }
+
+  // PHASE 4: LangChain & AI Agent Support
+  if (settings.langchainSupport !== false) {
+    enabledFunctions.push(
+      createLangChainAgentFunction,
+      addToolToAgentFunction,
+      configureAgentMemoryFunction,
+      connectAgentToToolFunction
+    )
+  }
+
+  // PHASE 4: Vector Store & RAG Support
+  if (settings.ragSupport !== false) {
+    enabledFunctions.push(
+      createVectorStoreConnectionFunction,
+      createEmbeddingNodeFunction,
+      createVectorSearchNodeFunction,
+      createRAGWorkflowFunction
+    )
+  }
+
+  // PHASE 4: Workflow Execution Control
+  if (settings.executionControl !== false) {
+    enabledFunctions.push(
+      executeWorkflowFunction,
+      stopWorkflowExecutionFunction,
+      getExecutionStatusFunction,
+      retryFailedExecutionFunction
+    )
+  }
+
+  // PHASE 4: Credential Management
+  if (settings.credentialManagement !== false) {
+    enabledFunctions.push(
+      checkNodeCredentialsFunction,
+      suggestCredentialTypeFunction,
+      validateCredentialConnectionFunction
+    )
+  }
+
+  // PHASE 4: Sub-workflow Management
+  if (settings.subworkflowManagement !== false) {
+    enabledFunctions.push(
+      createSubworkflowNodeFunction,
+      importSubworkflowFunction,
+      getSubworkflowInfoFunction
+    )
+  }
+
+  // PHASE 4: Advanced Node Configuration
+  if (settings.advancedNodeConfig !== false) {
+    enabledFunctions.push(
+      configureNodeWebhookFunction,
+      configureNodeScheduleFunction,
+      configureNodeErrorHandlingFunction
+    )
+  }
+
+  // PHASE 4: Batch Processing & Looping
+  if (settings.batchProcessing !== false) {
+    enabledFunctions.push(
+      createBatchProcessorFunction,
+      createLoopNodeFunction,
+      configureSplitInBatchesFunction
+    )
+  }
+
+  // PHASE 4: Advanced UI Features
+  if (settings.advancedUI !== false) {
+    enabledFunctions.push(
+      createWorkflowVisualizationFunction,
+      groupNodesFunction,
+      setNodeColorFunction
+    )
+  }
+
+  // PHASE 4: AI Agentic Workflow Integration
+  if (settings.aiAgenticWorkflows !== false) {
+    enabledFunctions.push(
+      createChainedAIWorkflowFunction,
+      createSingleAgentWorkflowFunction,
+      createGatekeeperWorkflowFunction,
+      createMultiAgentTeamFunction
+    )
   }
 
   return enabledFunctions.map((func) => ({

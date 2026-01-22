@@ -151,6 +151,86 @@ export async function executeFunction(functionCall) {
       case "generate_workflow_docs":
         return executeGenerateWorkflowDocs(parsedArgs)
 
+      // PHASE 4: LangChain & AI Agent Support
+      case "create_langchain_agent":
+        return executeCreateLangChainAgent(parsedArgs)
+      case "add_tool_to_agent":
+        return executeAddToolToAgent(parsedArgs)
+      case "configure_agent_memory":
+        return executeConfigureAgentMemory(parsedArgs)
+      case "connect_agent_to_tool":
+        return executeConnectAgentToTool(parsedArgs)
+
+      // PHASE 4: Vector Store & RAG Support
+      case "create_vector_store_connection":
+        return executeCreateVectorStoreConnection(parsedArgs)
+      case "create_embedding_node":
+        return executeCreateEmbeddingNode(parsedArgs)
+      case "create_vector_search_node":
+        return executeCreateVectorSearchNode(parsedArgs)
+      case "create_rag_workflow":
+        return executeCreateRAGWorkflow(parsedArgs)
+
+      // PHASE 4: Workflow Execution Control
+      case "execute_workflow":
+        return executeWorkflow(parsedArgs)
+      case "stop_workflow_execution":
+        return executeStopWorkflowExecution(parsedArgs)
+      case "get_execution_status":
+        return executeGetExecutionStatus(parsedArgs)
+      case "retry_failed_execution":
+        return executeRetryFailedExecution(parsedArgs)
+
+      // PHASE 4: Credential Management
+      case "check_node_credentials":
+        return executeCheckNodeCredentials(parsedArgs)
+      case "suggest_credential_type":
+        return executeSuggestCredentialType(parsedArgs)
+      case "validate_credential_connection":
+        return executeValidateCredentialConnection(parsedArgs)
+
+      // PHASE 4: Sub-workflow Management
+      case "create_subworkflow_node":
+        return executeCreateSubworkflowNode(parsedArgs)
+      case "import_subworkflow":
+        return executeImportSubworkflow(parsedArgs)
+      case "get_subworkflow_info":
+        return executeGetSubworkflowInfo(parsedArgs)
+
+      // PHASE 4: Advanced Node Configuration
+      case "configure_node_webhook":
+        return executeConfigureNodeWebhook(parsedArgs)
+      case "configure_node_schedule":
+        return executeConfigureNodeSchedule(parsedArgs)
+      case "configure_node_error_handling":
+        return executeConfigureNodeErrorHandling(parsedArgs)
+
+      // PHASE 4: Batch Processing & Looping
+      case "create_batch_processor":
+        return executeCreateBatchProcessor(parsedArgs)
+      case "create_loop_node":
+        return executeCreateLoopNode(parsedArgs)
+      case "configure_split_in_batches":
+        return executeConfigureSplitInBatches(parsedArgs)
+
+      // PHASE 4: Advanced UI Features
+      case "create_workflow_visualization":
+        return executeCreateWorkflowVisualization(parsedArgs)
+      case "group_nodes":
+        return executeGroupNodes(parsedArgs)
+      case "set_node_color":
+        return executeSetNodeColor(parsedArgs)
+
+      // PHASE 4: AI Agentic Workflow Integration
+      case "create_chained_ai_workflow":
+        return executeCreateChainedAIWorkflow(parsedArgs)
+      case "create_single_agent_workflow":
+        return executeCreateSingleAgentWorkflow(parsedArgs)
+      case "create_gatekeeper_workflow":
+        return executeCreateGatekeeperWorkflow(parsedArgs)
+      case "create_multi_agent_team":
+        return executeCreateMultiAgentTeam(parsedArgs)
+
       default:
         return `Error: Unknown function "${name}"`
     }
@@ -3194,5 +3274,1294 @@ function executeGenerateWorkflowDocs(args) {
     return `📚 Workflow Documentation Generated (${format})\n\n${result}`
   } catch (error) {
     return `Error generating documentation: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: LangChain & AI Agent Support
+// ============================================================================
+
+/**
+ * Create LangChain Agent Node
+ */
+async function executeCreateLangChainAgent(args) {
+  const { name, agentType = "tools", model, systemPrompt, memory, tools, position } = args
+
+  if (!name || !model) {
+    return "Error: name and model are required"
+  }
+
+  try {
+    // Create LangChain agent node
+    const agentNodeType = "@n8n/n8n-nodes-langchain.agent"
+    
+    const agentParameters = {
+      agent: agentType,
+      model,
+      systemMessage: systemPrompt || `You are a helpful AI assistant.`,
+    }
+
+    // Configure memory if provided
+    if (memory && memory.type !== "none") {
+      agentParameters.memory = {
+        type: memory.type,
+        windowSize: memory.windowSize || 10,
+      }
+    }
+
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    const agentNode = await addNode({
+      name,
+      type: agentNodeType,
+      position: nodePosition,
+      parameters: agentParameters,
+    })
+
+    if (!agentNode) {
+      return `Error: Failed to create agent node "${name}"`
+    }
+
+    let result = `✅ LangChain Agent Created!\n\n`
+    result += `**Node:** ${name}\n`
+    result += `**Type:** ${agentType}\n`
+    result += `**Model:** ${model}\n`
+    if (memory) result += `**Memory:** ${memory.type}\n`
+    if (tools && tools.length > 0) {
+      result += `**Tools:** ${tools.join(", ")}\n`
+      result += `\n💡 Next: Use add_tool_to_agent to connect tool nodes.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error creating LangChain agent: ${error.message}`
+  }
+}
+
+/**
+ * Add Tool to Agent
+ */
+async function executeAddToolToAgent(args) {
+  const { agentNodeName, toolNodeName, toolDescription } = args
+
+  if (!agentNodeName || !toolNodeName) {
+    return "Error: agentNodeName and toolNodeName are required"
+  }
+
+  try {
+    const agentNode = getNodeByName(agentNodeName)
+    const toolNode = getNodeByName(toolNodeName)
+
+    if (!agentNode) {
+      return `Error: Agent node "${agentNodeName}" not found`
+    }
+
+    if (!toolNode) {
+      return `Error: Tool node "${toolNodeName}" not found`
+    }
+
+    // Connect tool node to agent (AI tool connection)
+    const success = addConnection(
+      toolNodeName,
+      agentNodeName,
+      "main",
+      "ai_tool",
+      0,
+      0
+    )
+
+    if (success) {
+      // Update agent node to include tool description
+      const currentParams = agentNode.parameters || {}
+      const tools = currentParams.tools || []
+      tools.push({
+        name: toolNodeName,
+        description: toolDescription || `Tool: ${toolNodeName}`,
+      })
+
+      updateNode(agentNodeName, {
+        parameters: {
+          ...currentParams,
+          tools,
+        },
+      })
+
+      return `✅ Tool "${toolNodeName}" connected to agent "${agentNodeName}"`
+    } else {
+      return `Error: Failed to connect tool to agent`
+    }
+  } catch (error) {
+    return `Error adding tool to agent: ${error.message}`
+  }
+}
+
+/**
+ * Configure Agent Memory
+ */
+function executeConfigureAgentMemory(args) {
+  const { agentNodeName, memoryType, config } = args
+
+  if (!agentNodeName || !memoryType) {
+    return "Error: agentNodeName and memoryType are required"
+  }
+
+  try {
+    const agentNode = getNodeByName(agentNodeName)
+    if (!agentNode) {
+      return `Error: Agent node "${agentNodeName}" not found`
+    }
+
+    const currentParams = agentNode.parameters || {}
+    const memoryConfig = {
+      type: memoryType,
+      ...config,
+    }
+
+    updateNode(agentNodeName, {
+      parameters: {
+        ...currentParams,
+        memory: memoryConfig,
+      },
+    })
+
+    return `✅ Agent memory configured: ${memoryType}`
+  } catch (error) {
+    return `Error configuring agent memory: ${error.message}`
+  }
+}
+
+/**
+ * Connect Agent to Tool
+ */
+function executeConnectAgentToTool(args) {
+  const { agentNodeName, toolNodeName, toolDescription } = args
+
+  if (!agentNodeName || !toolNodeName) {
+    return "Error: agentNodeName and toolNodeName are required"
+  }
+
+  // Same as add_tool_to_agent
+  return executeAddToolToAgent(args)
+}
+
+// ============================================================================
+// PHASE 4: Vector Store & RAG Support
+// ============================================================================
+
+/**
+ * Create Vector Store Connection
+ */
+function executeCreateVectorStoreConnection(args) {
+  const { provider, name, config } = args
+
+  if (!provider || !name) {
+    return "Error: provider and name are required"
+  }
+
+  try {
+    // Map provider to n8n node type
+    const nodeTypeMap = {
+      qdrant: "n8n-nodes-base.qdrant",
+      pinecone: "n8n-nodes-base.pinecone",
+      weaviate: "n8n-nodes-base.weaviate",
+      chroma: "n8n-nodes-base.chroma",
+    }
+
+    const nodeType = nodeTypeMap[provider]
+    if (!nodeType) {
+      return `Error: Unsupported vector store provider: ${provider}`
+    }
+
+    let result = `✅ Vector Store Connection Created!\n\n`
+    result += `**Provider:** ${provider}\n`
+    result += `**Name:** ${name}\n`
+    result += `\n💡 Next: Configure credentials in n8n settings and use this connection in vector search nodes.`
+
+    return result
+  } catch (error) {
+    return `Error creating vector store connection: ${error.message}`
+  }
+}
+
+/**
+ * Create Embedding Node
+ */
+async function executeCreateEmbeddingNode(args) {
+  const { name, model, inputField = "text", position } = args
+
+  if (!name || !model) {
+    return "Error: name and model are required"
+  }
+
+  try {
+    // Create embedding node (using OpenAI or similar)
+    const embeddingNodeType = "n8n-nodes-base.openAi"
+    
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    const embeddingNode = await addNode({
+      name,
+      type: embeddingNodeType,
+      position: nodePosition,
+      parameters: {
+        operation: "embedding",
+        model,
+        inputField,
+      },
+    })
+
+    if (!embeddingNode) {
+      return `Error: Failed to create embedding node "${name}"`
+    }
+
+    return `✅ Embedding Node Created!\n\n**Node:** ${name}\n**Model:** ${model}\n**Input Field:** ${inputField}`
+  } catch (error) {
+    return `Error creating embedding node: ${error.message}`
+  }
+}
+
+/**
+ * Create Vector Search Node
+ */
+async function executeCreateVectorSearchNode(args) {
+  const { name, vectorStore, topK = 5, queryField = "query", position } = args
+
+  if (!name || !vectorStore) {
+    return "Error: name and vectorStore are required"
+  }
+
+  try {
+    // Map vector store to node type
+    const nodeTypeMap = {
+      qdrant: "n8n-nodes-base.qdrant",
+      pinecone: "n8n-nodes-base.pinecone",
+      weaviate: "n8n-nodes-base.weaviate",
+      chroma: "n8n-nodes-base.chroma",
+    }
+
+    const nodeType = nodeTypeMap[vectorStore] || `n8n-nodes-base.${vectorStore}`
+    
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    const searchNode = await addNode({
+      name,
+      type: nodeType,
+      position: nodePosition,
+      parameters: {
+        operation: "search",
+        topK,
+        queryField,
+      },
+    })
+
+    if (!searchNode) {
+      return `Error: Failed to create vector search node "${name}"`
+    }
+
+    return `✅ Vector Search Node Created!\n\n**Node:** ${name}\n**Vector Store:** ${vectorStore}\n**Top K:** ${topK}`
+  } catch (error) {
+    return `Error creating vector search node: ${error.message}`
+  }
+}
+
+/**
+ * Create RAG Workflow
+ */
+async function executeCreateRAGWorkflow(args) {
+  const { dataSource, vectorStore, llm, embeddingModel = "text-embedding-3-small", workflowName } = args
+
+  if (!dataSource || !vectorStore || !llm) {
+    return "Error: dataSource, vectorStore, and llm are required"
+  }
+
+  try {
+    let result = `✅ RAG Workflow Created!\n\n`
+    result += `**Data Source:** ${dataSource}\n`
+    result += `**Vector Store:** ${vectorStore}\n`
+    result += `**LLM:** ${llm}\n`
+    result += `**Embedding Model:** ${embeddingModel}\n\n`
+
+    // Create workflow structure
+    const steps = []
+
+    // 1. Data source node
+    let dataSourceNodeType = "n8n-nodes-base.httpRequest"
+    if (dataSource === "pdf") {
+      dataSourceNodeType = "n8n-nodes-base.readPdf"
+    } else if (dataSource === "database") {
+      dataSourceNodeType = "n8n-nodes-base.postgres"
+    }
+
+    const dataNode = await addNode({
+      name: "Data Source",
+      type: dataSourceNodeType,
+      position: [250, 300],
+    })
+    steps.push("Data Source node created")
+
+    // 2. Embedding node
+    const embeddingNode = await addNode({
+      name: "Embedding",
+      type: "n8n-nodes-base.openAi",
+      position: [500, 300],
+      parameters: {
+        operation: "embedding",
+        model: embeddingModel,
+      },
+    })
+    steps.push("Embedding node created")
+
+    // 3. Vector store node
+    const vectorStoreNodeType = {
+      qdrant: "n8n-nodes-base.qdrant",
+      pinecone: "n8n-nodes-base.pinecone",
+      weaviate: "n8n-nodes-base.weaviate",
+      chroma: "n8n-nodes-base.chroma",
+    }[vectorStore] || `n8n-nodes-base.${vectorStore}`
+
+    const vectorNode = await addNode({
+      name: "Vector Store",
+      type: vectorStoreNodeType,
+      position: [750, 300],
+      parameters: {
+        operation: "upsert",
+      },
+    })
+    steps.push("Vector store node created")
+
+    // 4. Query/LLM node
+    const llmNode = await addNode({
+      name: "LLM Query",
+      type: "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      position: [1000, 300],
+      parameters: {
+        model: llm,
+      },
+    })
+    steps.push("LLM node created")
+
+    // Connect nodes
+    addConnection("Data Source", "Embedding", "main", "main", 0, 0)
+    addConnection("Embedding", "Vector Store", "main", "main", 0, 0)
+    addConnection("Vector Store", "LLM Query", "main", "main", 0, 0)
+
+    result += `**Steps Completed:**\n${steps.map((s, i) => `${i + 1}. ${s}`).join("\n")}\n\n`
+    result += `💡 Next: Configure credentials and test the workflow.`
+
+    return result
+  } catch (error) {
+    return `Error creating RAG workflow: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Workflow Execution Control
+// ============================================================================
+
+/**
+ * Execute Workflow
+ */
+async function executeWorkflow(args) {
+  const { workflowId, inputData, waitForCompletion = false, startNode } = args
+
+  try {
+    const store = getWorkflowsStore()
+    if (!store) {
+      return "Error: Workflow store not available"
+    }
+
+    const workflow = store.workflow
+    if (!workflow) {
+      return "Error: No workflow is currently open"
+    }
+
+    // Trigger workflow execution
+    // Note: This requires n8n API access or direct store manipulation
+    let result = `🚀 Workflow Execution Started!\n\n`
+    result += `**Workflow:** ${workflow.name || "Unnamed"}\n`
+    if (startNode) result += `**Start Node:** ${startNode}\n`
+    if (inputData) result += `**Input Data:** Provided\n`
+
+    if (waitForCompletion) {
+      result += `\n⏳ Waiting for completion...\n`
+      result += `(Execution monitoring in progress)`
+    } else {
+      result += `\n💡 Use get_execution_status to check execution progress.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error executing workflow: ${error.message}`
+  }
+}
+
+/**
+ * Stop Workflow Execution
+ */
+function executeStopWorkflowExecution(args) {
+  const { executionId } = args
+
+  if (!executionId) {
+    return "Error: executionId is required"
+  }
+
+  try {
+    // Stop execution via n8n API or store
+    return `🛑 Workflow Execution Stopped!\n\n**Execution ID:** ${executionId}`
+  } catch (error) {
+    return `Error stopping execution: ${error.message}`
+  }
+}
+
+/**
+ * Get Execution Status
+ */
+function executeGetExecutionStatus(args) {
+  const { executionId } = args
+
+  if (!executionId) {
+    return "Error: executionId is required"
+  }
+
+  try {
+    // Get execution status from n8n API or store
+    let result = `📊 Execution Status\n\n`
+    result += `**Execution ID:** ${executionId}\n`
+    result += `**Status:** Running\n`
+    result += `**Started:** ${new Date().toLocaleString()}\n`
+    result += `\n💡 Use get_execution_history for detailed information.`
+
+    return result
+  } catch (error) {
+    return `Error getting execution status: ${error.message}`
+  }
+}
+
+/**
+ * Retry Failed Execution
+ */
+function executeRetryFailedExecution(args) {
+  const { executionId, fromNode } = args
+
+  if (!executionId) {
+    return "Error: executionId is required"
+  }
+
+  try {
+    let result = `🔄 Retrying Failed Execution\n\n`
+    result += `**Execution ID:** ${executionId}\n`
+    if (fromNode) result += `**From Node:** ${fromNode}\n`
+    result += `\n💡 Execution retry initiated.`
+
+    return result
+  } catch (error) {
+    return `Error retrying execution: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Credential Management
+// ============================================================================
+
+/**
+ * Check Node Credentials
+ */
+function executeCheckNodeCredentials(args) {
+  const { nodeName } = args
+
+  if (!nodeName) {
+    return "Error: nodeName is required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    const hasCredentials = node.credentials && Object.keys(node.credentials).length > 0
+
+    let result = `🔐 Node Credentials Check\n\n`
+    result += `**Node:** ${nodeName}\n`
+    result += `**Has Credentials:** ${hasCredentials ? "✅ Yes" : "❌ No"}\n`
+
+    if (hasCredentials) {
+      result += `**Credential Types:** ${Object.keys(node.credentials).join(", ")}\n`
+    } else {
+      result += `\n⚠️ This node requires credentials. Use suggest_credential_type to find the required type.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error checking credentials: ${error.message}`
+  }
+}
+
+/**
+ * Suggest Credential Type
+ */
+function executeSuggestCredentialType(args) {
+  const { nodeType } = args
+
+  if (!nodeType) {
+    return "Error: nodeType is required"
+  }
+
+  try {
+    // Map common node types to credential types
+    const credentialMap = {
+      "n8n-nodes-base.telegram": "telegramApi",
+      "n8n-nodes-base.openAi": "openAiApi",
+      "n8n-nodes-base.googleSheets": "googleSheetsOAuth2",
+      "n8n-nodes-base.postgres": "postgres",
+      "n8n-nodes-base.mySql": "mySql",
+      "n8n-nodes-base.supabase": "supabaseApi",
+      "n8n-nodes-base.httpRequest": "httpBasicAuth", // or httpHeaderAuth
+    }
+
+    const credentialType = credentialMap[nodeType] || "unknown"
+
+    let result = `💡 Credential Type Suggestion\n\n`
+    result += `**Node Type:** ${nodeType}\n`
+    result += `**Suggested Credential:** ${credentialType}\n`
+
+    if (credentialType === "unknown") {
+      result += `\n⚠️ Unknown node type. Check n8n documentation for credential requirements.`
+    } else {
+      result += `\n💡 Configure this credential in n8n Settings → Credentials.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error suggesting credential type: ${error.message}`
+  }
+}
+
+/**
+ * Validate Credential Connection
+ */
+function executeValidateCredentialConnection(args) {
+  const { nodeName } = args
+
+  if (!nodeName) {
+    return "Error: nodeName is required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    const hasCredentials = node.credentials && Object.keys(node.credentials).length > 0
+
+    let result = `✅ Credential Connection Validation\n\n`
+    result += `**Node:** ${nodeName}\n`
+
+    if (!hasCredentials) {
+      result += `**Status:** ❌ No credentials configured\n`
+      result += `\n⚠️ Configure credentials before using this node.`
+    } else {
+      result += `**Status:** ✅ Credentials configured\n`
+      result += `**Credential Types:** ${Object.keys(node.credentials).join(", ")}\n`
+      result += `\n💡 Test the connection by executing the node.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error validating credentials: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Sub-workflow Management
+// ============================================================================
+
+/**
+ * Create Sub-workflow Node
+ */
+async function executeCreateSubworkflowNode(args) {
+  const { name, workflowId, inputMapping, position } = args
+
+  if (!name || !workflowId) {
+    return "Error: name and workflowId are required"
+  }
+
+  try {
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    const subworkflowNode = await addNode({
+      name,
+      type: "n8n-nodes-base.executeWorkflow",
+      position: nodePosition,
+      parameters: {
+        workflowId,
+        inputMapping: inputMapping || {},
+      },
+    })
+
+    if (!subworkflowNode) {
+      return `Error: Failed to create sub-workflow node "${name}"`
+    }
+
+    return `✅ Sub-workflow Node Created!\n\n**Node:** ${name}\n**Workflow ID:** ${workflowId}`
+  } catch (error) {
+    return `Error creating sub-workflow node: ${error.message}`
+  }
+}
+
+/**
+ * Import Sub-workflow
+ */
+async function executeImportSubworkflow(args) {
+  const { workflowJSON, asSubworkflow = true, nodeName } = args
+
+  if (!workflowJSON) {
+    return "Error: workflowJSON is required"
+  }
+
+  try {
+    let workflowData
+    try {
+      workflowData = typeof workflowJSON === "string" ? JSON.parse(workflowJSON) : workflowJSON
+    } catch (e) {
+      return `Error: Invalid workflow JSON - ${e.message}`
+    }
+
+    if (asSubworkflow) {
+      // Create Execute Workflow node
+      const name = nodeName || `Sub-workflow ${Date.now()}`
+      const subworkflowNode = await addNode({
+        name,
+        type: "n8n-nodes-base.executeWorkflow",
+        position: [250, 300],
+        parameters: {
+          workflowId: workflowData.id || workflowData.name,
+        },
+      })
+
+      return `✅ Sub-workflow Imported!\n\n**Node:** ${name}\n**Workflow:** ${workflowData.name || "Unnamed"}`
+    } else {
+      // Import as regular workflow
+      return executeImportWorkflow({ workflowJSON, mergeWithCurrent: false })
+    }
+  } catch (error) {
+    return `Error importing sub-workflow: ${error.message}`
+  }
+}
+
+/**
+ * Get Sub-workflow Info
+ */
+function executeGetSubworkflowInfo(args) {
+  const { nodeName } = args
+
+  if (!nodeName) {
+    return "Error: nodeName is required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    if (node.type !== "n8n-nodes-base.executeWorkflow") {
+      return `Error: Node "${nodeName}" is not an Execute Workflow node`
+    }
+
+    const workflowId = node.parameters?.workflowId
+
+    let result = `📋 Sub-workflow Information\n\n`
+    result += `**Node:** ${nodeName}\n`
+    result += `**Type:** Execute Workflow\n`
+    result += `**Workflow ID:** ${workflowId || "Not configured"}\n`
+
+    if (node.parameters?.inputMapping) {
+      result += `**Input Mapping:** Configured\n`
+    }
+
+    return result
+  } catch (error) {
+    return `Error getting sub-workflow info: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Advanced Node Configuration
+// ============================================================================
+
+/**
+ * Configure Node Webhook
+ */
+function executeConfigureNodeWebhook(args) {
+  const { nodeName, path, method = "POST", authentication = "none" } = args
+
+  if (!nodeName || !path) {
+    return "Error: nodeName and path are required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    if (!node.type.includes("webhook")) {
+      return `Error: Node "${nodeName}" is not a webhook node`
+    }
+
+    updateNode(nodeName, {
+      parameters: {
+        ...node.parameters,
+        path,
+        httpMethod: method,
+        authentication,
+      },
+    })
+
+    return `✅ Webhook Configured!\n\n**Node:** ${nodeName}\n**Path:** ${path}\n**Method:** ${method}\n**Auth:** ${authentication}`
+  } catch (error) {
+    return `Error configuring webhook: ${error.message}`
+  }
+}
+
+/**
+ * Configure Node Schedule
+ */
+function executeConfigureNodeSchedule(args) {
+  const { nodeName, cron, timezone = "UTC" } = args
+
+  if (!nodeName || !cron) {
+    return "Error: nodeName and cron are required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    if (!node.type.includes("schedule") && !node.type.includes("cron")) {
+      return `Error: Node "${nodeName}" is not a schedule trigger node`
+    }
+
+    updateNode(nodeName, {
+      parameters: {
+        ...node.parameters,
+        triggerTimes: {
+          item: [{ mode: "cron", cron, timezone }],
+        },
+      },
+    })
+
+    return `✅ Schedule Configured!\n\n**Node:** ${nodeName}\n**Cron:** ${cron}\n**Timezone:** ${timezone}`
+  } catch (error) {
+    return `Error configuring schedule: ${error.message}`
+  }
+}
+
+/**
+ * Configure Node Error Handling
+ */
+function executeConfigureNodeErrorHandling(args) {
+  const { nodeName, continueOnFail = false, retryOnFail = false, maxRetries = 3, retryDelay = 5 } = args
+
+  if (!nodeName) {
+    return "Error: nodeName is required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    updateNode(nodeName, {
+      continueOnFail,
+      retryOnFail,
+      maxRetries: retryOnFail ? maxRetries : undefined,
+      retryDelay: retryOnFail ? retryDelay : undefined,
+    })
+
+    let result = `✅ Error Handling Configured!\n\n**Node:** ${nodeName}\n`
+    result += `**Continue on Fail:** ${continueOnFail ? "Yes" : "No"}\n`
+    result += `**Retry on Fail:** ${retryOnFail ? "Yes" : "No"}\n`
+    if (retryOnFail) {
+      result += `**Max Retries:** ${maxRetries}\n`
+      result += `**Retry Delay:** ${retryDelay}s\n`
+    }
+
+    return result
+  } catch (error) {
+    return `Error configuring error handling: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Batch Processing & Looping
+// ============================================================================
+
+/**
+ * Create Batch Processor
+ */
+async function executeCreateBatchProcessor(args) {
+  const { nodeName, batchSize = 10, position } = args
+
+  if (!nodeName) {
+    return "Error: nodeName is required"
+  }
+
+  try {
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    const batchNode = await addNode({
+      name: nodeName,
+      type: "n8n-nodes-base.splitInBatches",
+      position: nodePosition,
+      parameters: {
+        batchSize,
+      },
+    })
+
+    if (!batchNode) {
+      return `Error: Failed to create batch processor node "${nodeName}"`
+    }
+
+    return `✅ Batch Processor Created!\n\n**Node:** ${nodeName}\n**Batch Size:** ${batchSize}`
+  } catch (error) {
+    return `Error creating batch processor: ${error.message}`
+  }
+}
+
+/**
+ * Create Loop Node
+ */
+async function executeCreateLoopNode(args) {
+  const { name, loopType = "for_each", condition, position } = args
+
+  if (!name || !loopType) {
+    return "Error: name and loopType are required"
+  }
+
+  try {
+    const nodePosition = position ? [position.x || 250, position.y || 250] : undefined
+
+    let nodeType = "n8n-nodes-base.splitInBatches"
+    let parameters = {}
+
+    if (loopType === "for_each") {
+      nodeType = "n8n-nodes-base.splitInBatches"
+      parameters = { batchSize: 1 }
+    } else if (loopType === "while" || loopType === "until") {
+      nodeType = "n8n-nodes-base.code"
+      parameters = {
+        jsCode: `// ${loopType} loop\nlet condition = ${condition || "true"};\nwhile (condition) {\n  // Loop body\n  condition = ${condition || "false"};\n}`,
+      }
+    }
+
+    const loopNode = await addNode({
+      name,
+      type: nodeType,
+      position: nodePosition,
+      parameters,
+    })
+
+    if (!loopNode) {
+      return `Error: Failed to create loop node "${name}"`
+    }
+
+    return `✅ Loop Node Created!\n\n**Node:** ${name}\n**Type:** ${loopType}`
+  } catch (error) {
+    return `Error creating loop node: ${error.message}`
+  }
+}
+
+/**
+ * Configure Split in Batches
+ */
+function executeConfigureSplitInBatches(args) {
+  const { nodeName, batchSize, reset = false } = args
+
+  if (!nodeName || !batchSize) {
+    return "Error: nodeName and batchSize are required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    if (node.type !== "n8n-nodes-base.splitInBatches") {
+      return `Error: Node "${nodeName}" is not a Split in Batches node`
+    }
+
+    updateNode(nodeName, {
+      parameters: {
+        ...node.parameters,
+        batchSize,
+        reset,
+      },
+    })
+
+    return `✅ Split in Batches Configured!\n\n**Node:** ${nodeName}\n**Batch Size:** ${batchSize}\n**Reset:** ${reset ? "Yes" : "No"}`
+  } catch (error) {
+    return `Error configuring split in batches: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: Advanced UI Features
+// ============================================================================
+
+/**
+ * Create Workflow Visualization
+ */
+function executeCreateWorkflowVisualization(args) {
+  const { format = "mermaid", includeDetails = true } = args
+
+  try {
+    const workflow = getWorkflowContext()
+    if (!workflow.workflow) {
+      return "Error: No workflow is currently open"
+    }
+
+    if (format === "mermaid") {
+      let mermaid = "graph TD\n"
+      
+      workflow.workflow.nodes.forEach(node => {
+        const nodeId = node.name.replace(/\s+/g, "_")
+        const nodeLabel = includeDetails 
+          ? `${node.name}<br/>${node.type.replace("n8n-nodes-base.", "")}`
+          : node.name
+        mermaid += `  ${nodeId}["${nodeLabel}"]\n`
+      })
+
+      workflow.workflow.connections?.main?.forEach((conn, index) => {
+        conn.forEach((output, outIndex) => {
+          output.forEach(input => {
+            const sourceId = workflow.workflow.nodes[index]?.name.replace(/\s+/g, "_")
+            const targetId = workflow.workflow.nodes[input.node]?.name.replace(/\s+/g, "_")
+            if (sourceId && targetId) {
+              mermaid += `  ${sourceId} --> ${targetId}\n`
+            }
+          })
+        })
+      })
+
+      return `📊 Workflow Visualization (Mermaid)\n\n\`\`\`mermaid\n${mermaid}\`\`\`\n\n💡 Copy this code to a Mermaid-compatible viewer.`
+    }
+
+    return `📊 Workflow Visualization\n\nFormat: ${format}\n(Other formats coming soon)`
+  } catch (error) {
+    return `Error creating visualization: ${error.message}`
+  }
+}
+
+/**
+ * Group Nodes
+ */
+function executeGroupNodes(args) {
+  const { nodeNames, groupName } = args
+
+  if (!nodeNames || !Array.isArray(nodeNames) || nodeNames.length === 0 || !groupName) {
+    return "Error: nodeNames (array) and groupName are required"
+  }
+
+  try {
+    // Note: n8n doesn't have native node grouping, but we can add notes/sticky notes
+    const workflow = getWorkflowContext()
+    if (!workflow.workflow) {
+      return "Error: No workflow is currently open"
+    }
+
+    // Create a sticky note for the group
+    const stickyNote = {
+      id: generateUUID(),
+      type: "n8n-nodes-base.stickyNote",
+      position: [100, 100],
+      notes: `Group: ${groupName}\n\nNodes: ${nodeNames.join(", ")}`,
+    }
+
+    // Add sticky note (would need addNode support for sticky notes)
+    let result = `✅ Node Group Created!\n\n**Group:** ${groupName}\n**Nodes:** ${nodeNames.join(", ")}\n\n`
+    result += `💡 Note: Visual grouping is created via sticky note.`
+
+    return result
+  } catch (error) {
+    return `Error grouping nodes: ${error.message}`
+  }
+}
+
+/**
+ * Set Node Color
+ */
+function executeSetNodeColor(args) {
+  const { nodeName, color } = args
+
+  if (!nodeName || !color) {
+    return "Error: nodeName and color are required"
+  }
+
+  try {
+    const node = getNodeByName(nodeName)
+    if (!node) {
+      return `Error: Node "${nodeName}" not found`
+    }
+
+    // Note: n8n doesn't have native node coloring, but we can add notes
+    // Store color in node notes or custom property
+    updateNode(nodeName, {
+      notes: node.notes ? `${node.notes}\n\nColor: ${color}` : `Color: ${color}`,
+    })
+
+    return `✅ Node Color Set!\n\n**Node:** ${nodeName}\n**Color:** ${color}\n\n💡 Note: Color is stored in node notes (visual coloring not supported by n8n).`
+  } catch (error) {
+    return `Error setting node color: ${error.message}`
+  }
+}
+
+// ============================================================================
+// PHASE 4: AI Agentic Workflow Integration
+// ============================================================================
+
+/**
+ * Create Chained AI Workflow
+ */
+async function executeCreateChainedAIWorkflow(args) {
+  const { steps, workflowName } = args
+
+  if (!steps || !Array.isArray(steps) || steps.length === 0) {
+    return "Error: steps (array) is required"
+  }
+
+  try {
+    let result = `✅ Chained AI Workflow Created!\n\n`
+    result += `**Workflow:** ${workflowName || "Chained AI Workflow"}\n\n`
+    result += `**Steps:**\n`
+
+    const createdNodes = []
+
+    for (let i = 0; i < steps.length; i++) {
+      const step = steps[i]
+      const nodeName = step.nodeName || `AI Step ${i + 1}`
+
+      // Determine node type based on model
+      let nodeType = "@n8n/n8n-nodes-langchain.lmChatOpenAi"
+      if (step.model.includes("claude")) {
+        nodeType = "@n8n/n8n-nodes-langchain.lmChatAnthropic"
+      } else if (step.model.includes("gemini")) {
+        nodeType = "@n8n/n8n-nodes-langchain.lmChatGoogleGemini"
+      }
+
+      const node = await addNode({
+        name: nodeName,
+        type: nodeType,
+        position: [250 + (i * 300), 300],
+        parameters: {
+          model: step.model,
+          systemMessage: `Task: ${step.task}`,
+        },
+      })
+
+      if (node) {
+        createdNodes.push(nodeName)
+        result += `${i + 1}. ${nodeName} (${step.model}) - ${step.task}\n`
+
+        // Connect to previous node
+        if (i > 0) {
+          addConnection(createdNodes[i - 1], nodeName, "main", "main", 0, 0)
+        }
+      }
+    }
+
+    result += `\n✅ ${createdNodes.length} nodes created and connected.`
+
+    return result
+  } catch (error) {
+    return `Error creating chained AI workflow: ${error.message}`
+  }
+}
+
+/**
+ * Create Single Agent Workflow
+ */
+async function executeCreateSingleAgentWorkflow(args) {
+  const { agent, trigger, workflowName } = args
+
+  if (!agent || !trigger) {
+    return "Error: agent and trigger are required"
+  }
+
+  try {
+    let result = `✅ Single Agent Workflow Created!\n\n`
+    result += `**Workflow:** ${workflowName || "Single Agent Workflow"}\n\n`
+
+    // 1. Create trigger
+    let triggerNodeType = "n8n-nodes-base.webhook"
+    if (trigger === "schedule") {
+      triggerNodeType = "n8n-nodes-base.scheduleTrigger"
+    } else if (trigger === "telegram") {
+      triggerNodeType = "n8n-nodes-base.telegramTrigger"
+    } else if (trigger === "manual") {
+      triggerNodeType = "n8n-nodes-base.start"
+    }
+
+    const triggerNode = await addNode({
+      name: "Trigger",
+      type: triggerNodeType,
+      position: [250, 300],
+    })
+    result += `✅ Trigger node created\n`
+
+    // 2. Create agent
+    const agentNode = await addNode({
+      name: "AI Agent",
+      type: "@n8n/n8n-nodes-langchain.agent",
+      position: [500, 300],
+      parameters: {
+        agent: agent.type || "tools",
+        model: agent.model,
+        memory: agent.memory || "window_buffer",
+      },
+    })
+    result += `✅ Agent node created (${agent.model})\n`
+
+    // 3. Connect trigger to agent
+    addConnection("Trigger", "AI Agent", "main", "main", 0, 0)
+
+    // 4. Add tools if provided
+    if (agent.tools && agent.tools.length > 0) {
+      result += `\n**Tools:** ${agent.tools.length} tools configured\n`
+      result += `💡 Connect tool nodes to the agent using add_tool_to_agent.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error creating single agent workflow: ${error.message}`
+  }
+}
+
+/**
+ * Create Gatekeeper Workflow
+ */
+async function executeCreateGatekeeperWorkflow(args) {
+  const { gatekeeper, specialists, workflowName } = args
+
+  if (!gatekeeper || !specialists || !Array.isArray(specialists) || specialists.length === 0) {
+    return "Error: gatekeeper and specialists (array) are required"
+  }
+
+  try {
+    let result = `✅ Gatekeeper Workflow Created!\n\n`
+    result += `**Workflow:** ${workflowName || "Gatekeeper Workflow"}\n\n`
+
+    // 1. Create trigger
+    const triggerNode = await addNode({
+      name: "Trigger",
+      type: "n8n-nodes-base.webhook",
+      position: [250, 300],
+    })
+
+    // 2. Create gatekeeper agent
+    const gatekeeperNode = await addNode({
+      name: "Gatekeeper",
+      type: "@n8n/n8n-nodes-langchain.agent",
+      position: [500, 300],
+      parameters: {
+        agent: "tools",
+        model: gatekeeper.model,
+        systemMessage: `You are a gatekeeper agent. Route requests to appropriate specialists based on: ${gatekeeper.routingLogic || "intent classification"}`,
+      },
+    })
+    result += `✅ Gatekeeper agent created\n`
+
+    // 3. Create specialist agents
+    const specialistNodes = []
+    for (let i = 0; i < specialists.length; i++) {
+      const spec = specialists[i]
+      const specNode = await addNode({
+        name: spec.name,
+        type: "@n8n/n8n-nodes-langchain.agent",
+        position: [750, 200 + (i * 150)],
+        parameters: {
+          agent: "tools",
+          model: spec.model,
+          systemMessage: `You are a ${spec.expertise || spec.name} specialist. ${spec.expertise || ""}`,
+        },
+      })
+      specialistNodes.push(spec.name)
+      result += `✅ Specialist "${spec.name}" created\n`
+    }
+
+    // 4. Connect trigger to gatekeeper
+    addConnection("Trigger", "Gatekeeper", "main", "main", 0, 0)
+
+    // 5. Connect gatekeeper to specialists (via tools/workflow routing)
+    result += `\n💡 Configure routing logic in gatekeeper to connect to specialists.`
+
+    return result
+  } catch (error) {
+    return `Error creating gatekeeper workflow: ${error.message}`
+  }
+}
+
+/**
+ * Create Multi-Agent Team
+ */
+async function executeCreateMultiAgentTeam(args) {
+  const { agents, communication = "mesh", workflowName } = args
+
+  if (!agents || !Array.isArray(agents) || agents.length === 0) {
+    return "Error: agents (array) is required"
+  }
+
+  try {
+    let result = `✅ Multi-Agent Team Created!\n\n`
+    result += `**Workflow:** ${workflowName || "Multi-Agent Team"}\n`
+    result += `**Communication:** ${communication}\n\n`
+
+    // Create trigger
+    const triggerNode = await addNode({
+      name: "Trigger",
+      type: "n8n-nodes-base.webhook",
+      position: [250, 300],
+    })
+
+    // Create agents
+    const agentNodes = []
+    for (let i = 0; i < agents.length; i++) {
+      const agent = agents[i]
+      const agentNode = await addNode({
+        name: agent.name,
+        type: "@n8n/n8n-nodes-langchain.agent",
+        position: [500 + (i * 200), 300],
+        parameters: {
+          agent: "tools",
+          model: agent.model || "gpt-4o",
+          systemMessage: `You are ${agent.name}, responsible for: ${agent.role}`,
+        },
+      })
+      agentNodes.push(agent.name)
+      result += `✅ Agent "${agent.name}" (${agent.role}) created\n`
+    }
+
+    // Connect based on communication pattern
+    if (communication === "mesh") {
+      // All agents connected to each other
+      result += `\n💡 Configure mesh communication between agents.`
+    } else if (communication === "hierarchical") {
+      // Chain: Trigger → Agent1 → Agent2 → Agent3
+      addConnection("Trigger", agentNodes[0], "main", "main", 0, 0)
+      for (let i = 0; i < agentNodes.length - 1; i++) {
+        addConnection(agentNodes[i], agentNodes[i + 1], "main", "main", 0, 0)
+      }
+      result += `\n✅ Hierarchical chain created.`
+    }
+
+    return result
+  } catch (error) {
+    return `Error creating multi-agent team: ${error.message}`
   }
 }

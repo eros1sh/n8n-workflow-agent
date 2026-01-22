@@ -490,6 +490,24 @@ const DEFAULT_SETTINGS = {
   cicdIntegration: true,
   customNodeDevelopment: true,
   documentationGeneration: true,
+  // PHASE 4: LangChain & AI Agent Support
+  langchainSupport: true,
+  // PHASE 4: Vector Store & RAG Support
+  ragSupport: true,
+  // PHASE 4: Workflow Execution Control
+  executionControl: true,
+  // PHASE 4: Credential Management
+  credentialManagement: true,
+  // PHASE 4: Sub-workflow Management
+  subworkflowManagement: true,
+  // PHASE 4: Advanced Node Configuration
+  advancedNodeConfig: true,
+  // PHASE 4: Batch Processing & Looping
+  batchProcessing: true,
+  // PHASE 4: Advanced UI Features
+  advancedUI: true,
+  // PHASE 4: AI Agentic Workflow Integration
+  aiAgenticWorkflows: true,
   // Debug Mode Settings
   debugMode: false,
   debugEnabled: false,
@@ -1329,6 +1347,50 @@ async function executeFunction(functionCall) {
         return executeGetWebhookUrl(parsedArgs)
       case "generate_workflow_docs":
         return executeGenerateWorkflowDocs(parsedArgs)
+      
+      // PHASE 4: LangChain & AI Agent Support
+      case "create_langchain_agent":
+      case "add_tool_to_agent":
+      case "configure_agent_memory":
+      case "connect_agent_to_tool":
+      // PHASE 4: Vector Store & RAG Support
+      case "create_vector_store_connection":
+      case "create_embedding_node":
+      case "create_vector_search_node":
+      case "create_rag_workflow":
+      // PHASE 4: Workflow Execution Control
+      case "execute_workflow":
+      case "stop_workflow_execution":
+      case "get_execution_status":
+      case "retry_failed_execution":
+      // PHASE 4: Credential Management
+      case "check_node_credentials":
+      case "suggest_credential_type":
+      case "validate_credential_connection":
+      // PHASE 4: Sub-workflow Management
+      case "create_subworkflow_node":
+      case "import_subworkflow":
+      case "get_subworkflow_info":
+      // PHASE 4: Advanced Node Configuration
+      case "configure_node_webhook":
+      case "configure_node_schedule":
+      case "configure_node_error_handling":
+      // PHASE 4: Batch Processing & Looping
+      case "create_batch_processor":
+      case "create_loop_node":
+      case "configure_split_in_batches":
+      // PHASE 4: Advanced UI Features
+      case "create_workflow_visualization":
+      case "group_nodes":
+      case "set_node_color":
+      // PHASE 4: AI Agentic Workflow Integration
+      case "create_chained_ai_workflow":
+      case "create_single_agent_workflow":
+      case "create_gatekeeper_workflow":
+      case "create_multi_agent_team":
+        // All new functions are handled via callInjected
+        return await callInjected(name, parsedArgs)
+      
       default:
         return `Error: Unknown function "${name}"`
     }
