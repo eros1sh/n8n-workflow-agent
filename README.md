@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Extension-blue)](https://chrome.google.com/webstore)
-[![Version](https://img.shields.io/badge/version-1.5.0-green)](https://github.com/eros1sh/n8n-workflow-agent)
+[![Version](https://img.shields.io/badge/version-1.6.0-green)](https://github.com/eros1sh/n8n-workflow-agent)
 
 An intelligent Chrome extension that brings **Cursor-style agentic workflow editing** to n8n. Create, modify, analyze, and debug workflows using natural language with multi-step autonomous execution.
 
@@ -59,6 +59,9 @@ An intelligent Chrome extension that brings **Cursor-style agentic workflow edit
 - **Check node credentials** configuration
 - **Suggest credential types** based on node type
 - **Validate credential connections**
+- **Get credential details** with usage examples (`={{$credentials.apiKey}}`)
+- **Automatic credential assignment** when creating nodes
+- **411 credential types** with full documentation
 
 ### 🔄 **Sub-workflow Management** (NEW)
 - **Create Execute Workflow nodes** for sub-workflows
@@ -407,9 +410,123 @@ Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for de
 
 ---
 
-## 🆕 What's New in v1.5.0
+## 📦 Supported Nodes & Credentials
 
-### Phase 4 Features (Latest Release)
+### Node Support
+
+**Total: 1000+ Nodes**
+
+#### Official Nodes (788 nodes)
+- **IO / Triggers / API & Data**: 300+ nodes
+  - Webhooks, HTTP Request, Schedule Trigger, Telegram Trigger, etc.
+  - Database nodes: PostgreSQL, MySQL, MongoDB, Redis, Supabase, etc.
+  - API integrations: Airtable, Asana, Slack, Discord, GitHub, etc.
+  
+- **Logic / Conditional**: 50+ nodes
+  - If, Switch, Merge, Wait, etc.
+  
+- **Flow Control**: 30+ nodes
+  - Split, Merge, Loop, etc.
+  
+- **Data Transform**: 100+ nodes
+  - Set, Edit Fields, Transform, etc.
+  
+- **Code / Script**: 20+ nodes
+  - Code, Function, etc.
+  
+- **AI / LLM**: 50+ nodes
+  - OpenAI, Anthropic, Gemini, LangChain agents, etc.
+  
+- **Communication**: 100+ nodes
+  - Telegram, Slack, Discord, Email, SMS, etc.
+  
+- **File / Storage**: 80+ nodes
+  - AWS S3, Google Drive, Dropbox, etc.
+  
+- **Commerce / Payment**: 50+ nodes
+  - Stripe, PayPal, Razorpay, etc.
+
+#### Community Nodes (212 nodes)
+- Community-developed integrations
+- Custom service connectors
+- Specialized workflow tools
+
+### Credential Support
+
+**Total: 411 Credential Types**
+
+- **API Credentials**: 200+ types
+  - API keys, OAuth2, Basic Auth, etc.
+  
+- **Database Credentials**: 30+ types
+  - PostgreSQL, MySQL, MongoDB, Redis, etc.
+  
+- **Cloud Service Credentials**: 100+ types
+  - AWS, Google Cloud, Azure, etc.
+  
+- **Communication Credentials**: 50+ types
+  - Telegram, Slack, Discord, Email, etc.
+  
+- **Payment Credentials**: 30+ types
+  - Stripe, PayPal, Razorpay, etc.
+
+**Her credential için:**
+- ✅ Field definitions (apiKey, accessToken, etc.)
+- ✅ Usage examples (`={{$credentials.apiKey}}` formatında)
+- ✅ Authentication configuration
+- ✅ Test configuration
+
+### Smart Node Selection
+
+AI automatically selects the best node based on your intent:
+
+| User Intent | Selected Node | Credential |
+|-------------|---------------|------------|
+| "Send Telegram message" | `n8n-nodes-base.telegram` | `telegramApi` |
+| "Connect to PostgreSQL" | `n8n-nodes-base.postgres` | `postgres` |
+| "Use OpenAI" | `@n8n/n8n-nodes-langchain.openAi` | `openAiApi` |
+| "Google Sheets" | `n8n-nodes-base.googleSheets` | `googleSheetsOAuth2` |
+| "Supabase database" | `n8n-nodes-base.supabase` | `supabaseApi` |
+
+**New in v1.6.0:** AI can now find nodes from natural language using semantic search:
+- "telegram mesajı gönder" → Automatically finds `n8n-nodes-base.telegram`
+- "postgres'e bağlan" → Automatically finds `n8n-nodes-base.postgres`
+- Supports 1000+ nodes (788 official + 212 community)
+
+---
+
+## 🆕 What's New
+
+### v1.6.0 (Latest Release - 2026-01-22)
+
+**Comprehensive Node & Credential Intelligence:**
+- ✅ **Semantic node selection** from user intent (`find_node_by_intent()`)
+- ✅ **Complete credential database** (411 credential types)
+- ✅ **Credential usage examples** (`={{$credentials.apiKey}}` formatında)
+- ✅ **1000+ node support** (788 official + 212 community nodes)
+- ✅ **Automatic credential assignment** when creating nodes
+- ✅ **Enhanced node discovery** functions
+- ✅ **Credential details** with authentication configuration
+
+**New Functions:**
+- `find_node_by_intent()` - Find nodes from natural language
+- `get_node_credentials()` - Get credential requirements for a node
+- `get_credential_details()` - Get full credential information
+- `get_credential_usage_examples()` - Get credential usage examples
+
+### v1.5.0
+
+**Comprehensive Node & Credential Intelligence:**
+- ✅ Semantic node selection from user intent
+- ✅ Complete credential database (411 types)
+- ✅ Credential usage examples (`={{$credentials.apiKey}}`)
+- ✅ 1000+ node support (788 official + 212 community)
+- ✅ Automatic credential assignment
+- ✅ Enhanced node discovery functions
+
+### v1.5.0
+
+**Phase 4 Features:**
 
 **LangChain & AI Agent Support:**
 - ✅ Create LangChain agent nodes with tools and memory

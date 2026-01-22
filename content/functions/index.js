@@ -10,7 +10,7 @@
  */
 export const createNodeFunction = {
   name: "create_node",
-  description: "Create a new node in the n8n workflow",
+  description: "Create a new node in the n8n workflow. If the node requires credentials, you can specify them using the credentials parameter. Use find_node_by_intent to discover the correct node type from user intent.",
   parameters: {
     type: "object",
     properties: {
@@ -20,7 +20,7 @@ export const createNodeFunction = {
       },
       type: {
         type: "string",
-        description: "Type of the node (e.g., 'n8n-nodes-base.httpRequest')",
+        description: "Type of the node (e.g., 'n8n-nodes-base.httpRequest'). Use find_node_by_intent to find the correct node type from user description.",
       },
       position: {
         type: "object",
@@ -33,6 +33,10 @@ export const createNodeFunction = {
       parameters: {
         type: "object",
         description: "Node parameters",
+      },
+      credentials: {
+        type: "object",
+        description: "Credentials to assign to the node. Format: { credentialTypeName: { id: 'credentialId' } or { name: 'credentialName' } }. Use get_node_credentials to find required credential types for a node.",
       },
       notes: {
         type: "string",
@@ -484,6 +488,87 @@ export const getNodeSchemaFunction = {
       },
     },
     required: ["nodeType"],
+  },
+}
+
+/**
+ * Find node by user intent (semantic search)
+ */
+export const findNodeByIntentFunction = {
+  name: "find_node_by_intent",
+  description: "Find the best matching node type based on user intent/description. Use this when the user describes what they want to do (e.g., 'send telegram message', 'connect to postgres', 'use openai') and you need to find the correct node type.",
+  parameters: {
+    type: "object",
+    properties: {
+      intent: {
+        type: "string",
+        description: "User intent or description (e.g., 'send telegram message', 'connect to postgres database', 'use openai for chat')",
+      },
+      category: {
+        type: "string",
+        description: "Optional category filter: 'io', 'logic', 'flow', 'transform', 'code', 'ai', 'communication', 'file', 'commerce', 'system'",
+      },
+      preferOfficial: {
+        type: "boolean",
+        description: "Prefer official nodes over community nodes (default: true)",
+        default: true,
+      },
+    },
+    required: ["intent"],
+  },
+}
+
+/**
+ * Get node credentials information
+ */
+export const getNodeCredentialsFunction = {
+  name: "get_node_credentials",
+  description: "Get the required credential types for a specific node type. Use this to understand what credentials a node needs before creating it.",
+  parameters: {
+    type: "object",
+    properties: {
+      nodeType: {
+        type: "string",
+        description: "Node type (e.g., 'n8n-nodes-base.telegram')",
+      },
+    },
+    required: ["nodeType"],
+  },
+}
+
+/**
+ * Get credential details (fields, usage examples, authenticate config)
+ */
+export const getCredentialDetailsFunction = {
+  name: "get_credential_details",
+  description: "Get detailed information about a credential type including fields, usage examples (like ={{$credentials.apiKey}}), and authentication configuration. Use this to understand how to use credentials in node parameters.",
+  parameters: {
+    type: "object",
+    properties: {
+      credentialType: {
+        type: "string",
+        description: "Credential type name (e.g., 'telegramApi', 'openAiApi', 'postgres')",
+      },
+    },
+    required: ["credentialType"],
+  },
+}
+
+/**
+ * Get credential usage examples
+ */
+export const getCredentialUsageExamplesFunction = {
+  name: "get_credential_usage_examples",
+  description: "Get usage examples for a credential type showing how to use it in node parameters (e.g., ={{$credentials.apiKey}}). This helps you understand how to configure nodes that use this credential.",
+  parameters: {
+    type: "object",
+    properties: {
+      credentialType: {
+        type: "string",
+        description: "Credential type name (e.g., 'telegramApi', 'openAiApi')",
+      },
+    },
+    required: ["credentialType"],
   },
 }
 
@@ -1868,12 +1953,18 @@ export const createMultiAgentTeamFunction = {
 export const allFunctions = [
   // PHASE 1: Basic Operations
   createNodeFunction,
+  findNodeByIntentFunction,
+  getNodeCredentialsFunction,
   updateNodeFunction,
   removeNodeFunction,
   addConnectionFunction,
   removeConnectionFunction,
   cloneNodeFunction,
   searchNodesFunction,
+  findNodeByIntentFunction,
+  getNodeCredentialsFunction,
+  getCredentialDetailsFunction,
+  getCredentialUsageExamplesFunction,
   bulkUpdateNodesFunction,
   bulkDisableNodesFunction,
   autoArrangeNodesFunction,
@@ -1974,9 +2065,16 @@ export function getFunctionsForAI(settings) {
     )
   }
 
-  // Node Library Access - search_nodes, get_node_schema
+  // Node Library Access - search_nodes, get_node_schema, find_node_by_intent, get_node_credentials, get_credential_details, get_credential_usage_examples
   if (settings.nodeLibraryAccess !== false) {
-    enabledFunctions.push(searchNodesFunction, getNodeSchemaFunction)
+    enabledFunctions.push(
+      searchNodesFunction, 
+      getNodeSchemaFunction, 
+      findNodeByIntentFunction, 
+      getNodeCredentialsFunction,
+      getCredentialDetailsFunction,
+      getCredentialUsageExamplesFunction
+    )
   }
 
   // Node Creation

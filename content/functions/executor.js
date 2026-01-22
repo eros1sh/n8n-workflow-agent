@@ -68,6 +68,14 @@ export async function executeFunction(functionCall) {
         return executeSearchNodes(parsedArgs)
       case "get_node_schema":
         return executeGetNodeSchema(parsedArgs)
+      case "find_node_by_intent":
+        return executeFindNodeByIntent(parsedArgs)
+      case "get_node_credentials":
+        return executeGetNodeCredentials(parsedArgs)
+      case "get_credential_details":
+        return executeGetCredentialDetails(parsedArgs)
+      case "get_credential_usage_examples":
+        return executeGetCredentialUsageExamples(parsedArgs)
 
       // Bulk Operations
       case "bulk_update_nodes":
@@ -244,7 +252,7 @@ async function executeCreateNode(args) {
   console.log('[n8nChat] executeCreateNode (WORKING VERSION)')
   console.log('[n8nChat] Args:', JSON.stringify(args, null, 2))
   
-  const { name, type, position, parameters, notes } = args
+  const { name, type, position, parameters, notes, credentials } = args
 
   // Validate required fields
   if (!name || !type) {
@@ -274,12 +282,34 @@ async function executeCreateNode(args) {
     parameters: parameters || {},
     notes: notes || "",
     typeVersion: args.typeVersion || 1,
+    credentials: credentials || undefined, // Add credentials support
   })
 
   if (addedNode) {
+    // If credentials were provided, try to assign them
+    if (credentials && Object.keys(credentials).length > 0) {
+      try {
+        // Update node with credentials after creation
+        const workflowsStore = getWorkflowsStore()
+        if (workflowsStore && workflowsStore.workflow) {
+          const node = workflowsStore.workflow.nodes.find(n => n.name === name || n.id === addedNode.id)
+          if (node) {
+            node.credentials = { ...(node.credentials || {}), ...credentials }
+            console.log('[n8nChat] ✓ Credentials assigned to node:', name)
+          }
+        }
+      } catch (credError) {
+        console.warn('[n8nChat] ⚠️ Could not assign credentials automatically:', credError)
+        // Don't fail the node creation if credentials assignment fails
+      }
+    }
+    
     console.log('[n8nChat] ✓✓✓ Successfully created node:', name)
     console.log('[n8nChat] ═══════════════════════════════════════')
-    return `Successfully created node "${name}" of type "${type}". Node ID: ${addedNode.id}`
+    const credsInfo = credentials && Object.keys(credentials).length > 0 
+      ? ` Credentials: ${Object.keys(credentials).join(', ')}`
+      : ''
+    return `Successfully created node "${name}" of type "${type}".${credsInfo} Node ID: ${addedNode.id}`
   } else {
     console.error('[n8nChat] ❌ Failed to create node:', name)
     console.log('[n8nChat] ═══════════════════════════════════════')
@@ -678,6 +708,267 @@ function executeGetNodeSchema(args) {
     return schema
   } catch (error) {
     return `Error getting node schema: ${error.message}`
+  }
+}
+
+/**
+ * Find Node by Intent (Semantic Search)
+ */
+function executeFindNodeByIntent(args) {
+  const { intent, category, preferOfficial = true } = args
+
+  if (!intent) {
+    return "Error: intent is required"
+  }
+
+  try {
+    // Call injected function to use NODE_CATEGORIES
+    const result = window.callInjected?.('find_node_by_intent', { intent, category, preferOfficial })
+    
+    if (result && result.success) {
+      return result.data || result.message || "No matching nodes found"
+    }
+
+    // Fallback: Use search_nodes if injected function not available
+    const app = getN8nApp()
+    if (!app) {
+      return "Error: Could not access n8n app"
+    }
+
+    const nodeTypes = app._context?.provides?.nodeTypes || {}
+    const intentLower = intent.toLowerCase()
+    const results = []
+
+    // Keywords mapping for common intents
+    const keywordMap = {
+      'telegram': ['telegram'],
+      'postgres': ['postgres', 'postgresql'],
+      'mysql': ['mysql'],
+      'supabase': ['supabase'],
+      'openai': ['openai', 'gpt', 'chatgpt'],
+      'anthropic': ['anthropic', 'claude'],
+      'gemini': ['gemini', 'google ai'],
+      'sheets': ['sheets', 'google sheets'],
+      'slack': ['slack'],
+      'discord': ['discord'],
+      'email': ['email', 'gmail', 'mail'],
+      'http': ['http', 'api', 'request'],
+      'webhook': ['webhook'],
+      'schedule': ['schedule', 'cron', 'timer'],
+      'database': ['database', 'db', 'sql'],
+      'ai': ['ai', 'llm', 'language model'],
+      'agent': ['agent', 'ai agent'],
+    }
+
+    // Find matching keywords
+    const matchedKeywords = []
+    Object.entries(keywordMap).forEach(([key, keywords]) => {
+      if (keywords.some(k => intentLower.includes(k))) {
+        matchedKeywords.push(key)
+      }
+    })
+
+    // Search in node types
+    Object.entries(nodeTypes).forEach(([typeName, nodeType]) => {
+      const name = (nodeType.displayName || nodeType.name || typeName).toLowerCase()
+      const description = (nodeType.description || "").toLowerCase()
+      const typeLower = typeName.toLowerCase()
+
+      // Check if matches intent keywords
+      const matchesIntent = matchedKeywords.some(kw => 
+        name.includes(kw) || description.includes(kw) || typeLower.includes(kw)
+      ) || name.includes(intentLower) || description.includes(intentLower) || typeLower.includes(intentLower)
+
+      if (matchesIntent) {
+        const isOfficial = typeName.startsWith('n8n-nodes-base.') || 
+                          typeName.startsWith('@n8n/n8n-nodes-base.') ||
+                          typeName.startsWith('n8n-nodes-langchain.')
+        
+        if (preferOfficial && !isOfficial) return // Skip community nodes if preferOfficial
+
+        results.push({
+          type: typeName,
+          name: nodeType.displayName || nodeType.name || typeName,
+          description: nodeType.description || "",
+          isOfficial,
+          matchScore: matchedKeywords.length + (name.includes(intentLower) ? 2 : 0)
+        })
+      }
+    })
+
+    // Sort by match score
+    results.sort((a, b) => b.matchScore - a.matchScore)
+
+    if (results.length === 0) {
+      return `No nodes found matching intent: "${intent}". Try using search_nodes with a more specific query.`
+    }
+
+    const topResult = results[0]
+    let response = `Found ${results.length} matching node(s). Top match:\n\n`
+    response += `Node Type: ${topResult.type}\n`
+    response += `Name: ${topResult.name}\n`
+    response += `Description: ${topResult.description}\n`
+    response += `Official: ${topResult.isOfficial ? 'Yes' : 'No (Community)'}\n\n`
+
+    if (results.length > 1) {
+      response += `Other matches:\n`
+      results.slice(1, 6).forEach((r, i) => {
+        response += `${i + 2}. ${r.type} - ${r.name}\n`
+      })
+    }
+
+    return response
+  } catch (error) {
+    return `Error finding node by intent: ${error.message}`
+  }
+}
+
+/**
+ * Get Node Credentials
+ */
+function executeGetNodeCredentials(args) {
+  const { nodeType } = args
+
+  if (!nodeType) {
+    return "Error: nodeType is required"
+  }
+
+  try {
+    // Call injected function to use NODE_CREDENTIALS
+    const result = window.callInjected?.('get_node_credentials', { nodeType })
+    
+    if (result && result.success) {
+      const creds = result.data || result.credentialTypes || []
+      if (creds.length === 0) {
+        return `Node "${nodeType}" does not require any credentials.`
+      }
+      return `Node "${nodeType}" requires the following credential type(s):\n${creds.map(c => `- ${c}`).join('\n')}`
+    }
+
+    // Fallback: Check node type directly
+    const app = getN8nApp()
+    if (!app) {
+      return "Error: Could not access n8n app"
+    }
+
+    const nodeTypes = app._context?.provides?.nodeTypes || {}
+    const typeInfo = nodeTypes[nodeType]
+
+    if (!typeInfo) {
+      return `Error: Node type "${nodeType}" not found.`
+    }
+
+    if (!typeInfo.credentials || typeInfo.credentials.length === 0) {
+      return `Node "${nodeType}" does not require any credentials.`
+    }
+
+    const credList = typeInfo.credentials.map(c => c.name || c).join(', ')
+    return `Node "${nodeType}" requires the following credential type(s):\n${typeInfo.credentials.map(c => `- ${c.name || c}`).join('\n')}`
+  } catch (error) {
+    return `Error getting node credentials: ${error.message}`
+  }
+}
+
+/**
+ * Get Credential Details
+ */
+function executeGetCredentialDetails(args) {
+  const { credentialType } = args
+
+  if (!credentialType) {
+    return "Error: credentialType is required"
+  }
+
+  try {
+    // Call injected function to use CREDENTIAL_DETAILS
+    const result = window.callInjected?.('get_credential_details', { credentialType })
+    
+    if (result && result.success) {
+      const details = result.data
+      let response = `Credential: ${details.displayName}\n\n`
+      response += `Fields:\n`
+      details.fields.forEach(field => {
+        response += `- ${field.name} (${field.type})${field.required ? ' [REQUIRED]' : ''}\n`
+      })
+      
+      if (details.usageExamples) {
+        response += `\nUsage Examples:\n`
+        Object.entries(details.usageExamples).forEach(([key, value]) => {
+          response += `- ${key}: ${value}\n`
+        })
+      }
+      
+      if (details.authenticate) {
+        response += `\nAuthentication Config:\n`
+        response += `Type: ${details.authenticate.type}\n`
+        if (details.authenticate.properties) {
+          response += `Properties: ${JSON.stringify(details.authenticate.properties, null, 2)}\n`
+        }
+      }
+      
+      return response
+    }
+
+    return `Error: Could not retrieve credential details for "${credentialType}"`
+  } catch (error) {
+    return `Error getting credential details: ${error.message}`
+  }
+}
+
+/**
+ * Get Credential Usage Examples
+ */
+function executeGetCredentialUsageExamples(args) {
+  const { credentialType } = args
+
+  if (!credentialType) {
+    return "Error: credentialType is required"
+  }
+
+  try {
+    // Call injected function to use CREDENTIAL_DETAILS
+    const result = window.callInjected?.('get_credential_usage_examples', { credentialType })
+    
+    if (result && result.success) {
+      const data = result.data
+      if (!data || (!data.usageExamples && !data.authenticate)) {
+        return `No usage examples found for credential type "${credentialType}"`
+      }
+      
+      let response = `Usage Examples for "${credentialType}":\n\n`
+      
+      if (data.usageExamples) {
+        response += `Direct Usage:\n`
+        Object.entries(data.usageExamples).forEach(([key, value]) => {
+          response += `- ${key}: ${value}\n`
+        })
+        response += `\n`
+      }
+      
+      if (data.authenticate) {
+        response += `Authentication Configuration:\n`
+        response += `Type: ${data.authenticate.type}\n`
+        if (data.authenticate.properties) {
+          response += `\nExample usage in HTTP Request node:\n`
+          if (data.authenticate.properties.headers) {
+            Object.entries(data.authenticate.properties.headers).forEach(([header, value]) => {
+              response += `  Header "${header}": ${value}\n`
+            })
+          }
+          if (data.authenticate.properties.qs) {
+            Object.entries(data.authenticate.properties.qs).forEach(([param, value]) => {
+              response += `  Query Parameter "${param}": ${value}\n`
+            })
+          }
+        }
+      }
+      
+      return response
+    }
+
+    return `Error: Could not retrieve usage examples for "${credentialType}"`
+  } catch (error) {
+    return `Error getting credential usage examples: ${error.message}`
   }
 }
 

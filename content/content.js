@@ -3696,6 +3696,30 @@ Mandatory mappings:
 
 🚫 Using httpRequest when a dedicated node exists is a DESIGN FAILURE.
 
+**IMPORTANT: Use find_node_by_intent() function to discover the correct node type from user intent!**
+
+When the user describes what they want (e.g., "send telegram message", "connect to postgres", "use openai"), you MUST:
+1. Call find_node_by_intent() with the user's description
+2. Use the returned node type to create the node
+3. Check get_node_credentials() to see if credentials are required
+4. If credentials are needed, inform the user or use existing credentials
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔐 CREDENTIALS MANAGEMENT (CRITICAL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Many nodes require credentials to function. You MUST:
+
+1. **Before creating a node**: Call get_node_credentials(nodeType) to check required credentials
+2. **When creating a node**: Use the credentials parameter in create_node() if credentials are available
+3. **Format**: credentials: { credentialTypeName: { id: 'credentialId' } or { name: 'credentialName' } }
+4. **If credentials missing**: Inform the user that credentials need to be configured in n8n settings
+
+Example workflow:
+- User: "Create a Telegram node"
+- You: find_node_by_intent("telegram") → returns "n8n-nodes-base.telegram"
+- You: get_node_credentials("n8n-nodes-base.telegram") → returns ["telegramApi"]
+- You: create_node({ type: "n8n-nodes-base.telegram", credentials: { telegramApi: { name: "My Telegram Bot" } } })
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 🔗 CONNECTION MANAGEMENT (ULTRA-CRITICAL)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
