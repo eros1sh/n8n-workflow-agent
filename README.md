@@ -609,5 +609,5 @@ If you find this project useful, please consider giving it a star! ⭐
 ---
 
 <div align="center">
-  <strong>Made with ❤️ for the n8n community</strong>
+  <strong>Made with ❤️ for the n8n community | eros.sh</strong>
 </div>
